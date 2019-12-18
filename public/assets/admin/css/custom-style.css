@@ -1,0 +1,91 @@
+.login-btn{
+    padding: 5px 10px !important;
+}
+
+.error{
+    color: #e80404;
+    display: block;
+}
+
+.success{
+    color: #1e7e34;
+    display: block;
+}
+
+.search-area input{
+    min-width: 180px;
+    padding-left: 0.89rem;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+.search-icon{
+    font-size: 1.59rem;
+}
+
+.search-icon:hover{
+    cursor: pointer;
+    text-shadow: #171a1d;
+}
+
+.label-bookingdate{
+    display: block;
+    color: #005cbf;
+    font-weight: 500;
+    font-size: 1.5rem;
+}
+
+.label-bookingdate:hover{
+    color: #e80404;
+}
+
+.img-thumbnail{
+    max-width: 100px;
+}
+
+.table > tbody > tr > td {
+    vertical-align: middle;
+}
+
+.img-avatar-preview{
+    max-width: 350px;
+}
+
+.img-room-preview{
+    display: inline-block;
+    height: auto;
+    width: 28.20%;
+    margin: 1%;
+}
+
+@media screen and (max-width: 600px) {
+    .img-room-preview{
+        width: 92%;
+    }
+}
+
+@media screen and (min-width: 601px) {
+    .img-room-preview{
+        width: 43.25%;
+    }
+}
+
+.hidden-field{
+    display: inline-block;
+    width: 0;
+    height: 0;
+}
+
+.refresh-button{
+    cursor: pointer;
+}
+
+.magrin-top-20{
+    margin-top: 20px;
+}
+
+.img-preview{
+    width: 90%;
+    display: block;
+    margin: 0 auto !important;
+}
