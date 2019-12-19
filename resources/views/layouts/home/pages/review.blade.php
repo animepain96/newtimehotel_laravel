@@ -24,6 +24,30 @@
             </div>
             <div class="row block-9">
                 <div class="col-md-8 pr-md-5 middle-div">
+                    @if(session()->get('message') != null)
+                        <div class="alert alert-{{ session()->get('message')['status'] }} alert-dismissible">
+                            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                            {{ session()->get('message')['content'] }}
+                        </div>
+                    @endif
+                        @if($errors->any())
+                            <div class="row">
+                                <div class="alert alert-danger col-md-12" role="alert">
+                                    <ul>
+                                        @foreach ($errors->all() as $error)
+                                            <li>{{ $error }}</li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            </div>
+                        @endif
+                        @if(session()->get('message') != null)
+                            <div class="alert alert-{{ session()->get('message')['status'] }} alert-dismissible">
+                                <a href="#" class="close" data-dismiss="alert"
+                                   aria-label="close">&times;</a>
+                                {{ session()->get('message')['content'] }}
+                            </div>
+                        @endif
                     <form method="post" action="{{url('/review')}}">
                         @csrf
                         <div class="form-group">

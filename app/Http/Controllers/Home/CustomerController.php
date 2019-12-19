@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\Home;
 
+use App\Danhgia;
 use App\Http\Controllers\Controller;
 use App\Khachhang;
 use App\Thue;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\File;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
@@ -111,6 +113,31 @@ class CustomerController extends Controller
         return view('layouts.home.pages.review');
     }
 
+    public function postReview(Request $request)
+    {
+        $request->validate(
+            [
+                'noidung' => 'required|string|max:500',
+            ],
+            [
+                'required' => ':attribute không được để trống',
+            ]
+            ,
+            [
+                'noidung' => 'Nội dung',
+            ]);
+
+        $danhgia = new Danhgia([
+            'idkhachhang' => Auth::guard('khachhang')->user()->id,
+            'noidung' => $request->get('noidung'),
+            'hienthi' => 0,
+        ]);
+
+        $danhgia->save();
+
+        return redirect('review')->with('message', array('status' => 'success', 'content' => 'Gửi đánh giá thành công.'));
+    }
+
     public function getEditAccount()
     {
         $khachhang = Khachhang::find(Auth::guard('khachhang')->user()->id);
@@ -128,15 +155,14 @@ class CustomerController extends Controller
 
             $khachhang = Khachhang::where('id', '=', Auth::guard('khachhang')->user()->id)
                 ->where('matkhau', '=', Hash::make($request->get('matkhau')))->first();
-            if($khachhang != null){
+            if ($khachhang != null) {
                 $khachhang->matkhau = Hash::make($request->get('matkhaumoi'));
                 $khachhang->save();
 
                 return redirect('/account/edit')
                     ->with('message', array('status' => 'success', 'content' => 'Cập nhật Mật khẩu thành công.'));
             }
-        }
-        else if ($request->has('profile')) {
+        } else if ($request->has('profile')) {
             $request->validate([
                 'hoten' => 'required|max:150',
                 'ngaysinh' => 'required|before_or_equal:2010-01-01|date_format:d/m/Y',
@@ -148,7 +174,7 @@ class CustomerController extends Controller
             ]);
 
             $khachhang = Khachhang::where('id', '=', Auth::guard('khachhang')->user()->id)->first();
-            if($khachhang != null){
+            if ($khachhang != null) {
                 $khachhang->hoten = $request->get('hoten');
                 $khachhang->ngaysinh = Carbon::createFromFormat('d/m/Y', $request->get('ngaysinh'))->format('Y-m-d');
                 $khachhang->sdt = $request->get('sdt');
@@ -161,6 +187,27 @@ class CustomerController extends Controller
                 return redirect('/account/edit')
                     ->with('message', array('status' => 'success', 'content' => 'Cập nhật Thông tin cá nhân thành công.'));
             }
+        } else if ($request->has('avatar')) {
+            $request->validate([
+                'avatar' => 'mimes:jpeg,jpg,png,gif|required|max:10000',
+            ]);
+            $khachhang = Khachhang::where('id', '=', Auth::guard('khachhang')->user()->id)->first();
+            if ($khachhang != null) {
+                if ($request->hasFile('avatar')) {
+                    $avatar = time() . '.' . $request->file('avatar')->getClientOriginalExtension();
+                } else {
+                    $avatar = "";
+                }
+                if ($avatar != "") {
+                    File::delete(public_path('images/customer') . '\\' . $khachhang->avatar);
+                    request()->file('avatar')->move(public_path('images/customer'), $avatar);
+                    $khachhang->avatar = $avatar;
+                    $khachhang->save();
+
+                    return redirect('/account')->with('message', array('status' => 'success', 'content' => 'Cập nhật Ảnh thành công.'));
+                }
+            }
+
         }
 
         return view('layouts.home.pages.edit_account', compact('khachhang'));

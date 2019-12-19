@@ -92,6 +92,6 @@
         </li>
         <li><a href="send_mail.php"><em
                     class="fa fa-mail-forward">&nbsp;</em> Gửi thư</a></li>
-        <li><a href="?act=logout"><em class="fa fa-power-off">&nbsp;</em> Đăng xuất</a></li>
+        <li><a href="{{ url('admin/logout') }}"><em class="fa fa-power-off">&nbsp;</em> Đăng xuất</a></li>
     </ul>
 </div><!--/.sidebar-->

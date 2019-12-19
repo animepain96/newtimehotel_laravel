@@ -19,8 +19,7 @@ class DanhGiaTableSeeder extends Seeder
             DB::table('danhgias')->insert([
                 'idkhachhang' => $faker->numberBetween(1, 10),
                 'noidung' => $faker->paragraph,
-                'ngaygui' => $faker->dateTimeThisMonth(),
-                'hienthi' => $faker->boolean
+                'hienthi' => $faker->boolean,
             ]);
         }
 

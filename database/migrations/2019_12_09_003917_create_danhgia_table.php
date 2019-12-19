@@ -17,7 +17,6 @@ class CreateDanhgiaTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('idkhachhang');
             $table->string('noidung', 500);
-            $table->dateTimeTz('ngaygui');
             $table->boolean('hienthi')->default(0);
             $table->timestamps();
         });

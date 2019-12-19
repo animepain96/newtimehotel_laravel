@@ -21,18 +21,24 @@
                     <div class="card">
                         <div class="card-body">
                             <div class="card-title mb-4">
+                                @if(session()->get('message') != null)
+                                    <div class="alert alert-{{ session()->get('message')['status'] }} alert-dismissible">
+                                        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                                        {{ session()->get('message')['content'] }}
+                                    </div>
+                                @endif
                                 <div class="d-flex justify-content-start">
                                     <div class="image-container">
-                                        <img src="{{ $khachhang->avatar }}" id="imgProfile"
+                                        <img src="{{ asset('images/customer').'/'.$khachhang->avatar }}" id="imgProfile"
                                              style="width: 150px; height: 150px" class="img-thumbnail"/>
                                         <div class="middle">
-                                            <form enctype="multipart/form-data" method="post">
+                                            <form enctype="multipart/form-data" method="post" action="{{ url('/account/edit') }}">
                                                 @csrf
                                                 <input name="avatar" type="button" class="btn btn-secondary"
                                                        id="btnChangePicture"
                                                        value="Thay đổi"/>
                                                 <input type="file" style="display: none;" id="profilePicture"
-                                                       name="fileAvatar"/>
+                                                       name="avatar"/>
                                             </form>
                                         </div>
                                     </div>
@@ -41,8 +47,7 @@
                                                 href="javascript:void(0);">{{ $khachhang->hoten }}</a></h2>
                                         <h6 class="d-block">Email: <a
                                                 href="javascript:void(0)">{{ $khachhang->email }}</a></h6>
-                                        <h6 class="d-block mt-4"><a href="{{ url('/account/edit') }}"
-                                                                    class="btn btn-primary" id="btnUpdate">Cập nhật</a>
+                                        <h6 class="d-block mt-4"><a href="{{ url('/account/edit') }}" class="btn btn-primary" id="btnUpdate">Cập nhật</a>
                                         </h6>
                                     </div>
                                     <div class="ml-auto">

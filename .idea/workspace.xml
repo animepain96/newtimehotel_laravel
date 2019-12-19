@@ -2,29 +2,17 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f99ed99a-84cd-4f4a-9365-a748c6dcaf47" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/AdminController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/AdminController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Danhgia.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Danhgia.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Home/CustomerController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Home/CustomerController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/KhachHangController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/KhachHangController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Kernel.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Kernel.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Khachhang.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Khachhang.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Thue.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Thue.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/auth.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/auth.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2019_12_09_003949_create_thue_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2019_12_09_003949_create_thue_table.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/seeds/DatabaseSeeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/seeds/DatabaseSeeder.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/seeds/KhachHangTableSeeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/seeds/KhachHangTableSeeder.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/seeds/PhongTableSeeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/seeds/PhongTableSeeder.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/seeds/ThueTableSeeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/seeds/ThueTableSeeder.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/seeds/TinTableSeeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/seeds/TinTableSeeder.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/images/room/1576373696.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/public/images/room/01.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/layouts/home/includes/footer.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/layouts/home/includes/footer.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/layouts/home/includes/head.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/layouts/home/includes/head.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/layouts/home/includes/header.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/layouts/home/includes/header.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/migrations/2019_12_09_003917_create_danhgia_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2019_12_09_003917_create_danhgia_table.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/seeds/DanhGiaTableSeeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/seeds/DanhGiaTableSeeder.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/seeds/SlideShowTableSeeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/seeds/SlideShowTableSeeder.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/images/customer/01.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/layouts/admin/includes/header.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/layouts/admin/includes/header.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/layouts/home/pages/account.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/layouts/home/pages/account.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/views/layouts/home/pages/home.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/layouts/home/pages/home.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/layouts/home/pages/login.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/layouts/home/pages/login.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/layouts/home/pages/news.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/layouts/home/pages/news.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/layouts/home/pages/room.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/layouts/home/pages/room.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/layouts/home/pages/review.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/layouts/home/pages/review.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -261,6 +249,7 @@
       <workItem from="1576670045894" duration="3253000" />
       <workItem from="1576706884756" duration="14221000" />
       <workItem from="1576735283048" duration="6329000" />
+      <workItem from="1576759587610" duration="2533000" />
     </task>
     <servers />
   </component>

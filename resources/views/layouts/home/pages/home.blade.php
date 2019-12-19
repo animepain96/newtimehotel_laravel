@@ -6,7 +6,7 @@
         <div class="owl-carousel loop-block-31 ">
         @foreach(\App\Slideshow::where('hoatdong', '=', 1)->get() as $slideshow)
             <!-- single item -->
-                <div class="block-30 item" style="background-image: url('{{ $slideshow->urlanh }}');"
+                <div class="block-30 item" style="background-image: url('{{ asset('images/slideshow').'/'.$slideshow->urlanh }}');"
                      data-stellar-background-ratio="0.5">
                     <div class="container">
                         <div class="row align-items-center">

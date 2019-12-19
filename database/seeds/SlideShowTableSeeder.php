@@ -14,28 +14,28 @@ class SlideShowTableSeeder extends Seeder
     {
         DB::table('slideshows')->insert([
             [
-                'urlanh' => '/assets/images/slideshows/01.jpg',
+                'urlanh' => '01.jpg',
                 'tieude' => 'NewTime Hotel',
                 'mota' => 'Mang đến sự sang trọng cho bạn',
                 'lienket' => url('/'),
                 'hoatdong' => 1
             ],
             [
-                'urlanh' => '/assets/images/slideshows/02.jpg',
+                'urlanh' => '02.jpg',
                 'tieude' => 'Châu Khá Bảnh',
                 'mota' => 'Tôi đẹp trai vì tôi thấy thế',
                 'lienket' => url('/'),
                 'hoatdong' => 1
             ],
             [
-                'urlanh' => '/assets/images/slideshows/03.jpg',
+                'urlanh' => '03.jpg',
                 'tieude' => 'Lorem Ipsum',
                 'mota' => 'Lorem Ipsum Lorem Ipsum',
                 'lienket' => url('/'),
                 'hoatdong' => 0
             ],
             [
-                'urlanh' => '/assets/images/slideshows/04.jpg',
+                'urlanh' => '04.jpg',
                 'tieude' => 'Cao đẳng Công nghiệp Huế',
                 'mota' => 'Hướng đến thành công',
                 'lienket' => url('/'),

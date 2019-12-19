@@ -9,7 +9,6 @@ class Danhgia extends Model
     protected $fillable = [
         'idkhachhang',
         'noidung',
-        'ngaygui',
         'hienthi',
     ];
 
