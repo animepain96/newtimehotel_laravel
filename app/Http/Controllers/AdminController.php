@@ -52,8 +52,6 @@ class AdminController extends Controller
             'password' => $request->get('matkhau'),
         ];
 
-        print_r($data);
-
         if (Auth::guard('nhanvien')->attempt($data)) {
             return redirect('admin');
         } else {

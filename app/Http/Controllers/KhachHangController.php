@@ -30,7 +30,7 @@ class KhachHangController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\Response
      */
-    public function create(Request $request)
+    public function create()
     {
         $tinhs = Diachi::where('idtinh', null)->orderBy('ten', 'asc')->get();
         return view('layouts.admin.pages.customer.create', compact('tinhs'));
@@ -140,7 +140,7 @@ class KhachHangController extends Controller
             'hoten' => 'required|max:150',
             'matkhau' => 'nullable|bail|min:8|max:50',
             'email' => ['bail','required','email', Rule::unique('khachhangs', 'email')->ignore($id)],
-            'ngaysinh' => 'required|date|before_or_equal:2010-01-01',
+            'ngaysinh' => 'required|before_or_equal:2010-01-01||date_format:d/m/Y',
             'sdt' => ['nullable', 'regex:/^0(1\d{9}|9\d{8})$/'],
             'gioitinh' => 'nullable',
             'tinh' => 'required|integer',

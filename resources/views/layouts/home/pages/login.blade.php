@@ -33,7 +33,7 @@
                         @csrf
                         <div class="form-group">
                             <label class="col-form-label">Tên đăng nhập: </label>
-                            <input type="email" name="tendangnhap" class="form-control px-3 py-3"
+                            <input type="tendangnhap" name="tendangnhap" class="form-control px-3 py-3"
                                    placeholder="Tên đăng nhập" required>
                         </div>
                         <div class="form-group">

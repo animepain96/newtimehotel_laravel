@@ -2,10 +2,15 @@
 
 namespace App;
 
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class Khachhang extends Model
+class Khachhang extends Authenticatable
 {
+
+    use Notifiable;
+
     protected $fillable = [
         'hoten',
         'tendangnhap',
@@ -20,6 +25,11 @@ class Khachhang extends Model
         'kichhoat',
         'hoatdong',
     ];
+
+    public function getAuthPassword()
+    {
+        return $this->matkhau;
+    }
 
     public function thanhpho()
     {

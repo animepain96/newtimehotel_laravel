@@ -67,8 +67,6 @@
     </svg>
 </div>
 
-
-<script src="{{ asset('assets/home/js/jquery.min.js') }}"></script>
 <script src="{{ asset('assets/home/js/jquery-migrate-3.0.1.min.js') }}"></script>
 <script src="{{ asset('assets/home/js/popper.min.js') }}"></script>
 <script src="{{ asset('assets/home/js/bootstrap.min.js') }}"></script>
@@ -84,3 +82,6 @@
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>
 <script src="{{ asset('assets/home/js/google-map.js') }}"></script>
 <script src="{{ asset('assets/home/js/main.js') }}"></script>
+
+@section('scripts')
+@show

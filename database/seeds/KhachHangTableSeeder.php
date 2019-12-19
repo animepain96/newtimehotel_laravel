@@ -24,6 +24,7 @@ class KhachHangTableSeeder extends Seeder
                 'matkhau' => Hash::make('123'),
                 'email' => $faker->email,
                 'sdt' => $faker->phoneNumber,
+                'avatar' => '01.jpg',
                 'gioitinh' => $faker->boolean,
                 'kichhoat' => $faker->boolean,
                 'hoatdong' => $faker->boolean,

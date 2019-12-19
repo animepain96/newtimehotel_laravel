@@ -33,46 +33,46 @@
             <div class="col-md-12">
                 <div class="block-32">
                     <form action="{{ url('/search') }}" method="get">
-                        @csrf
                         <div class="row">
                             <div class="col-md-6 mb-3 mb-lg-0 col-lg-3">
-                                <label for="checkin">Ngày đến</label>
+                                <label>Ngày đến</label>
                                 <div class="field-icon-wrap">
                                     <div class="icon"><span class="icon-calendar"></span></div>
-                                    <input name="cin" type="text" id="checkin_date" class="form-control">
+                                    <input name="batdau" type="text" class="form-control">
                                 </div>
                             </div>
                             <div class="col-md-6 mb-3 mb-lg-0 col-lg-3">
-                                <label for="checkin">Ngày đi</label>
+                                    <label>Ngày đi</label>
                                 <div class="field-icon-wrap">
                                     <div class="icon"><span class="icon-calendar"></span></div>
-                                    <input name="cout" type="text" id="checkout_date" class="form-control">
+                                    <input name="ketthuc" type="text" class="form-control">
                                 </div>
                             </div>
                             <div class="col-md-6 mb-3 mb-md-0 col-lg-3">
                                 <div class="row">
                                     <div class="col-md-6 mb-3 mb-md-0">
-                                        <label for="checkin">Số người lớn</label>
+                                        <label>Số người lớn</label>
                                         <div class="field-icon-wrap">
                                             <div class="icon"><span class="ion-ios-arrow-down"></span></div>
-                                            <select name="adult" id="" class="form-control">
+                                            <select name="songuoilon" class="form-control">
                                                 <option value="0">-- Chọn --</option>
                                                 <option value="1">1</option>
                                                 <option value="2">2</option>
                                                 <option value="3">3</option>
-                                                <option value="4">4+</option>
+                                                <option value="4">4</option>
                                             </select>
                                         </div>
                                     </div>
                                     <div class="col-md-6 mb-3 mb-md-0">
-                                        <label for="checkin">Số trẻ em</label>
+                                        <label>Số trẻ em</label>
                                         <div class="field-icon-wrap">
                                             <div class="icon"><span class="ion-ios-arrow-down"></span></div>
-                                            <select name="children" id="" class="form-control">
-                                                <option value="0">-- Chọn --</option>
+                                            <select name="sotreem" class="form-control">
+                                                <option>-- Chọn --</option>
+                                                <option value="0">0</option>
                                                 <option value="1">1</option>
                                                 <option value="2">2</option>
-                                                <option value="3">3+</option>
+                                                <option value="3">3</option>
                                             </select>
                                         </div>
                                     </div>
@@ -144,8 +144,39 @@
                 </div>
             </div>
             <div class="row">
+            @foreach(\App\Danhgia::with('khachhang')->where('hienthi', '=', 1)->orderBy('created_at', 'desc')->limit(3)->get() as $danhgia)
+                <!-- single review -->
+                    <div class="col-md-6 col-lg-4">
 
+                        <div class="block-33">
+                            <div class="vcard d-flex mb-3">
+                                <div class="image align-self-center">
+                                    <img src="{{ asset('images/customer') }}/{{ $danhgia->khachhang['avatar'] }}"
+                                         alt="{{ $danhgia->khachhang['hoten'] }}">
+                                </div>
+                                <div class="name-text align-self-center">
+                                    <h2 class="heading">{{ $danhgia->khachhang['hoten'] }}</h2>
+                                    <span class="meta">Khách hàng</span>
+                                </div>
+                            </div>
+                            <div class="text">
+                                <blockquote>
+                                    <p>&ldquo; {{ $danhgia->noidung }} &ldquo;</p>
+                                </blockquote>
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- end single review -->
+                @endforeach
             </div>
         </div>
     </div>
+    <script>
+        $(document).ready(function(){
+            $('input[name=batdau], input[name=ketthuc]').datepicker({
+                format: 'dd/mm/yyyy',
+            });
+        });
+    </script>
 @endsection

@@ -1,7 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="f99ed99a-84cd-4f4a-9365-a748c6dcaf47" name="Default Changelist" comment="" />
+    <list default="true" id="f99ed99a-84cd-4f4a-9365-a748c6dcaf47" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/AdminController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/AdminController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Home/CustomerController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Home/CustomerController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/KhachHangController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/KhachHangController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Kernel.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Kernel.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Khachhang.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Khachhang.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Thue.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Thue.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/auth.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/auth.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/migrations/2019_12_09_003949_create_thue_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2019_12_09_003949_create_thue_table.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/seeds/DatabaseSeeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/seeds/DatabaseSeeder.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/seeds/KhachHangTableSeeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/seeds/KhachHangTableSeeder.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/seeds/PhongTableSeeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/seeds/PhongTableSeeder.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/seeds/ThueTableSeeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/seeds/ThueTableSeeder.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/seeds/TinTableSeeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/seeds/TinTableSeeder.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/images/room/1576373696.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/public/images/room/01.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/layouts/home/includes/footer.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/layouts/home/includes/footer.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/layouts/home/includes/head.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/layouts/home/includes/head.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/layouts/home/includes/header.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/layouts/home/includes/header.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/layouts/home/pages/home.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/layouts/home/pages/home.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/layouts/home/pages/login.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/layouts/home/pages/login.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/layouts/home/pages/news.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/layouts/home/pages/news.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/layouts/home/pages/room.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/layouts/home/pages/room.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -43,6 +68,9 @@
       </path>
     </expand>
     <select />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="PhpWorkspaceProjectConfiguration">
     <include_path>
@@ -137,8 +165,11 @@
     </include_path>
   </component>
   <component name="ProjectId" id="1UitClc2zt9m62vRMEa1fmgX5iy" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="DatabaseDriversLRU" value="mysql" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/resources/views/layouts/admin/pages/reservation" />
     <property name="nodejs_package_manager_path" value="npm" />
@@ -176,12 +207,12 @@
           <expand>
             <path>
               <item name="services root" type="e789fda9:ObjectUtils$Sentinel" />
-              <item name="com.intellij.execution.services.ServiceModel$ServiceGroupNode@9d5e107" type="7427dc5b:ServiceModel$ServiceGroupNode" />
+              <item name="com.intellij.execution.services.ServiceModel$ServiceGroupNode@ffa6ba42" type="7427dc5b:ServiceModel$ServiceGroupNode" />
             </path>
             <path>
               <item name="services root" type="e789fda9:ObjectUtils$Sentinel" />
-              <item name="com.intellij.execution.services.ServiceModel$ServiceGroupNode@9d5e107" type="7427dc5b:ServiceModel$ServiceGroupNode" />
-              <item name="com.intellij.execution.services.ServiceModel$ServiceNode@6c879dde" type="9fbbdea:ServiceModel$ServiceNode" />
+              <item name="com.intellij.execution.services.ServiceModel$ServiceGroupNode@ffa6ba42" type="7427dc5b:ServiceModel$ServiceGroupNode" />
+              <item name="com.intellij.execution.services.ServiceModel$ServiceNode@484c6a72" type="9fbbdea:ServiceModel$ServiceNode" />
             </path>
           </expand>
           <select />
@@ -227,10 +258,26 @@
       <workItem from="1576617990729" duration="1661000" />
       <workItem from="1576627922202" duration="5724000" />
       <workItem from="1576654942204" duration="4303000" />
+      <workItem from="1576670045894" duration="3253000" />
+      <workItem from="1576706884756" duration="14221000" />
+      <workItem from="1576735283048" duration="6329000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="COLUMN_ORDER" />
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
 </project>

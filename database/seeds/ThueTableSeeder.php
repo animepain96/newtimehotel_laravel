@@ -21,9 +21,8 @@ class ThueTableSeeder extends Seeder
             DB::table('thues')->insert([
                 'idkhach' => $id,
                 'idphong' => $faker->numberBetween(1, count($phong_id)),
-                'ngaydat' => $faker->dateTimeBetween('2019-01-01', '2019-10-01'),
                 'batdau' => $faker->dateTimeBetween('2019-10-01', '2019-12-01'),
-                'ketthuc' => $faker->dateTimeBetween('2019-12-01', '2019-12-10'),
+                'ketthuc' => $faker->dateTimeBetween('2019-12-01', '2020-01-01'),
                 'idtrangthai' => $faker->numberBetween(1, 5)
             ]);
         }

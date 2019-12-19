@@ -26,6 +26,7 @@ class DatabaseSeeder extends Seeder
             TrangThaiThueTableSeeder::class,
             BoDemTableSeeder::class,
             ThueTableSeeder::class,
+            DanhGiaTableSeeder::class,
         ]);
     }
 }

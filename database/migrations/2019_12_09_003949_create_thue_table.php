@@ -17,7 +17,6 @@ class CreateThueTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('idkhach');
             $table->unsignedBigInteger('idphong');
-            $table->dateTimeTz('ngaydat');
             $table->date('batdau');
             $table->date('ketthuc');
             $table->unsignedBigInteger('idtrangthai');

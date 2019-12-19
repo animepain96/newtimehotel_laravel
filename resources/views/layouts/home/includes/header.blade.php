@@ -17,11 +17,11 @@
                 @if(\Illuminate\Support\Facades\Auth::guard('khachhang')->check())
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Admin</a>
+                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ \Illuminate\Support\Facades\Auth::guard('khachhang')->user()->hoten }}</a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="account.php">Tài khoản</a>
-                            <a class="dropdown-item" href="send_review.php">Đánh giá</a>
-                            <a class="dropdown-item" href="login.php?act=logout">Thoát</a>
+                            <a class="dropdown-item" href="{{ url('/account') }}">Tài khoản</a>
+                            <a class="dropdown-item" href="{{ url('/review') }}">Đánh giá</a>
+                            <a class="dropdown-item" href="{{ url('/logout') }}">Thoát</a>
                         </div>
                     </li>
                 @else

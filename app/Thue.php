@@ -9,10 +9,9 @@ class Thue extends Model
     protected $fillable = [
         'idkhach',
         'idphong',
-        'ngaydat',
         'batdau',
         'ketthuc',
-        'trangthai',
+        'idtrangthai',
         'ghichu',
     ];
 

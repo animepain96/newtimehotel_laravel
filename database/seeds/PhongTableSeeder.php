@@ -25,7 +25,7 @@ class PhongTableSeeder extends Seeder
                 'sogiuong' => $faker->numberBetween(1, 3),
                 'idloai' => $faker->numberBetween(1,5),
                 'idvitri' => $faker->numberBetween(1,3),
-                'hinhdaidien' => 'assets/images/products/01.jpg',
+                'hinhdaidien' => '01.jpg',
                 'hoatdong' => $faker->boolean
             ]);
         }

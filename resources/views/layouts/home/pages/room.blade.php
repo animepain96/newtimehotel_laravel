@@ -37,7 +37,7 @@
                         <div class="block-34">
                             <div class="image">
                                 <a href="{{ url('/room') }}/{{ $room->id }}">
-                                    <img src="{{ $room->hinhdaidien }}" alt="{{ $room->tenphong }}"></a>
+                                    <img src="{{ asset('/images/room'.'/'.$room->hinhdaidien) }}" alt="{{ $room->tenphong }}"></a>
                             </div>
                             <div class="text">
                                 <h2 class="heading">{{ $room->tenphong }}</h2>

@@ -48,7 +48,7 @@
                                style="background-image: url('{{ $tin->anhdaidien }}'); "></a>
                             <div class="text">
                                 <h2 class="heading"><a
-                                        href="{{ url('news/') }}/{{ $tin->id }}"></a>
+                                        href="{{ url('news/') }}/{{ $tin->id }}">{{ $tin->tieude }}</a>
                                 </h2>
                                 <p class="meta">
                                     <em>Ngày đăng</em>
@@ -57,6 +57,7 @@
                                     <em>by</em>
                                     <a>{{ $tin->nhanvien['hoten'] }}</a>
                                 </p>
+                                <p>{{ $tin->mota }}</p>
                                 <p><a href="{{ url('news/') }}/{{ $tin->id }}">Xem thêm ...</a></p>
                             </div>
                         </div>

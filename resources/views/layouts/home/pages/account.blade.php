@@ -1,0 +1,170 @@
+@extends('layouts.home.layouts.master')
+
+@section('content')
+    <div class="block-30 block-30-sm item" style="background-image: url('{{ asset('assets/home/images/bg_2.jpg') }}');"
+         data-stellar-background-ratio="0.5">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-10">
+                    <span class="subheading-sm">Tài khoản</span>
+                    <h2 class="heading">Quản lí Tài khoản</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="site-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="card-title mb-4">
+                                <div class="d-flex justify-content-start">
+                                    <div class="image-container">
+                                        <img src="{{ $khachhang->avatar }}" id="imgProfile"
+                                             style="width: 150px; height: 150px" class="img-thumbnail"/>
+                                        <div class="middle">
+                                            <form enctype="multipart/form-data" method="post">
+                                                @csrf
+                                                <input name="avatar" type="button" class="btn btn-secondary"
+                                                       id="btnChangePicture"
+                                                       value="Thay đổi"/>
+                                                <input type="file" style="display: none;" id="profilePicture"
+                                                       name="fileAvatar"/>
+                                            </form>
+                                        </div>
+                                    </div>
+                                    <div class="userData ml-3">
+                                        <h2 class="d-block" style="font-size: 1.5rem; font-weight: bold"><a
+                                                href="javascript:void(0);">{{ $khachhang->hoten }}</a></h2>
+                                        <h6 class="d-block">Email: <a
+                                                href="javascript:void(0)">{{ $khachhang->email }}</a></h6>
+                                        <h6 class="d-block mt-4"><a href="{{ url('/account/edit') }}"
+                                                                    class="btn btn-primary" id="btnUpdate">Cập nhật</a>
+                                        </h6>
+                                    </div>
+                                    <div class="ml-auto">
+                                        <input type="button" class="btn btn-primary d-none" id="btnDiscard"
+                                               value="Hủy"/>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-12">
+                                    <ul class="nav nav-tabs mb-4" id="myTab" role="tablist">
+                                        <li class="nav-item">
+                                            <a class="nav-link active" id="profile-tab" data-toggle="tab"
+                                               href="#profile" role="tab" aria-controls="profile" aria-selected="true">
+                                                Thông tin cá nhân
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" id="booking-history-tab" data-toggle="tab"
+                                               href="#booking-history" role="tab" aria-controls="booking-history"
+                                               aria-selected="false">Lịch sử đặt Phòng</a>
+                                        </li>
+                                    </ul>
+                                    <div class="tab-content ml-1" id="myTabContent">
+                                        <div class="tab-pane fade show active" id="profile" role="tabpanel"
+                                             aria-labelledby="profile-tab">
+
+                                            <div class="row">
+                                                <div class="col-sm-3 col-md-2 col-5">
+                                                    <label style="font-weight:bold;">Họ và Tên</label>
+                                                </div>
+                                                <div class="col-md-8 col-6">
+                                                    {{ $khachhang->hoten }}
+                                                </div>
+                                            </div>
+                                            <hr/>
+
+                                            <div class="row">
+                                                <div class="col-sm-3 col-md-2 col-5">
+                                                    <label style="font-weight:bold;">Địa chỉ Email</label>
+                                                </div>
+                                                <div class="col-md-8 col-6">
+                                                    {{ $khachhang->email }}
+                                                </div>
+                                            </div>
+                                            <hr/>
+
+
+                                            <div class="row">
+                                                <div class="col-sm-3 col-md-2 col-5">
+                                                    <label style="font-weight:bold;">Số điện thoại</label>
+                                                </div>
+                                                <div class="col-md-8 col-6">
+                                                    {{ $khachhang->sdt }}
+                                                </div>
+                                            </div>
+                                            <hr/>
+                                            <div class="row">
+                                                <div class="col-sm-3 col-md-2 col-5">
+                                                    <label style="font-weight:bold;">Ngày sinh</label>
+                                                </div>
+                                                {{ \Carbon\Carbon::parse($khachhang->ngaysinh)->format('d/m/Y') }}
+                                            </div>
+                                            <hr/>
+                                            <div class="row">
+                                                <div class="col-sm-3 col-md-2 col-5">
+                                                    <label style="font-weight:bold;">Địa chỉ</label>
+                                                </div>
+                                                <div class="col-md-8 col-6">
+                                                    {{ $khachhang->diachi }} - {{ $khachhang->thanhpho['ten'] }}
+                                                    - {{ $khachhang->tinh['ten'] }}
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div class="tab-pane fade" id="booking-history" role="tabpanel"
+                                             aria-labelledby="booking-history-tab">
+                                            <div class="col-md-12">
+                                                <table class="table table-striped">
+                                                    <thead>
+                                                    <tr>
+                                                        <th>STT</th>
+                                                        <th>Khách hàng</th>
+                                                        <th>Tên phòng</th>
+                                                        <th>Ngày đặt</th>
+                                                        <th>Bắt đầu</th>
+                                                        <th>Kết thúc</th>
+                                                        <th>Trạng thái</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    @for($i = 0; $i < count($thues); $i++)
+                                                        <tr>
+                                                            <td>{{ $i + 1 }}</td>
+                                                            <td>{{ $thues[$i]->khachhang['hoten'] }}</td>
+                                                            <td>
+                                                                <a href="{{ url('/room').'/'. $thues[$i]->idphong }}"
+                                                                   target="_blank">{{ $thues[$i]->phong['tenphong'] }}</a>
+                                                            </td>
+                                                            <td>{{ \Carbon\Carbon::parse($thues[$i]->created_at)->format('d/m/Y H:i:s') }}</td>
+                                                            <td>{{ \Carbon\Carbon::parse($thues[$i]->batdau) }}</td>
+                                                            <td>{{ \Carbon\Carbon::parse($thues[$i]->ketthuc) }}</td>
+                                                            <td>{{ $thues[$i]->trangthaithue['mota'] }}</td>
+                                                        </tr>
+                                                    @endfor
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                            {{ $thues->links() }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+@endsection
+
+@section('scripts')
+    <script src="{{ asset('assets/home/js/account.js') }}"></script>
+@endsection
