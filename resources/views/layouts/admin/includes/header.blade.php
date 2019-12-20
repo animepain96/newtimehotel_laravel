@@ -66,9 +66,9 @@
                 </li>
             </ul>
         </li>
-        <li><a href="statistic.php"><em
+        <li><a href="{{ url('admin/thongke') }}"><em
                     class="fa fa-area-chart">&nbsp;</em> Thống kê</a></li>
-        <li><a href="review.php"><em
+        <li><a href="{{ url('admin/danhgia') }}"><em
                     class="fa fa-comment">&nbsp;</em> Đánh giá</a></li>
         <li>
             <a href="{{ route('slideshow.index') }}"><em class="fa fa-picture-o">&nbsp;</em> Slideshow</a></li>

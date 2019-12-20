@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Home;
 
+use App\Bodem;
 use App\Phong;
 use App\Thue;
 use App\Banggia;
@@ -159,5 +160,25 @@ class HomeController extends Controller
     public function index()
     {
         return view('layouts.home.pages.home');
+    }
+
+    public static function increaseCount(){
+        if(session()->get('counted') == null){
+            $bodem = Bodem::whereDate('ngay', '=', Carbon::now()->format('Y-m-d'))->first();
+            if($bodem != null){
+                $bodem->soluong ++;
+            }
+            else{
+                $bodem = new Bodem([
+                    'ngay' => Carbon::now()->format('Y-m-d'),
+                    'soluong' => 1,
+                ]);
+            }
+
+            $bodem->save();
+
+            session()->put('counted', 'true');
+
+        }
     }
 }

@@ -18,7 +18,7 @@
 
     <div class="panel panel-container">
         <div class="row">
-            <div class="col-xs-6 col-md-3 col-lg-3 no-padding">
+            <div class="col-xs-6 col-md-4 col-lg-4 no-padding">
                 <div class="panel panel-teal panel-widget border-right">
                     <div class="row no-padding"><em class="fa fa-xl fa-group color-blue"></em>
                         <div class="large">{{ $summary['khachmoi'] }}</div>
@@ -26,7 +26,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-xs-6 col-md-3 col-lg-3 no-padding">
+            <div class="col-xs-6 col-md-4 col-lg-4 no-padding">
                 <div class="panel panel-teal panel-widget border-right">
                     <div class="row no-padding"><em class="fa fa-xl fa-ticket color-teal"></em>
                         <div class="large">{{ $summary['phieuthuemoi'] }}</div>
@@ -34,10 +34,10 @@
                     </div>
                 </div>
             </div>
-            <div class="col-xs-6 col-md-3 col-lg-3 no-padding">
-                <div class="panel panel-teal panel-widget border-right">
+            <div class="col-xs-6 col-md-4 col-lg-4 no-padding">
+                <div class="panel panel-teal panel-widget">
                     <div class="row no-padding"><em class="fa fa-xl fa-money color-orange"></em>
-                        <div class="large">{{ number_format($summary['doanhthu']->doanhthu, 0, 3, ',') }}&#8363;</div>
+                        <div class="large">{{ number_format($summary['doanhthu']->doanhthu, 0, ',', '.') }}&#8363;</div>
                         <div class="text-muted">Doanh thu</div>
                     </div>
                 </div>
@@ -126,7 +126,7 @@
                                 <tr>
                                     <td>{{ $i + 1 }}</td>
                                     <td>{{ $phongthemgias[$i]->id }}</td>
-                                    <td><img class="img-thumbnail" alt="{{ $phongthemgias[$i]->tenphong }}" src="{{ asset('images/room') }}/{{ $phongthemgias[$i]->anhdaidien }}"></td>
+                                    <td><img class="img-thumbnail" alt="{{ $phongthemgias[$i]->tenphong }}" src="{{ asset('images/room') }}/{{ $phongthemgias[$i]->hinhdaidien }}"></td>
                                     <td>{{ $phongthemgias[$i]->tenphong }}</td>
                                     <td>{{ $phongthemgias[$i]->loaiphong['ten'] }}</td>
                                     <td>{{ $phongthemgias[$i]->vitri['ten'] }}</td>

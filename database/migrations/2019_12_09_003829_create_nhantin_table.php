@@ -16,7 +16,6 @@ class CreateNhantinTable extends Migration
         Schema::create('nhantins', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('email', 500);
-            $table->dateTimeTz('ngayyeucau');
             $table->timestamps();
         });
     }

@@ -4,6 +4,7 @@ use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Faker\Factory as Faker;
 use Illuminate\Support\Facades\Hash;
+use Carbon\Carbon;
 
 class NhanVienTableSeeder extends Seeder
 {
@@ -26,7 +27,9 @@ class NhanVienTableSeeder extends Seeder
             'email' => 'admin@localhost',
             'sdt' => $faker->phoneNumber,
             'gioitinh' => 1,
-            'hoatdong' => 1
+            'hoatdong' => 1,
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
         ]);
 
         foreach (range(1, 10) as $i){
@@ -38,7 +41,9 @@ class NhanVienTableSeeder extends Seeder
                 'email' => $faker->email,
                 'sdt' => $faker->phoneNumber,
                 'gioitinh' => $faker->boolean,
-                'hoatdong' => $faker->boolean
+                'hoatdong' => $faker->boolean,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
             ]);
         }
     }

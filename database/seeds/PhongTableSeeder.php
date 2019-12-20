@@ -3,6 +3,7 @@
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Faker\Factory as Faker;
+use Carbon\Carbon;
 
 class PhongTableSeeder extends Seeder
 {
@@ -26,7 +27,9 @@ class PhongTableSeeder extends Seeder
                 'idloai' => $faker->numberBetween(1,5),
                 'idvitri' => $faker->numberBetween(1,3),
                 'hinhdaidien' => '01.jpg',
-                'hoatdong' => $faker->boolean
+                'hoatdong' => $faker->boolean,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
             ]);
         }
     }

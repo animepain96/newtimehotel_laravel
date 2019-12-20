@@ -3,6 +3,7 @@
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Faker\Factory as Faker;
+use Carbon\Carbon;
 
 class NhanTinTableSeeder extends Seeder
 {
@@ -15,10 +16,11 @@ class NhanTinTableSeeder extends Seeder
     {
 
         $faker = Faker::create();
-        foreach (range(1, 10) as $i){
+        foreach (range(1, 10) as $i) {
             DB::table('nhantins')->insert([
-               'email' => $faker->email,
-               'ngayyeucau' => $faker->dateTimeThisYear
+                'email' => $faker->email,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
             ]);
         }
 

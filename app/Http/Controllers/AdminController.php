@@ -65,4 +65,8 @@ class AdminController extends Controller
         return redirect('admin/login');
     }
 
+    public function getStatistics(){
+        return view('layouts.admin.pages.statistic');
+    }
+
 }

@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 class LoaiTinTableSeeder extends Seeder
 {
@@ -14,7 +15,9 @@ class LoaiTinTableSeeder extends Seeder
     {
         foreach (range(1,3) as $i){
             DB::table('loaitins')->insert([
-                'ten' => 'Loại tin ' . $i
+                'ten' => 'Loại tin ' . $i,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
             ]);
         }
     }

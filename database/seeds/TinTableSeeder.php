@@ -3,6 +3,7 @@
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Faker\Factory as Faker;
+use Carbon\Carbon;
 
 class TinTableSeeder extends Seeder
 {
@@ -23,7 +24,9 @@ class TinTableSeeder extends Seeder
                 'anhdaidien' => 'images/news/01.jpg',
                 'idnhanvien' => $faker->numberBetween(1, 11),
                 'idloaitin' => $faker->numberBetween(1, 3),
-                'hoatdong' => $faker->boolean
+                'hoatdong' => $faker->boolean,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
             ]);
         }
 

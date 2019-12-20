@@ -53,6 +53,10 @@ Route::get('/admin/gia/{idphong}/delete/{id}', 'BangGiaController@destroy')->mid
 Route::post('/admin/gia', 'BangGiaController@store')->middleware('admin');
 Route::get('/admin/sendmail/{email?}', 'SendMailController@index')->middleware('admin');
 Route::post('/admin/sendmail', 'SendMailController@sendmail')->middleware('admin');
+Route::get('/admin/thongke', 'AdminController@getStatistics')->middleware('admin');
+Route::post('/admin/ajax/viewChart', 'AjaxController@getView')->middleware('admin');
+Route::post('/admin/ajax/revenueChart', 'AjaxController@getRevenue')->middleware('admin');
+Route::post('/admin/ajax/reservationChart', 'AjaxController@getreservation')->middleware('admin');
 Route::get('/admin/login', 'AdminController@login');
 Route::post('/admin/login', 'AdminController@doLogin');
 

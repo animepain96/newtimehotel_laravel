@@ -3,16 +3,27 @@
   <component name="ChangeListManager">
     <list default="true" id="f99ed99a-84cd-4f4a-9365-a748c6dcaf47" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Danhgia.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Danhgia.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Home/CustomerController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Home/CustomerController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2019_12_09_003917_create_danhgia_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2019_12_09_003917_create_danhgia_table.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/AdminController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/AdminController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/AjaxController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/AjaxController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Home/HomeController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Home/HomeController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/composer.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/migrations/2019_12_09_003829_create_nhantin_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2019_12_09_003829_create_nhantin_table.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/seeds/BangGiaTableSeeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/seeds/BangGiaTableSeeder.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/seeds/BoDemTableSeeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/seeds/BoDemTableSeeder.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/database/seeds/DanhGiaTableSeeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/seeds/DanhGiaTableSeeder.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/seeds/LoaiPhongTableSeeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/seeds/LoaiPhongTableSeeder.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/seeds/LoaiTinTableSeeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/seeds/LoaiTinTableSeeder.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/seeds/NhanTinTableSeeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/seeds/NhanTinTableSeeder.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/seeds/NhanVienTableSeeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/seeds/NhanVienTableSeeder.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/seeds/PhongTableSeeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/seeds/PhongTableSeeder.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/database/seeds/SlideShowTableSeeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/seeds/SlideShowTableSeeder.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/images/customer/01.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/seeds/ThueTableSeeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/seeds/ThueTableSeeder.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/seeds/TinTableSeeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/seeds/TinTableSeeder.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/seeds/TrangThaiThueTableSeeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/seeds/TrangThaiThueTableSeeder.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/seeds/ViTriTableSeeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/seeds/ViTriTableSeeder.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/views/layouts/admin/includes/header.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/layouts/admin/includes/header.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/layouts/home/pages/account.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/layouts/home/pages/account.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/layouts/home/pages/home.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/layouts/home/pages/home.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/layouts/home/pages/review.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/layouts/home/pages/review.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/layouts/admin/pages/admin.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/layouts/admin/pages/admin.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/layouts/home/layouts/master.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/layouts/home/layouts/master.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -159,21 +170,21 @@
     <property name="DatabaseDriversLRU" value="mysql" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/resources/views/layouts/admin/pages/reservation" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/resources/views/layouts/admin/pages" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="settings.editor.selected.configurable" value="watcher.settings" />
   </component>
   <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="F:\xampp\htdocs\NewTimeHotel\app\Http\Controllers\Home" />
+      <recent name="F:\xampp\htdocs\NewTimeHotel\resources\lang\vi" />
+    </key>
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="F:\xampp\htdocs\NewTimeHotel\resources\views\layouts\admin\pages" />
       <recent name="F:\xampp\htdocs\NewTimeHotel\resources\views\layouts\admin\pages\reservation" />
       <recent name="F:\xampp\htdocs\NewTimeHotel\resources\views\layouts\admin\pages\mail" />
       <recent name="F:\xampp\htdocs\NewTimeHotel\resources\views\layouts\admin\pages\contact" />
       <recent name="F:\xampp\htdocs\NewTimeHotel\resources\views\layouts\admin\pages\price" />
-      <recent name="F:\xampp\htdocs\NewTimeHotel\resources\views\layouts\admin\pages\room" />
-    </key>
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="F:\xampp\htdocs\NewTimeHotel\app\Http\Controllers\Home" />
-      <recent name="F:\xampp\htdocs\NewTimeHotel\resources\lang\vi" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -195,12 +206,17 @@
           <expand>
             <path>
               <item name="services root" type="e789fda9:ObjectUtils$Sentinel" />
-              <item name="com.intellij.execution.services.ServiceModel$ServiceGroupNode@ffa6ba42" type="7427dc5b:ServiceModel$ServiceGroupNode" />
+              <item name="com.intellij.execution.services.ServiceModel$ServiceGroupNode@99872048" type="7427dc5b:ServiceModel$ServiceGroupNode" />
             </path>
             <path>
               <item name="services root" type="e789fda9:ObjectUtils$Sentinel" />
-              <item name="com.intellij.execution.services.ServiceModel$ServiceGroupNode@ffa6ba42" type="7427dc5b:ServiceModel$ServiceGroupNode" />
-              <item name="com.intellij.execution.services.ServiceModel$ServiceNode@484c6a72" type="9fbbdea:ServiceModel$ServiceNode" />
+              <item name="com.intellij.execution.services.ServiceModel$ServiceGroupNode@99872048" type="7427dc5b:ServiceModel$ServiceGroupNode" />
+              <item name="com.intellij.execution.services.ServiceModel$ServiceNode@1b789b3d" type="9fbbdea:ServiceModel$ServiceNode" />
+            </path>
+            <path>
+              <item name="services root" type="e789fda9:ObjectUtils$Sentinel" />
+              <item name="com.intellij.execution.services.ServiceModel$ServiceGroupNode@99872048" type="7427dc5b:ServiceModel$ServiceGroupNode" />
+              <item name="com.intellij.execution.services.ServiceModel$ServiceNode@13b757b2" type="9fbbdea:ServiceModel$ServiceNode" />
             </path>
           </expand>
           <select />
@@ -249,7 +265,8 @@
       <workItem from="1576670045894" duration="3253000" />
       <workItem from="1576706884756" duration="14221000" />
       <workItem from="1576735283048" duration="6329000" />
-      <workItem from="1576759587610" duration="2533000" />
+      <workItem from="1576759587610" duration="2724000" />
+      <workItem from="1576842791436" duration="4491000" />
     </task>
     <servers />
   </component>

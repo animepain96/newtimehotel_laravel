@@ -12,5 +12,10 @@
 
 <!--footer-->
 @include('layouts.home.includes.footer')
+
+@php
+\App\Http\Controllers\Home\HomeController::increaseCount();
+@endphp
+
 </body>
 </html>
