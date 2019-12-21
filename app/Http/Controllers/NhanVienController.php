@@ -20,8 +20,7 @@ class NhanVienController extends Controller
     public function index()
     {
         $nhanviens = Nhanvien::with('tinh', 'thanhpho')->get();
-        $message = session()->get('message');
-        return view('layouts.admin.pages.staff.staff', compact('nhanviens', 'message'));
+        return view('layouts.admin.pages.staff.staff', compact('nhanviens'));
     }
 
     /**
@@ -111,7 +110,7 @@ class NhanVienController extends Controller
             return view('layouts.admin.pages.staff.edit', compact('nhanvien'));
         }
 
-        return redirect('admin/nhanvien')->with('message', ['status' => 'danger', 'content' => 'Không tìm thấy thông tin Nhân viên.']);
+        return redirect('admin/nhanvien')->with('message', ['status' => 'danger', 'content' => 'Không thể lấy thông tin. Vui lòng thử lại sau.']);
     }
 
     /**
@@ -167,7 +166,7 @@ class NhanVienController extends Controller
 
         $nhanvien->save();
 
-        return redirect('admin/nhanvien')->with('message', array('status' => 'success', 'content' => 'Sửa thông tin Nhân viên thành công.'));
+        return redirect('admin/nhanvien')->with('message', array('status' => 'success', 'content' => 'Cập nhật Nhân viên thành công.'));
     }
 
     /**
@@ -180,7 +179,7 @@ class NhanVienController extends Controller
     {
         $nhanvien = Nhanvien::find($id);
         if($nhanvien == null){
-            return redirect('admin/nhanvien')->with('message', ['status' => 'danger', 'content' => 'Không thể tìm thấy thông tin Nhân viên.']);
+            return redirect('admin/nhanvien')->with('message', ['status' => 'danger', 'content' => 'Không thể lấy thông tin. Vui lòng thử lại sau.']);
         }
         File::delete(public_path().'images/staff/'.'\\'.$nhanvien->avatar);
         $nhanvien->delete();

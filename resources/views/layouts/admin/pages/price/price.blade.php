@@ -16,10 +16,10 @@
         </div>
     </div><!--/.row-->
 
-    @if(isset($message) && $message != null)
-        <div class="alert alert-{{ $message['status'] }} alert-dismissible">
+    @if(session()->get('message') != null)
+        <div class="alert alert-{{ session()->get('message')['status'] }} alert-dismissible">
             <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-            {{ $message['content'] }}
+            {{ session()->get('message')['content'] }}
         </div>
     @endif
 
@@ -54,7 +54,7 @@
                                     <tr>
                                         <td scope="col">{{ $i+1 }}</td>
                                         <td>{{ $banggias[$i]->id }}</td>
-                                        <td>{{ number_format($banggias[$i]->gia, 0, 3, ',') }}&#8363;</td>
+                                        <td>{{ number_format($banggias[$i]->gia, 0, ',', '.') }}&#8363;</td>
                                         <td>{{ \Carbon\Carbon::parse($banggias[$i]->batdau)->format('d/m/Y') }}</td>
                                         <td>{{ \Carbon\Carbon::parse($banggias[$i]->ketthuc)->format('d/m/Y') }}</td>
                                         <td>{{ $banggias[$i]->ghichu }}</td>
@@ -118,7 +118,7 @@
 
     <script>
         $('input[name=batdau]').datepicker({
-           format: 'dd/mm/yyyy'
+            format: 'dd/mm/yyyy'
         });
         $('input[name=ketthuc]').datepicker({
             format: 'dd/mm/yyyy'

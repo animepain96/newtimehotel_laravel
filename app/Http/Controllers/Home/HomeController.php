@@ -159,7 +159,11 @@ class HomeController extends Controller
 
     public function index()
     {
-        return view('layouts.home.pages.home');
+        $rooms = Phong::with('vitri', 'loaiphong')
+            ->join('banggias', 'phongs.id', 'banggias.idphong')
+            ->whereIn('phongs.id', Banggia::whereRaw('? between batdau and ketthuc', Carbon::now()->format('Y-m-d'))->get()->pluck('idphong'))
+            ->inRandomOrder()->limit(5)->get();
+        return view('layouts.home.pages.home', compact('rooms'));
     }
 
     public static function increaseCount(){
@@ -180,5 +184,9 @@ class HomeController extends Controller
             session()->put('counted', 'true');
 
         }
+    }
+
+    public function getService(){
+        return view('layouts.home.pages.service');
     }
 }

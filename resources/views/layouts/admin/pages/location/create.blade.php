@@ -41,7 +41,7 @@
                             </div>
                         @endif
 
-                        <form role="form" method="post" action="{{ route('vitri.store') }}" enctype="multipart/form-data">
+                        <form role="form" method="post" action="{{ route('vitri.store') }}">
                             @csrf
                             <div class="form-group">
                                 <label>Tên vị trí</label>

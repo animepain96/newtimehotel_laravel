@@ -48,7 +48,7 @@ class LoaiTinController extends Controller
 
         $loaitin->save();
 
-        return redirect('admin/loaitin');
+        return redirect('admin/loaitin')->with('message', array('status' => 'success', 'content' => 'Thêm Loại tin thành công.'));
     }
 
     /**
@@ -74,7 +74,7 @@ class LoaiTinController extends Controller
         if($loaitin != null){
             return view('layouts.admin.pages.newscategory.edit', compact('loaitin'));
         }
-        return redirect('admin/loaitin');
+        return redirect('admin/loaitin')->with('message', array('status' => 'danger', 'content' => 'Không thể lấy thông tin. Vui lòng thử lại sau.'));
     }
 
     /**
@@ -97,9 +97,10 @@ class LoaiTinController extends Controller
             $loaitin->mota = $request->get('mota');
 
             $loaitin->save();
+            return redirect('admin/loaitin')->with('message', array('status' => 'success', 'content' => 'Cập nhật Loại tin thành công.'));
         }
 
-        return redirect('admin/loaitin');
+        return redirect('admin/loaitin')->with('message', array('status' => 'danger', 'content' => 'Không thể lấy thông tin. Vui lòng thử lại sau.'));
     }
 
     /**
@@ -113,8 +114,10 @@ class LoaiTinController extends Controller
         $loaitin = Loaitin::find($id);
         if($loaitin != null) {
             $loaitin->delete();
+
+            return redirect('admin/loaitin')->with('message', array('status' => 'success', 'content' => 'Xóa Loại tin thành công.'));
         }
 
-        return redirect('admin/loaitin');
+        return redirect('admin/loaitin')->with('message', array('status' => 'danger', 'content' => 'Không thể lấy thông tin. Vui lòng thử lại sau.'));
     }
 }

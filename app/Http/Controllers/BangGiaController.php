@@ -29,16 +29,6 @@ class BangGiaController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param \Illuminate\Http\Request $request
@@ -83,40 +73,6 @@ class BangGiaController extends Controller
         $banggia->save();
 
         return redirect('admin/gia/'.$request->get('idphong'))->with('message', array('status' => 'success', 'content' => 'Thêm Giá thành công.'));
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param \App\Banggia $banggia
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Banggia $banggia)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param \App\Banggia $banggia
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Banggia $banggia)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @param \App\Banggia $banggia
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Banggia $banggia)
-    {
-        //
     }
 
     /**

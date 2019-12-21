@@ -48,7 +48,7 @@ class ViTriController extends Controller
 
         $vitri->save();
 
-        return redirect('admin/vitri');
+        return redirect('admin/vitri')->with('message', array('status' => 'success', 'content' => 'Thêm Vị trí thành công.'));;
     }
 
     /**
@@ -98,9 +98,11 @@ class ViTriController extends Controller
             $vitri->mota = $request->get('mota');
 
             $vitri->save();
+
+            return redirect('admin/vitri')->with('message', array('status' => 'success', 'content' => 'Cập nhật Vị trí thành công.'));
         }
 
-        return redirect('admin/vitri');
+        return redirect('admin/vitri')->with('message', array('status' => 'danger', 'content' => 'Không thể lấy thông tin. Vui lòng thư lại sau.'));
     }
 
     /**
@@ -114,7 +116,8 @@ class ViTriController extends Controller
         $vitri = Vitri::find($id);
         if($vitri != null){
             $vitri->delete();
+            return redirect('admin/vitri')->with('message', array('status' => 'success', 'content' => 'Xóa Vị trí thành công.'));
         }
-        return redirect('admin/vitri');
+        return redirect('admin/vitri')->with('message', array('status' => 'danger', 'content' => 'Không thể lấy thông tin. Vui lòng thư lại sau.'));
     }
 }

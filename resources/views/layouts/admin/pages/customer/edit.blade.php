@@ -92,7 +92,7 @@
                             <div class="form-group">
                                 <label>Tỉnh</label>
                                 <select name="tinh" class="form-control">
-                                    <option>-- Chọn --</option>
+                                    <option>-- Chọn tỉnh --</option>
                                     @if(($tinhs = App\Diachi::where('idtinh', null)->get()) != null)
                                         @foreach($tinhs as $tinh)
                                             <option {{ $khachhang->idtinh == $tinh->id ? 'selected' : '' }} value="{{ $tinh->id }}">{{ $tinh->ten }}</option>
@@ -103,7 +103,7 @@
                             <div class="form-group">
                                 <label>Thành phố</label>
                                 <select name="thanhpho" class="form-control">
-                                    <option>-- Chọn --</option>
+                                    <option>-- Chọn thành phố --</option>
                                     @if($khachhang->idtinh != null && ($thanhphos = App\Diachi::where('idtinh', '=', $khachhang->idtinh)->get()) != null)
                                         @foreach($thanhphos as $thanhpho)
                                             <option {{ $khachhang->idthanhpho == $thanhpho->id ? 'selected' : '' }} value="{{ $thanhpho->id }}">{{ $thanhpho->ten }}</option>

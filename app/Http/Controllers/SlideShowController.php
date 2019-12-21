@@ -16,8 +16,7 @@ class SlideShowController extends Controller
     public function index()
     {
         $slideshows = Slideshow::all();
-        $message = session()->get('message');
-        return view('layouts.admin.pages.slideshow.slideshow', compact('slideshows', 'message'));
+        return view('layouts.admin.pages.slideshow.slideshow', compact('slideshows'));
     }
 
     /**
@@ -67,7 +66,7 @@ class SlideShowController extends Controller
             request()->file('urlanh')->move(public_path('images/slideshow'), $urlanh);
         }
 
-        return redirect('admin/slideshow');
+        return redirect('admin/slideshow')->with('message', array('status' => 'success', 'content' => 'Thêm Slideshow thành công.'));
     }
 
     /**
@@ -94,7 +93,7 @@ class SlideShowController extends Controller
             return view('layouts.admin.pages.slideshow.edit', compact('slideshow'));
         }
 
-        return redirect('admin/slideshow');
+        return redirect('admin/slideshow')->with('message', array('status' => 'danger', 'content' => 'Không thể tìm thấy thông tin. Vui lòng thử lại sau.'));
     }
 
     /**
@@ -136,7 +135,7 @@ class SlideShowController extends Controller
 
         }
 
-        return redirect('admin/slideshow');
+        return redirect('admin/slideshow')->with('message', array('status' => 'success', 'content' => 'Cập nhật Slideshow thành công.'));
     }
 
     /**
@@ -150,8 +149,9 @@ class SlideShowController extends Controller
         $slideshow = Slideshow::find($id);
         if($slideshow != null){
             $slideshow->delete();
+            return redirect('admin/slideshow')->with('message', array('status' => 'success', 'content' => 'Xóa Slideshow thành công.'));
         }
 
-        return redirect('admin/slideshow');
+        return redirect('admin/slideshow')->with('message', array('status' => 'danger', 'content' => 'Không tìm thấy thông tin. Vui lòng thử lại sau.'));;
     }
 }

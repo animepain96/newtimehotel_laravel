@@ -35,6 +35,7 @@ Route::post('/register', 'Home\CustomerController@postRegister');
 Route::get('/room', 'Home\HomeController@getRoom');
 Route::get('/room/{id}', 'Home\HomeController@getSingleRoom');
 Route::get('/search', 'Home\HomeController@searchRoom');
+Route::get('/service', 'Home\HomeController@getService');
 
 //staff
 Route::middleware('staff')->group(function () {
@@ -46,22 +47,26 @@ Route::middleware('staff')->group(function () {
     Route::resource('/admin/loaitin', 'LoaiTinController')->only(['index']);
     Route::resource('/admin/slideshow', 'SlideShowController')->only(['index']);
     Route::resource('/admin/danhgia', 'DanhGiaController')->only(['index']);
-    Route::resource('/admin/nhantin', 'NhanTinController');
-    Route::resource('/admin/nhanvien', 'NhanVienController');
-    Route::resource('/admin/tin', 'TinController');
-    Route::resource('/admin/phong', 'PhongController');
-    Route::resource('/admin/anhmota', 'AnhMoTaController');
-    Route::resource('/admin/tinnhan', 'TinNhanController');
+    Route::resource('/admin/nhantin', 'NhanTinController')->only(['index']);
+    Route::resource('/admin/tin', 'TinController')->only(['index']);
+    Route::resource('/admin/phong', 'PhongController')->only(['index']);
+    Route::resource('/admin/anhmota', 'AnhMoTaController')->only(['index']);
+    Route::resource('/admin/tinnhan', 'TinNhanController')->only(['index']);
     Route::resource('/admin/thue', 'ThueController')->only(['index', 'edit', 'update']);
     Route::get('/admin/gia/{idphong}', 'BangGiaController@index');
-    Route::get('/admin/mail/{email?}', 'SendMailController@index');
-    Route::post('/admin/mail', 'SendMailController@sendmail');
     Route::get('/admin/edit', 'AdminController@getPersonalInformation');
     Route::post('/admin/edit', 'AdminController@postPersonalInformation');
 });
 
 //admin
 Route::middleware('admin')->group(function () {
+    Route::get('/admin/mail/{email?}', 'MailController@index');
+    Route::post('/admin/mail', 'MailController@sendMail');
+    Route::resource('/admin/tinnhan', 'TinNhanController')->only(['destroy']);
+    Route::resource('/admin/phong', 'PhongController')->except(['show']);
+    Route::resource('/admin/tin', 'TinController')->except(['show']);
+    Route::resource('/admin/nhanvien', 'NhanVienController')->except(['show']);
+    Route::resource('/admin/nhantin', 'NhanTinController')->only(['destroy']);
     Route::resource('/admin/danhgia', 'DanhGiaController')->only(['update', 'destroy']);
     Route::resource('/admin/slideshow', 'SlideShowController')->only(['create', 'store', 'edit', 'update', 'destroy']);
     Route::resource('/admin/loaitin', 'LoaiTinController')->only(['create', 'store', 'edit', 'update', 'destroy']);

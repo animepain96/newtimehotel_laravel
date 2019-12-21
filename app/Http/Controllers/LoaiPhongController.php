@@ -48,7 +48,7 @@ class LoaiPhongController extends Controller
 
         $loaiphong->save();
 
-        return redirect('admin/loaiphong');
+        return redirect('admin/loaiphong')->with('message', array('status' => 'success', 'content' => 'Thêm Loại phòng thành công.'));
     }
 
     /**
@@ -98,9 +98,12 @@ class LoaiPhongController extends Controller
             $loaiphong->mota = $request->get('mota');
 
             $loaiphong->save();
+
+            return redirect('admin/loaiphong')->with('message', array('status' => 'success', 'content' => 'Cập nhật Loại phòng thành công.'));
+
         }
 
-        return redirect('admin/loaiphong');
+        return redirect('admin/loaiphong')->with('message', array('status' => 'danger', 'content' => 'Không thể lấy thông tin. Vui lòng thử lại sau.'));
     }
 
     /**
@@ -114,8 +117,8 @@ class LoaiPhongController extends Controller
         $loaiphong = Loaiphong::find($id);
         if ($loaiphong != null) {
             $loaiphong->delete();
+            return redirect('admin/loaiphong')->with('message', array('status' => 'success', 'content' => 'Xóa Loại phòng thành công.'));
         }
-
-        return redirect('admin/loaiphong');
+        return redirect('admin/loaiphong')->with('message', array('status' => 'danger', 'content' => 'Không thể lấy thông tin. Vui lòng thử lại sau.'));
     }
 }

@@ -14,52 +14,9 @@ class DanhGiaController extends Controller
      */
     public function index()
     {
-        $danhgias = Danhgia::with('khachhang')->get();
+        $danhgias = Danhgia::with('khachhang')->orderBy('created_at', 'desc')->get();
 
         return view('layouts.admin.pages.review.review', compact('danhgias'));
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Danhgia  $danhgia
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Danhgia $danhgia)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Danhgia  $danhgia
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Danhgia $danhgia)
-    {
-        //
     }
 
     /**

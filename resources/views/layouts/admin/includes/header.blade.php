@@ -13,7 +13,9 @@
 <div id="sidebar-collapse" class="col-sm-3 col-lg-2 sidebar">
     <div class="profile-sidebar">
         <div class="profile-userpic">
-            <img src="{{ asset('images/staff') }}/{{ \Illuminate\Support\Facades\Auth::guard('nhanvien')->user()->avatar }}" class="img-responsive" alt="{{ \Illuminate\Support\Facades\Auth::guard('nhanvien')->user()->hoten }}">
+            <img
+                src="{{ asset('images/staff') }}/{{ \Illuminate\Support\Facades\Auth::guard('nhanvien')->user()->avatar }}"
+                class="img-responsive" alt="{{ \Illuminate\Support\Facades\Auth::guard('nhanvien')->user()->hoten }}">
         </div>
         <div class="profile-usertitle">
             <div class="profile-usertitle-name"><a href="{{ url('admin/edit') }}" title="Sửa thông tin cá nhân">
@@ -21,7 +23,8 @@
                     <em class="fa fa-edit"></em>
                 </a>
             </div>
-            <div class="profile-usertitle-status">{{ \Illuminate\Support\Facades\Auth::guard('nhanvien')->user()->isAdmin == 1 ? 'Quản trị Website' : 'Nhân viên' }}</div>
+            <div
+                class="profile-usertitle-status">{{ \Illuminate\Support\Facades\Auth::guard('nhanvien')->user()->isAdmin == 1 ? 'Quản trị Website' : 'Nhân viên' }}</div>
         </div>
         <div class="clear"></div>
     </div>
@@ -44,10 +47,32 @@
                 <li><a href="{{ route('phong.index') }}">
                         <span class="fa fa-navicon">&nbsp;</span> Quản lí
                     </a></li>
+                <li><a href="{{ route('loaiphong.index') }}">
+                        <span class="fa fa-folder">&nbsp;</span> Loại phòng
+                    </a></li>
+                <li><a href="{{ route('vitri.index') }}">
+                        <span class="fa fa-map">&nbsp;</span> Vị trí
+                    </a></li>
             </ul>
         </li>
-        <li><a
-                href="{{ route('khachhang.index') }}"><em class="fa fa-user">&nbsp;</em> Tài khoản</a></li>
+        <li class="parent">
+            <a data-toggle="collapse" href="#account">
+                <em class="fa fa-group">&nbsp;</em> Tài khoản
+                <span data-toggle="collapse" href="#account" class="icon pull-right">
+                <em class="fa fa-plus"></em>
+            </span>
+            </a>
+            <ul class="children collapse" id="account">
+                <li><a class="" href="{{ route('nhanvien.index') }}">
+                        <span class="fa fa-key">&nbsp;</span> Nhân viên
+                    </a>
+                </li>
+                <li><a class="" href="{{ route('khachhang.index') }}">
+                        <span class="fa fa-group">&nbsp;</span> Khách hàng
+                    </a>
+                </li>
+            </ul>
+        </li>
         <li class="parent">
             <a data-toggle="collapse" href="#tool">
                 <em class="fa fa-anchor">&nbsp;</em> Tiện ích
@@ -60,7 +85,7 @@
                         <span class="fa fa-newspaper-o">&nbsp;</span> Nhận tin
                     </a>
                 </li>
-                <li><a class="" href="">
+                <li><a class="" href="{{ route('tinnhan.index') }}">
                         <span class="fa fa-comments">&nbsp;</span> Tin nhắn
                     </a>
                 </li>
@@ -90,7 +115,7 @@
                     </a></li>
             </ul>
         </li>
-        <li><a href="{{ url('/mail') }}"><em
+        <li><a href="{{ url('/admin/mail') }}"><em
                     class="fa fa-mail-forward">&nbsp;</em> Gửi thư</a></li>
         <li><a href="{{ url('admin/logout') }}"><em class="fa fa-power-off">&nbsp;</em> Đăng xuất</a></li>
     </ul>

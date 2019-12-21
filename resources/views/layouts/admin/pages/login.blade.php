@@ -29,10 +29,10 @@
                             </div>
                         </div>
                     @endif
-                    @if(isset($message) && $message != null)
-                        <div class="alert alert-danger alert-dismissible">
+                    @if(session()->get('message') != null)
+                        <div class="alert alert-{{ session()->get('message')['status'] }} alert-dismissible">
                             <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                            {{ $message }}
+                            {{ session()->get('message')['content'] }}
                         </div>
                     @endif
                     <form role="form" method="post" action="{{ url('admin/login') }}">
@@ -43,7 +43,8 @@
                                        autofocus required>
                             </div>
                             <div class="form-group">
-                                <input class="form-control" placeholder="Mật khẩu" name="matkhau" type="password" required>
+                                <input class="form-control" placeholder="Mật khẩu" name="matkhau" type="password"
+                                       required>
                             </div>
                             <div class="form-group">
                                 <button name="login" type="submit" class="btn btn-primary login-btn">Đăng nhập</button>

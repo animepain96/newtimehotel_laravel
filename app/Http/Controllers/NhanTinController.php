@@ -85,8 +85,9 @@ class NhanTinController extends Controller
         $nhantin = Nhantin::find($id);
         if($nhantin != null){
             $nhantin->delete();
+            return redirect('admin/nhantin')->with('message', array('status' => 'success', 'content' => 'Xóa Yêu cầu nhận tin thành công.'));
         }
 
-        return redirect('admin/nhantin');
+        return redirect('admin/nhantin')->with('message', array('status' => 'danger', 'content' => 'Không thể lấy thông tin. Vui lòng thử lại sau.'));
     }
 }

@@ -20,7 +20,7 @@
         <div class="row">
             <div class="col-xs-6 col-md-3 col-lg-3 no-padding">
                 <div class="panel panel-teal panel-widget">
-                    <div class="row no-padding"><em class="fa fa-xl fa-group color-blue"></em>
+                    <div class="row no-padding"><em class="fa fa-xl fa-comment color-blue"></em>
                         <div class="large">{{ count($danhgias) }}</div>
                         <div class="text-muted">Tổng cộng</div>
                     </div>
@@ -29,6 +29,13 @@
 
         </div><!--/.row-->
     </div>
+
+    @if(session()->get('message') != null)
+        <div class="alert alert-{{ session()->get('message')['status'] }} alert-dismissible">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+            {{ session()->get('message')['content'] }}
+        </div>
+    @endif
 
     <div class="row">
         <div class="col-md-12">

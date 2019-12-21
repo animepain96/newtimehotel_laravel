@@ -87,7 +87,7 @@
                             <div class="form-group">
                                 <label>Tỉnh</label>
                                 <select name="tinh" class="form-control">
-                                    <option>-- Chọn --</option>
+                                    <option>-- Chọn tỉnh --</option>
                                     @if(!empty($tinhs))
                                         @foreach($tinhs as $tinh)
                                             <option value="{{ $tinh->id }}">{{ $tinh->ten }}</option>
@@ -98,7 +98,7 @@
                             <div class="form-group">
                                 <label>Thành phố</label>
                                 <select name="thanhpho" class="form-control">
-                                    <option>-- Chọn --</option>
+                                    <option>-- Chọn thành phố --</option>
                                 </select>
                             </div>
                             <div class="form-group">
@@ -129,7 +129,7 @@
                     if(data['status'] === "success"){
                         let citySelect = $('select[name=thanhpho]');
                         if(citySelect !== undefined){
-                            citySelect.append('<option value="0">-- Chọn --</option>');
+                            citySelect.append('<option value="0">-- Chọn thành phố --</option>');
                             for(let i = 0; i < data['data'].length; i++){
                                 citySelect.append('<option value="' + data['data'][i]['id'] + '">' + data['data'][i]['ten'] + '</option>');
                             }

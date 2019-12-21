@@ -18,6 +18,13 @@
         </div>
     </div><!--/.row-->
 
+    @if(session()->get('message') != null)
+        <div class="alert alert-{{ session()->get('message')['status'] }} alert-dismissible">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+            {{ session()->get('message')['content'] }}
+        </div>
+    @endif
+
     <div class="row">
         <div class="col-md-12">
             <div class="panel panel-default">

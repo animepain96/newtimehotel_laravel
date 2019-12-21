@@ -16,10 +16,9 @@ class TinNhanController extends Controller
      */
     public function index()
     {
-        $message = session()->get('message');
-        $tinnhans = Tinnhan::orderBy('created_at', 'desc')->get();
+        $tinnhans = Tinnhan::orderBy('created_at', 'asc')->get();
 
-        return view('layouts.admin.pages.contact.contact', compact('tinnhans', 'message'));
+        return view('layouts.admin.pages.contact.contact', compact('tinnhans'));
     }
 
     /**

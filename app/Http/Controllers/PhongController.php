@@ -19,8 +19,7 @@ class PhongController extends Controller
     public function index()
     {
         $phongs = Phong::with('banggia', 'vitri', 'loaiphong')->get();
-        $message = session()->get('message');
-        return view('layouts.admin.pages.room.room', compact('phongs', 'message'));
+        return view('layouts.admin.pages.room.room', compact('phongs'));
     }
 
     /**
@@ -125,7 +124,7 @@ class PhongController extends Controller
             $message = session()->get('message');
             return view('layouts.admin.pages.room.edit', compact('phong', 'loaiphongs', 'vitris', 'message'));
         }
-        return redirect()->route('phong.index')->with('message', array('status' => 'danger', 'content' => 'Không thể tìm thấy thông tin Phòng. Vui lòng thử lại sau.'));
+        return redirect()->route('phong.index')->with('message', array('status' => 'danger', 'content' => 'Không thể tìm thấy thông tin. Vui lòng thử lại sau.'));
     }
 
     /**
@@ -234,6 +233,6 @@ class PhongController extends Controller
             return redirect()->route('phong.index')->with('message', array('status' => 'success', 'content' => 'Xóa Phòng thành công.'));
         }
 
-        return redirect()->route('phong.index')->with('message', array('status' => 'danger', 'content' => 'Không tìm thấy thông tin Phòng cần xóa. Vui lòng thử lại sau.'));
+        return redirect()->route('phong.index')->with('message', array('status' => 'danger', 'content' => 'Không tìm thấy thông tin. Vui lòng thử lại sau.'));
     }
 }

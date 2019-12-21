@@ -20,7 +20,7 @@
         <div class="row">
             <div class="col-xs-6 col-md-3 col-lg-3 no-padding">
                 <div class="panel panel-teal panel-widget">
-                    <div class="row no-padding"><em class="fa fa-xl fa-mail-forward color-gray"></em>
+                    <div class="row no-padding"><em class="fa fa-xl fa-envelope color-blue"></em>
                         <div class="large">{{ count($nhantins) }}</div>
                         <div class="text-muted">Tổng cộng</div>
                     </div>
@@ -30,10 +30,10 @@
         </div><!--/.row-->
     </div>
 
-    @if(isset($message) && $message != null)
-        <div class="alert alert-{{ $message['status'] }} alert-dismissible">
+    @if(session()->get('message') != null)
+        <div class="alert alert-{{ session()->get('message')['status'] }} alert-dismissible">
             <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-            {{ $message['content'] }}
+            {{ session()->get('message')['content'] }}
         </div>
     @endif
 

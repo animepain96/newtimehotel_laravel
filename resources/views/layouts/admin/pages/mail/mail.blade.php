@@ -22,7 +22,24 @@
                 <div class="panel-heading">Chi tiết thư</div>
                 <div class="panel-body">
                     <div class="col-md-12">
-                        <form role="form" method="post" action="{{ url('admin/sendmail') }}">
+                        @if(session()->get('message') != null)
+                            <div class="alert alert-{{ session()->get('message')['status'] }} alert-dismissible">
+                                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                                {{ session()->get('message')['content'] }}
+                            </div>
+                        @endif
+                        @if($errors->any())
+                            <div class="row">
+                                <div class="alert alert-danger" role="alert">
+                                    <ul>
+                                        @foreach ($errors->all() as $error)
+                                            <li>{{ $error }}</li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            </div>
+                        @endif
+                        <form role="form" method="post" action="{{ url('admin/mail') }}">
                             @csrf
                             <div class="form-group">
                                 <label>Địa chỉ Email</label>
@@ -44,7 +61,8 @@
                             </div>
                             <div class="form-group">
                                 <label>Nội dung</label>
-                                <textarea id="content" name="content" rows="20" class="form-control" required></textarea>
+                                <textarea id="content" name="content" rows="20" class="form-control"
+                                          required></textarea>
                             </div>
                             <button name="send" type="submit" class="btn btn-primary">Gửi thư</button>
                             <button type="reset" class="btn btn-default">Hủy</button>

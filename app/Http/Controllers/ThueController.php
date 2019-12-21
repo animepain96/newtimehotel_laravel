@@ -27,8 +27,7 @@ class ThueController extends Controller
         $summary['nhanphong'] = Thue::where('idtrangthai', '=', 3)->count();
         $summary['dathanhtoan'] = Thue::where('idtrangthai', '=', 5)->count();
 
-        $message = session()->get('message');
-        return view('layouts.admin.pages.reservation.reservation', compact('thues', 'message', 'summary'));
+        return view('layouts.admin.pages.reservation.reservation', compact('thues', 'summary'));
     }
 
     /**
@@ -71,10 +70,9 @@ class ThueController extends Controller
      */
     public function edit($id)
     {
-        $message = session()->get('message');
         $thue = Thue::with('trangthaithue', 'phong', 'khachhang')->where('id', '=', $id)->first();
         $dangthues = Thue::whereDate('ketthuc', '>=', Carbon::now())->where('idtrangthai', '<', 4)->where('id', '!=', $id)->where('idphong', '=', $thue->phong['id'])->get();
-        return view('layouts.admin.pages.reservation.edit', compact('thue', 'dangthues', 'message'));
+        return view('layouts.admin.pages.reservation.edit', compact('thue', 'dangthues'));
     }
 
     /**
