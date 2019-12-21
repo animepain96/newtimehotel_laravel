@@ -21,7 +21,7 @@ class TinTableSeeder extends Seeder
                 'tieude' => $faker->sentence,
                 'mota' => $faker->sentence,
                 'noidung' => $faker->sentence,
-                'anhdaidien' => 'images/news/01.jpg',
+                'anhdaidien' => '01.jpg',
                 'idnhanvien' => $faker->numberBetween(1, 11),
                 'idloaitin' => $faker->numberBetween(1, 3),
                 'hoatdong' => $faker->boolean,

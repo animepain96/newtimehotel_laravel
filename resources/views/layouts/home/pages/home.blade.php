@@ -1,5 +1,7 @@
 @extends('layouts.home.layouts.master')
 
+@section('title', 'NewTime Hotel - Mang đến cho bạn trải nghiệm hoàn toàn mới')
+
 @section('content')
     <!-- Slider -->
     <div class="block-31" style="position: relative;">
@@ -128,7 +130,7 @@
             <div class="row align-items-center">
                 <div class="col-md-12">
                     <h2 class="heading">Chất lượng dịch vụ hàng đầu phục vụ nhu cầu của bạn</h2>
-                    <p><a href="services.php" class="btn py-4 px-5 btn-primary">Xem thêm</a></p>
+                    <p><a href="{{ url('/service') }}" class="btn py-4 px-5 btn-primary">Xem thêm</a></p>
                 </div>
             </div>
         </div>

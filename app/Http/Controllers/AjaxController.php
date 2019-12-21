@@ -20,7 +20,7 @@ class AjaxController extends Controller
 
     public function getView()
     {
-        $bodems = Bodem::whereMonth('ngay', '=', Carbon::now()->month)->orderBy('ngay', 'desc')->get();
+        $bodems = Bodem::whereMonth('ngay', '=', Carbon::now()->month)->orderBy('ngay', 'asc')->get();
         if ($bodems != null) {
             $view = array();
             foreach ($bodems as $bodem) {

@@ -11,7 +11,18 @@
 |
 */
 
-/*Home*/
+//customer
+Route::middleware('customer')->group(function () {
+    Route::get('/logout', 'Home\CustomerController@logout');
+    Route::get('/account', 'Home\CustomerController@getAccount');
+    Route::get('/review', 'Home\CustomerController@getReview');
+    Route::post('/review', 'Home\CustomerController@postReview');
+    Route::get('/account/edit', 'Home\CustomerController@getEditAccount');
+    Route::post('/account/edit', 'Home\CustomerController@postEditAccount');
+    Route::post('/room/reservation', 'Home\HomeController@postReservation');
+});
+
+/*home*/
 Route::get('/', 'Home\HomeController@index');
 Route::get('/about', 'Home\HomeController@getAbout');
 Route::get('/contact', 'Home\HomeController@getContact');
@@ -21,42 +32,52 @@ Route::get('/login', 'Home\CustomerController@getLogin');
 Route::post('/login', 'Home\CustomerController@postLogin');
 Route::get('/register', 'Home\CustomerController@getRegister');
 Route::post('/register', 'Home\CustomerController@postRegister');
-Route::get('/logout', 'Home\CustomerController@logout')->middleware('customer');
-Route::get('/account', 'Home\CustomerController@getAccount')->middleware('customer');
-Route::get('/review', 'Home\CustomerController@getReview')->middleware('customer');
-Route::post('/review', 'Home\CustomerController@postReview')->middleware('customer');
-Route::get('/account/edit', 'Home\CustomerController@getEditAccount')->middleware('customer');
-Route::post('/account/edit', 'Home\CustomerController@postEditAccount')->middleware('customer');
 Route::get('/room', 'Home\HomeController@getRoom');
 Route::get('/room/{id}', 'Home\HomeController@getSingleRoom');
-Route::post('/room/reservation', 'Home\HomeController@postReservation')->middleware('customer');
 Route::get('/search', 'Home\HomeController@searchRoom');
 
-/*Admin*/
-Route::get('/admin/logout', 'AdminController@logout')->middleware('admin');
-Route::get('/admin', 'AdminController@index')->name('admin')->middleware('admin');
-Route::resource('/admin/khachhang', 'KhachHangController')->middleware('admin');
-Route::resource('/admin/vitri', 'ViTriController')->middleware('admin');
-Route::resource('/admin/loaiphong', 'LoaiPhongController')->middleware('admin');
-Route::resource('/admin/loaitin', 'LoaiTinController')->middleware('admin');
-Route::resource('/admin/slideshow', 'SlideShowController')->middleware('admin');
-Route::resource('/admin/danhgia', 'DanhGiaController')->middleware('admin');
-Route::resource('/admin/nhantin', 'NhanTinController')->middleware('admin');
-Route::resource('/admin/nhanvien', 'NhanVienController')->middleware('admin');
-Route::resource('/admin/tin', 'TinController')->middleware('admin');
-Route::resource('/admin/phong', 'PhongController')->middleware('admin');
-Route::resource('/admin/anhmota', 'AnhMoTaController')->middleware('admin');
-Route::resource('/admin/tinnhan', 'TinNhanController')->middleware('admin');
-Route::resource('/admin/thue', 'ThueController')->middleware('admin');
-Route::get('/admin/gia/{idphong}', 'BangGiaController@index')->middleware('admin');
-Route::get('/admin/gia/{idphong}/delete/{id}', 'BangGiaController@destroy')->middleware('admin');
-Route::post('/admin/gia', 'BangGiaController@store')->middleware('admin');
-Route::get('/admin/sendmail/{email?}', 'SendMailController@index')->middleware('admin');
-Route::post('/admin/sendmail', 'SendMailController@sendmail')->middleware('admin');
-Route::get('/admin/thongke', 'AdminController@getStatistics')->middleware('admin');
-Route::post('/admin/ajax/viewChart', 'AjaxController@getView')->middleware('admin');
-Route::post('/admin/ajax/revenueChart', 'AjaxController@getRevenue')->middleware('admin');
-Route::post('/admin/ajax/reservationChart', 'AjaxController@getreservation')->middleware('admin');
+//staff
+Route::middleware('staff')->group(function () {
+    Route::get('/admin/logout', 'AdminController@logout');
+    Route::get('/admin', 'AdminController@index')->name('admin');
+    Route::resource('/admin/khachhang', 'KhachHangController')->only(['index']);
+    Route::resource('/admin/vitri', 'ViTriController')->only(['index']);
+    Route::resource('/admin/loaiphong', 'LoaiPhongController')->only(['index']);
+    Route::resource('/admin/loaitin', 'LoaiTinController')->only(['index']);
+    Route::resource('/admin/slideshow', 'SlideShowController')->only(['index']);
+    Route::resource('/admin/danhgia', 'DanhGiaController')->only(['index']);
+    Route::resource('/admin/nhantin', 'NhanTinController');
+    Route::resource('/admin/nhanvien', 'NhanVienController');
+    Route::resource('/admin/tin', 'TinController');
+    Route::resource('/admin/phong', 'PhongController');
+    Route::resource('/admin/anhmota', 'AnhMoTaController');
+    Route::resource('/admin/tinnhan', 'TinNhanController');
+    Route::resource('/admin/thue', 'ThueController')->only(['index', 'edit', 'update']);
+    Route::get('/admin/gia/{idphong}', 'BangGiaController@index');
+    Route::get('/admin/mail/{email?}', 'SendMailController@index');
+    Route::post('/admin/mail', 'SendMailController@sendmail');
+    Route::get('/admin/edit', 'AdminController@getPersonalInformation');
+    Route::post('/admin/edit', 'AdminController@postPersonalInformation');
+});
+
+//admin
+Route::middleware('admin')->group(function () {
+    Route::resource('/admin/danhgia', 'DanhGiaController')->only(['update', 'destroy']);
+    Route::resource('/admin/slideshow', 'SlideShowController')->only(['create', 'store', 'edit', 'update', 'destroy']);
+    Route::resource('/admin/loaitin', 'LoaiTinController')->only(['create', 'store', 'edit', 'update', 'destroy']);
+    Route::resource('/admin/loaiphong', 'LoaiPhongController')->only(['create', 'store', 'edit', 'update', 'destroy']);
+    Route::resource('/admin/vitri', 'ViTriController')->only(['create', 'store', 'edit', 'update', 'destroy']);
+    Route::resource('/admin/khachhang', 'KhachHangController')->only(['create', 'store', 'edit', 'update', 'destroy']);
+    Route::resource('/admin/thue', 'ThueController')->only(['destroy']);
+    Route::get('/admin/gia/{idphong}/delete/{id}', 'BangGiaController@destroy');
+    Route::post('/admin/gia', 'BangGiaController@store');
+    Route::get('/admin/thongke', 'AdminController@getStatistics');
+    Route::post('/admin/ajax/viewChart', 'AjaxController@getView');
+    Route::post('/admin/ajax/revenueChart', 'AjaxController@getRevenue');
+    Route::post('/admin/ajax/reservationChart', 'AjaxController@getreservation');
+});
+
+//Admin login
 Route::get('/admin/login', 'AdminController@login');
 Route::post('/admin/login', 'AdminController@doLogin');
 

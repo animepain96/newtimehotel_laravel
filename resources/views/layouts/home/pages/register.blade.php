@@ -1,5 +1,7 @@
 @extends('layouts.home.layouts.master')
 
+@section('title', 'NewTime Hotel - Đăng kí')
+
 @section('content')
     <div class="block-30 block-30-sm item" style="background-image: url('{{ asset('assets/home/images/bg_2.jpg') }}');"
          data-stellar-background-ratio="0.5">
@@ -39,47 +41,47 @@
                         @endif
                         @csrf
                         <div class="form-group">
-                            <label class="col-form-label">Tên đăng nhập: </label>
-                            <input type="text" required name="tendangnhap" class="form-control px-3 py-3"
+                            <label class="col-form-label">Tên đăng nhập </label>
+                            <input autofocus type="text" required name="tendangnhap" class="form-control px-3 py-3"
                                    placeholder="Tên đăng nhập">
                         </div>
                         <div class="form-group">
-                            <label class="col-form-label">Email: </label>
+                            <label class="col-form-label">Email </label>
                             <input type="email" required name="email" class="form-control px-3 py-3"
                                    placeholder="Địa chỉ Email">
                         </div>
                         <div class="form-group">
-                            <label class="col-form-label">Họ tên: </label>
+                            <label class="col-form-label">Họ tên </label>
                             <input type="text" required name="hoten" class="form-control px-3 py-3"
                                    placeholder="Họ tên">
                         </div>
                         <div class="form-group">
-                            <label class="col-form-label">Điện thoại: </label>
+                            <label class="col-form-label">Điện thoại </label>
                             <input type="text" required name="sdt" class="form-control px-3 py-3"
                                    placeholder="Số điện thoại">
                         </div>
                         <div class="form-group">
-                            <label class="col-form-label">Ngày sinh: </label>
+                            <label class="col-form-label">Ngày sinh </label>
                             <input type="text" required placeholder="Ngày sinh" name="ngaysinh"
                                    class="form-control px-3 py-3" min="1920-01-01"
                                    max="2009-01-01">
                         </div>
                         <div class="form-group">
-                            <label class="col-form-label">Giới tính: </label>
+                            <label class="col-form-label">Giới tính </label>
                             <br>
                             <label class="control-label">
                                 <input type="checkbox" class="checkbox" name="gioitinh"> Bạn là Nam?
                             </label>
                         </div>
                         <div class="form-group">
-                            <label class="col-form-label">Địa chỉ: </label>
+                            <label class="col-form-label">Địa chỉ </label>
                             <input type="text" required name="diachi" class="form-control px-3 py-3"
                                    placeholder="Địa chỉ">
                         </div>
                         <div class="form-group">
                             <div class="row">
                                 <div class="col-lg-6 col-xs-12">
-                                    <label class="col-form-label">Tỉnh: </label>
+                                    <label class="col-form-label">Tỉnh </label>
                                     <select required name="tinh"
                                             class="form-control px-3 py-3">
                                         <option>-- Chọn tỉnh --</option>
@@ -89,7 +91,7 @@
                                     </select>
                                 </div>
                                 <div class="col-lg-6 col-xs-12">
-                                    <label class="col-form-label">Thành phố: </label>
+                                    <label class="col-form-label">Thành phố </label>
                                     <select required name="thanhpho" class="form-control px-3 py-3">
                                         <option value="0">-- Chọn thành phố --</option>
                                     </select>
@@ -97,16 +99,16 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-form-label">Ảnh đại diện: </label>
+                            <label class="col-form-label">Ảnh đại diện </label>
                             <input type="file" required name="avatar" class="form-control px-3 py-3" accept="image/*">
                         </div>
                         <div class="form-group">
-                            <label class="col-form-label">Mật khẩu: </label>
+                            <label class="col-form-label">Mật khẩu </label>
                             <input type="password" required name="matkhau" class="form-control px-3 py-3"
                                    placeholder="Mật khẩu">
                         </div>
                         <div class="form-group">
-                            <label class="col-form-label">Xác nhận Mật khẩu: </label>
+                            <label class="col-form-label">Xác nhận Mật khẩu </label>
                             <input type="password" required name="xacnhan" class="form-control px-3 py-3"
                                    placeholder="Xác nhận Mật khẩu">
                         </div>

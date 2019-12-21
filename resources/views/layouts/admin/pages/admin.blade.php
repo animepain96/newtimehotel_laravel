@@ -16,6 +16,15 @@
         </div>
     </div><!--/.row-->
 
+    @if(session()->get('message') != null)
+        <div class="row">
+            <div class="alert alert-{{ session()->get('message')['status'] }} alert-dismissible">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                {{ session()->get('message')['content'] }}
+            </div>
+        </div>
+    @endif
+
     <div class="panel panel-container">
         <div class="row">
             <div class="col-xs-6 col-md-4 col-lg-4 no-padding">
@@ -75,12 +84,17 @@
                             <tr>
                                 <td>{{ $i + 1 }}</td>
                                 <td>{{ $phieuthuemois[$i]->id }}</td>
-                                <td><b><a title="{{ $phieuthuemois[$i]->khachhang['tendangnhap'] }}" href="{{ route('khachhang.edit', $phieuthuemois[$i]->khachhang['id']) }}">{{ $phieuthuemois[$i]->khachhang['hoten'] }}</a></b></td>
-                                <td><b><a title="{{ $phieuthuemois[$i]->phong['tenphong'] }}" href="{{ route('phong.edit', $phieuthuemois[$i]->phong['id']) }}">{{ $phieuthuemois[$i]->phong['tenphong'] }}</a></b></td>
+                                <td><b><a title="{{ $phieuthuemois[$i]->khachhang['tendangnhap'] }}"
+                                          href="{{ route('khachhang.edit', $phieuthuemois[$i]->khachhang['id']) }}">{{ $phieuthuemois[$i]->khachhang['hoten'] }}</a></b>
+                                </td>
+                                <td><b><a title="{{ $phieuthuemois[$i]->phong['tenphong'] }}"
+                                          href="{{ route('phong.edit', $phieuthuemois[$i]->phong['id']) }}">{{ $phieuthuemois[$i]->phong['tenphong'] }}</a></b>
+                                </td>
                                 <td>{{ \Carbon\Carbon::parse($phieuthuemois[$i]->created_at)->format('d/m/Y H:i:s') }}</td>
                                 <td>{{ \Carbon\Carbon::parse($phieuthuemois[$i]->batdau)->format('d/m/Y') }}</td>
                                 <td>{{ \Carbon\Carbon::parse($phieuthuemois[$i]->ketthuc)->format('d/m/Y') }}</td>
-                                <td><a class="btn btn-primary" title="Cập nhật" href="{{ route('thue.edit', $phieuthuemois[$i]->id) }}">Cập nhật</a></td>
+                                <td><a class="btn btn-primary" title="Cập nhật"
+                                       href="{{ route('thue.edit', $phieuthuemois[$i]->id) }}">Cập nhật</a></td>
                             </tr>
                         @endfor
                         </tbody>
@@ -122,20 +136,22 @@
                         </tr>
                         </thead>
                         <tbody>
-                            @for($i = 0; $i < count($phongthemgias); $i++)
-                                <tr>
-                                    <td>{{ $i + 1 }}</td>
-                                    <td>{{ $phongthemgias[$i]->id }}</td>
-                                    <td><img class="img-thumbnail" alt="{{ $phongthemgias[$i]->tenphong }}" src="{{ asset('images/room') }}/{{ $phongthemgias[$i]->hinhdaidien }}"></td>
-                                    <td>{{ $phongthemgias[$i]->tenphong }}</td>
-                                    <td>{{ $phongthemgias[$i]->loaiphong['ten'] }}</td>
-                                    <td>{{ $phongthemgias[$i]->vitri['ten'] }}</td>
-                                    <td>{{ $phongthemgias[$i]->ghichu }}</td>
-                                    <td>{{ \Carbon\Carbon::parse($phongthemgias[$i]->created_at)->format('d/m/Y H:i:s') }}</td>
-                                    <td>{{ \Carbon\Carbon::parse($phongthemgias[$i]->updated_at)->format('d/m/Y H:i:s') }}</td>
-                                    <td><a href="{{ url('admin/gia') }}/{{ $phongthemgias[$i]->id }}" title="Đến trang cập nhật Giá" class="btn btn-primary">Cập nhật</a></td>
-                                </tr>
-                            @endfor
+                        @for($i = 0; $i < count($phongthemgias); $i++)
+                            <tr>
+                                <td>{{ $i + 1 }}</td>
+                                <td>{{ $phongthemgias[$i]->id }}</td>
+                                <td><img class="img-thumbnail" alt="{{ $phongthemgias[$i]->tenphong }}"
+                                         src="{{ asset('images/room') }}/{{ $phongthemgias[$i]->hinhdaidien }}"></td>
+                                <td>{{ $phongthemgias[$i]->tenphong }}</td>
+                                <td>{{ $phongthemgias[$i]->loaiphong['ten'] }}</td>
+                                <td>{{ $phongthemgias[$i]->vitri['ten'] }}</td>
+                                <td>{{ $phongthemgias[$i]->ghichu }}</td>
+                                <td>{{ \Carbon\Carbon::parse($phongthemgias[$i]->created_at)->format('d/m/Y H:i:s') }}</td>
+                                <td>{{ \Carbon\Carbon::parse($phongthemgias[$i]->updated_at)->format('d/m/Y H:i:s') }}</td>
+                                <td><a href="{{ url('admin/gia') }}/{{ $phongthemgias[$i]->id }}"
+                                       title="Đến trang cập nhật Giá" class="btn btn-primary">Cập nhật</a></td>
+                            </tr>
+                        @endfor
                         </tbody>
                     </table>
                 </div>

@@ -86,8 +86,16 @@ class DanhGiaController extends Controller
      * @param  \App\Danhgia  $danhgia
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Danhgia $danhgia)
+    public function destroy($id)
     {
-        //
+        $danhgia = Danhgia::find($id);
+
+        if($danhgia != null){
+            $danhgia->delete();
+
+            return redirect()->route('danhgia.index')->with('message', array('status' => 'success', 'content' => 'Xóa Đánh giá thành công.'));
+        }
+
+        return redirect()->route('danhgia.index')->with('message', array('status' => 'danger', 'content' => 'Không thể lấy thông tin. Vui lòng thử lại sau.'));
     }
 }

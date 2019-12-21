@@ -16,7 +16,7 @@
                 @foreach(\App\Tin::with('nhanvien')->orderBy('updated_at', 'desc')->limit(4)->get() as $tinmoi)
                     <div class="block-21 d-flex mb-4">
                         <figure class="mr-3">
-                            <img src="{{ $tinmoi->anhdaidien }}" alt="{{ $tinmoi->tieude }}" class="img-fluid">
+                            <img src="{{ asset('images/news').'/'.$tinmoi->anhdaidien }}" alt="{{ $tinmoi->tieude }}" class="img-fluid">
                         </figure>
                         <div class="text">
                             <h3 class="heading"><a href="#">{{ $tinmoi->tieude }}</a></h3>
@@ -79,8 +79,6 @@
 
 <script src="{{ asset('assets/home/js/aos.js') }}"></script>
 <script src="{{ asset('assets/home/js/jquery.animateNumber.min.js') }}"></script>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>
-<script src="{{ asset('assets/home/js/google-map.js') }}"></script>
 <script src="{{ asset('assets/home/js/main.js') }}"></script>
 
 @section('scripts')

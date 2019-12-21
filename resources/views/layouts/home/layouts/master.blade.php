@@ -1,6 +1,7 @@
 <!doctype html>
-<html lang="vi">
+<html lang="{{ \Illuminate\Support\Facades\App::getLocale() }}">
 <head>
+    <title>@yield('title')</title>
     @include('layouts.home.includes.head')
 </head>
 <body>

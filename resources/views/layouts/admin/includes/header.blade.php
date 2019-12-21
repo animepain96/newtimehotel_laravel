@@ -13,15 +13,15 @@
 <div id="sidebar-collapse" class="col-sm-3 col-lg-2 sidebar">
     <div class="profile-sidebar">
         <div class="profile-userpic">
-            <img src="{{ asset('images/staff') }}/{{ \Illuminate\Support\Facades\Auth::guard('nhanvien')->user()->avatar }}" class="img-responsive" alt="Admin avatar">
+            <img src="{{ asset('images/staff') }}/{{ \Illuminate\Support\Facades\Auth::guard('nhanvien')->user()->avatar }}" class="img-responsive" alt="{{ \Illuminate\Support\Facades\Auth::guard('nhanvien')->user()->hoten }}">
         </div>
         <div class="profile-usertitle">
-            <div class="profile-usertitle-name"><a href="#" title="Sửa thông tin cá nhân">
+            <div class="profile-usertitle-name"><a href="{{ url('admin/edit') }}" title="Sửa thông tin cá nhân">
                     {{ \Illuminate\Support\Facades\Auth::guard('nhanvien')->user()->hoten }}
                     <em class="fa fa-edit"></em>
                 </a>
             </div>
-            <div class="profile-usertitle-status">Quản trị Website</div>
+            <div class="profile-usertitle-status">{{ \Illuminate\Support\Facades\Auth::guard('nhanvien')->user()->isAdmin == 1 ? 'Quản trị Website' : 'Nhân viên' }}</div>
         </div>
         <div class="clear"></div>
     </div>
@@ -47,7 +47,7 @@
             </ul>
         </li>
         <li><a
-                href="account.php"><em class="fa fa-user">&nbsp;</em> Tài khoản</a></li>
+                href="{{ route('khachhang.index') }}"><em class="fa fa-user">&nbsp;</em> Tài khoản</a></li>
         <li class="parent">
             <a data-toggle="collapse" href="#tool">
                 <em class="fa fa-anchor">&nbsp;</em> Tiện ích
@@ -90,7 +90,7 @@
                     </a></li>
             </ul>
         </li>
-        <li><a href="send_mail.php"><em
+        <li><a href="{{ url('/mail') }}"><em
                     class="fa fa-mail-forward">&nbsp;</em> Gửi thư</a></li>
         <li><a href="{{ url('admin/logout') }}"><em class="fa fa-power-off">&nbsp;</em> Đăng xuất</a></li>
     </ul>

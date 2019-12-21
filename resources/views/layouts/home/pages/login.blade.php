@@ -1,5 +1,7 @@
 @extends('layouts.home.layouts.master')
 
+@section('title', 'NewTime Hotel - Đăng nhập')
+
 @section('content')
     <div class="block-30 block-30-sm item" style="background-image: url('{{ asset('assets/home/images/bg_2.jpg') }}');"
          data-stellar-background-ratio="0.5">
@@ -30,14 +32,25 @@
                                 {{ session()->get('message')['content'] }}
                             </div>
                         @endif
+                            @if($errors->any())
+                                <div class="form-group">
+                                    <div class="alert alert-danger" role="alert">
+                                        <ul>
+                                            @foreach ($errors->all() as $error)
+                                                <li>{{ $error }}</li>
+                                            @endforeach
+                                        </ul>
+                                    </div>
+                                </div>
+                            @endif
                         @csrf
                         <div class="form-group">
-                            <label class="col-form-label">Tên đăng nhập: </label>
-                            <input type="tendangnhap" name="tendangnhap" class="form-control px-3 py-3"
+                            <label class="col-form-label">Tên đăng nhập </label>
+                            <input type="text" name="tendangnhap" class="form-control px-3 py-3"
                                    placeholder="Tên đăng nhập" required>
                         </div>
                         <div class="form-group">
-                            <label class="col-form-label">Mật khẩu: </label>
+                            <label class="col-form-label">Mật khẩu </label>
                             <input type="password" name="matkhau" class="form-control px-3 py-3"
                                    placeholder="Mật khẩu" required>
                         </div>

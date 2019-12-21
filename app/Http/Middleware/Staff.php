@@ -5,7 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Support\Facades\Auth;
 
-class Admin
+class Staff
 {
     /**
      * Handle an incoming request.
@@ -16,9 +16,9 @@ class Admin
      */
     public function handle($request, Closure $next)
     {
-        if(Auth::guard('nhanvien')->check() && Auth::guard('nhanvien')->user()->isAdmin == 1){
+        if(Auth::guard('nhanvien')->check()){
             return $next($request);
         }
-        return redirect('admin')->with('message', array('status' => 'danger', 'content' => 'Bạn không đủ quyền truy cập chức năng này.'));
+        return redirect('admin/login')->with('message', 'Vui lòng đăng nhập.');
     }
 }

@@ -1,5 +1,7 @@
 @extends('layouts.home.layouts.master')
 
+@section('title', 'NewTime Hotel - Tìm kiếm nâng cao')
+
 @section('content')
     <div class="block-30 block-30-sm item" style="background-image: url('{{ asset('assets/home/images/bg_2.jpg') }}');"
          data-stellar-background-ratio="0.5">

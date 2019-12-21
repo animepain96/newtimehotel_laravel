@@ -1,5 +1,9 @@
 @extends('layouts.home.layouts.master')
 
+@section('title')
+    NewTime Hotel - {{ $phong->tenphong }}
+@endsection
+
 @section('content')
     <div class="block-30 block-30-sm item"
          style="background-image: url('{{ asset('images/room').'/'.$phong->hinhdaidien }}');"

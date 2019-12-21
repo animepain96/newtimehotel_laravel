@@ -1,5 +1,7 @@
 @extends('layouts.home.layouts.master')
 
+@section('title', 'NewTime Hotel - Đánh giá')
+
 @section('content')
     <div class="block-30 block-30-sm item" style="background-image: url('{{ asset('assets/home/images/bg_2.jpg') }}');"
          data-stellar-background-ratio="0.5">
@@ -41,17 +43,10 @@
                                 </div>
                             </div>
                         @endif
-                        @if(session()->get('message') != null)
-                            <div class="alert alert-{{ session()->get('message')['status'] }} alert-dismissible">
-                                <a href="#" class="close" data-dismiss="alert"
-                                   aria-label="close">&times;</a>
-                                {{ session()->get('message')['content'] }}
-                            </div>
-                        @endif
                     <form method="post" action="{{url('/review')}}">
                         @csrf
                         <div class="form-group">
-                            <label class="col-form-label">Đánh giá: </label>
+                            <label class="col-form-label">Đánh giá </label>
                             <textarea name="noidung" placeholder="Đánh giá của bạn" required class="form-control"
                                       rows="10"></textarea>
                         </div>

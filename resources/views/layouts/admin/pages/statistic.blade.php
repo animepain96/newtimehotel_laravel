@@ -1,5 +1,7 @@
 @extends('layouts.admin.layouts.master')
 
+@section('title', 'NewTime Hotel - Admin Panel - Thống kê chi tiết')
+
 @section('content')
     <div class="row">
         <ol class="breadcrumb">

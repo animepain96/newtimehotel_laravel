@@ -1,13 +1,17 @@
 @extends('layouts.home.layouts.master')
 
+@section('title')
+    NewTime Hotel - {{ $tin->tieude }}
+@endsection
+
 @section('content')
-    <div class="block-30 block-30-sm item" style="background-image: url('{{ $tin->anhdaidien }}');"
+    <div class="block-30 block-30-sm item" style="background-image: url('{{ asset('images/news').'/'.$tin->anhdaidien }}');"
          data-stellar-background-ratio="0.5">
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-md-10">
                     <span
-                        class="subheading-sm">Ngày đăng: {{ \Carbon\Carbon::parse($tin->created_at)->format('d/m/Y') }} by {{ $tin->nhanvien['hoten'] }}</span>
+                        class="subheading-sm">Ngày đăng: {{ \Carbon\Carbon::parse($tin->created_at)->format('d/m/Y') }} bởi {{ $tin->nhanvien['hoten'] }}</span>
                     <h2 class="heading">{{ $tin->tieude }}</h2>
                 </div>
             </div>
@@ -28,7 +32,7 @@
                             <h2 class="line-height-10 margin-auto">Không tìm thấy bài đăng nào!</h2>
                         </div>
                 @else
-                    {{ $tin->noidung }}
+                    {!! $tin->noidung !!}
                 @endif
                 <!-- End Post content -->
 

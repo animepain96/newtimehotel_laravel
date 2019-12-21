@@ -1,6 +1,7 @@
 <!DOCTYPE html>
-<html lang="vi">
+<html lang="{{ \Illuminate\Support\Facades\App::getLocale() }}">
 <head>
+    <title>@yield('title')</title>
     @include('layouts.admin.includes.head')
     @section('scripts')
     @show

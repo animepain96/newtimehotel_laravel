@@ -4,12 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Banggia;
 use App\Khachhang;
+use App\Nhanvien;
 use App\Phong;
 use App\Thue;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\File;
 
 class AdminController extends Controller
 {
@@ -61,12 +63,59 @@ class AdminController extends Controller
 
     public function logout()
     {
-        Auth::logout();
+        Auth::guard('nhanvien')->logout();
         return redirect('admin/login');
     }
 
-    public function getStatistics(){
+    public function getStatistics()
+    {
         return view('layouts.admin.pages.statistic');
     }
 
+    public function getPersonalInformation()
+    {
+        $nhanvien = Auth::guard('nhanvien')->user();
+        return view('layouts.admin.pages.profile', compact('nhanvien'));
+    }
+
+    public function postPersonalInformation(Request $request)
+    {
+        if ($request->has('image')) {
+            $request->validate([
+                'avatar' => 'mimes:jpeg,jpg,png,gif|required|max:10000',
+            ]);
+
+            $nhanvien = Nhanvien::find(Auth::guard('nhanvien')->user()->id);
+
+            File::delete(public_path('images/staff').'\\'.$nhanvien->avatar);
+            $avatar = time() . '.' . $request->file('avatar')->getClientOriginalExtension();
+            $nhanvien->avatar = $avatar;
+            $nhanvien->save();
+            request()->file('avatar')->move(public_path('images/staff'), $avatar);
+
+            return redirect('admin/edit')->with('message', array('status' => 'success', 'content' => 'Cập nhật Ảnh đại diện thành công.'));
+        }
+
+        else if($request->has('password')){
+            $request->validate([
+                'matkhau' => 'required|bail|min:8|max:50',
+                'matkhaumoi' => 'required|bail|min:8|max:50',
+                'xacnhan' => 'same:matkhaumoi',
+            ]);
+
+            $nhanvien = Nhanvien::where('id', '=', Auth::guard('nhanvien')->user()->id)
+                ->where('matkhau', '=', Hash::make($request->get('matkhau')))
+                ->first();
+
+            if($nhanvien != null){
+                $nhanvien->matkhau = Hash::make($request->get('matkhaumoi'));
+                $nhanvien->save();
+
+                return redirect('admin/edit')->with('message', array('status' => 'success', 'content' => 'Cập nhật Mật khẩu thành công.'));
+            }
+            else{
+                return redirect('admin/edit')->with('message', array('status' => 'danger', 'content' => 'Mật khẩu của bạn không đúng.'));
+            }
+        }
+    }
 }

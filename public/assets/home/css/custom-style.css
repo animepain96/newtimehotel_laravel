@@ -150,3 +150,7 @@ label.success{
 .select-no-icon::-ms-expand {
     display: none;
 }
+
+.col-form-label{
+    font-weight: bold;
+}

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Loaitin;
 use App\Tin;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Mews\Purifier\Facades\Purifier as Purifier;
 
@@ -60,9 +61,9 @@ class TinController extends Controller
         $tin = new Tin([
             'tieude' => $request->get('tieude'),
             'mota' => $request->get('mota'),
-            'noidung' => Purifier::clean($request->get('noidung')),
+            'noidung' => $request->get('noidung'),
             'anhdaidien' => $anhdaidien,
-            'idnhanvien' => '1',//get form session when login
+            'idnhanvien' => Auth::guard('nhanvien')->user()->id,
             'idloaitin' => $request->get('loaitin'),
             'hoatdong' => $request->has('hoatdong'),
         ]);

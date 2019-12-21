@@ -1,4 +1,6 @@
-@extends('layouts.admin.layouts.master)
+@extends('layouts.admin.layouts.master')
+
+@section('title', 'NewTime Hotel - Admin Panel - Sửa thông tin')
 
 @section('content')
     <div class="row">
@@ -17,25 +19,42 @@
         </div>
     </div><!--/.row-->
 
+    @if(session()->get('message') != null)
+        <div class="alert alert-{{ session()->get('message')['status'] }} alert-dismissible">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+            {{ session()->get('message')['content'] }}
+        </div>
+    @endif
+
+    @if($errors->any())
+        <div class="row">
+            <div class="alert alert-danger" role="alert">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        </div>
+    @endif
+
     <div class="row">
         <div class="col-md-12">
             <div class="panel panel-default">
                 <div class="panel-heading">Chi tiết</div>
                 <div class="panel-body">
                     <div class="col-md-6">
-                        <form id="frmProfile" role="form" method="post">
+                        <form role="form">
                             <div class="form-group">
                                 <label>Họ tên</label>
                                 <input name="hoten"
                                        value="{{ $nhanvien->hoten }}"
                                        type="text" class="form-control" required disabled>
-                                <?php if (isset($name_error) && $name_error != "") echo $name_error; ?>
                             </div>
                             <div class="form-group">
                                 <label>Tên đăng nhập</label>
-                                <input name="tendangnhap"
-                                       value="{{ $nhanvien->tendangnhap }}"
-                                       type="text" class="form-control" required disabled>
+                                <input name="tendangnhap" value="{{ $nhanvien->tendangnhap }}" type="text"
+                                       class="form-control" required disabled>
                             </div>
                             <div class="form-group">
                                 <label>Email</label>
@@ -45,52 +64,59 @@
                             </div>
                             <div class="form-group">
                                 <label>Số điện thoại</label>
-                                <input name="sdt" value="{{ $nhanvien->sdt }}" type="text" class="form-control" required disabled>
+                                <input name="sdt" value="{{ $nhanvien->sdt }}" type="text" class="form-control" required
+                                       disabled>
                             </div>
                             <div class="form-group">
                                 <label>Ngày sinh</label>
-                                <input name="ngaysinh" value="{{ \Carbon\Carbon::parse($nhanvien->ngaysinh)->format('d/m/Y') }}" type="text" class="form-control" required disabled>
+                                <input name="ngaysinh"
+                                       value="{{ \Carbon\Carbon::parse($nhanvien->ngaysinh)->format('d/m/Y') }}"
+                                       type="text" class="form-control" required disabled>
                             </div>
                             <div class="form-group">
                                 <label>Giới tính</label>
-                                <label class="form-check-label"><input type="checkbox" class="checkbox" name="gioitinh">Là Nam?</label>
+                                <div class="checkbox">
+                                    <label><input {{ $nhanvien->gioitinh == 1 ? 'checked' : '' }} disabled type="checkbox" name="gioitinh">
+                                        Bạn là Nam?
+                                    </label>
+                                </div>
                             </div>
                             <div class="form-group">
                                 <label>Địa chỉ</label>
-                                <textarea rows="3" disabled name="diachi">{{ $nhanvien->diachi }}-{{ $nhanvien->thanhpho['ten'] }}-{{ $nhanvien->tinh['ten'] }}</textarea>
+                                <textarea class="form-control" disabled name="diachi">{{ $nhanvien->diachi }}-{{ $nhanvien->thanhpho['ten'] }}-{{ $nhanvien->tinh['ten'] }}</textarea>
                             </div>
                             <div class="form-group">
                                 <label>Hoạt động</label>
-                                <label class="form-check-label"><input type="checkbox" class="checkbox" name="hoatdong">Hoạt động</label>
-                            </div>
-                            <div class="form-group">
-                                <label>Ảnh đại diện</label>
-                                <img class="img-avatar-preview" alt="{{ $nhanvien->hoten }}" src="{{ asset('images/staff') }}/{{ $nhanvien->avatar }}">
+                                <div class="checkbox">
+                                    <label><input {{ $nhanvien->hoatdong == 1 ? 'checked' : '' }} disabled type="checkbox" name="hoatdong">
+                                        Hoạt động
+                                    </label>
+                                </div>
                             </div>
                         </form>
                     </div>
                     <div class="col-md-6">
-                        <form id="frmPassword" method="post" role="form">
+                        <form method="post" role="form" action="{{ url('admin/edit') }}">
+                            @csrf
+                            <div class="form-group">
+                                <label>Mật khẩu</label>
+                                <input name="matkhau" type="password" class="form-control" required>
+                            </div>
                             <div class="form-group">
                                 <label>Mật khẩu mới</label>
-                                <input name="newpass" type="password" class="form-control" required validatePassword>
-                                <?php if (isset($newpass_error) && $newpass_error != "") echo $newpass_error; ?>
+                                <input name="matkhau" type="password" class="form-control" required>
                             </div>
                             <div class="form-group">
                                 <label>Xác nhận</label>
-                                <input name="cnewpass" type="password" class="form-control" required validatePassword>
-                                <?php if (isset($cnewpass_error) && $cnewpass_error != "") echo $cnewpass_error; ?>
+                                <input name="xacnhan" type="password" class="form-control" required>
                             </div>
-                            <button name="pass" type="submit" class="btn btn-primary">Lưu lại</button>
-                            <button type="button" onclick="javascript: location.href='index.php';"
-                                    class="btn btn-default">Quay lại
-                            </button>
-                            <?php if (isset($pass_msg) && $pass_msg != "") echo $pass_msg; ?>
+                            <button name="password" type="submit" class="btn btn-primary">Lưu lại</button>
+                            <a title="Quay lại" href="{{ route('admin') }}" class="btn btn-default">Quay lại</a>
                         </form>
                     </div>
                 </div>
-            </div><!-- /.panel-->
-        </div>
+            </div>
+        </div><!-- /.panel-->
     </div><!--/.row-->
     <div class="row">
         <div class="col-md-12">
@@ -98,27 +124,23 @@
                 <div class="panel-heading">Ảnh đại diện</div>
                 <div class="panel-body">
                     <div class="col-md-6">
-                        <form id="frmAvatar" role="form" method="post" enctype="multipart/form-data">
+                        <form role="form" method="post" enctype="multipart/form-data" action="{{ url('admin/edit') }}">
+                            @csrf
                             <div class="form-group">
                                 <label>Chọn ảnh</label>
-                                <input type="file" name="fileAvatar" accept="image/*" required>
+                                <input class="form-control" type="file" name="avatar" accept="image/*" required>
                             </div>
                             <div class="form-group">
-                                <img class="img-avatar-preview" src="<?php echo $admin_detail['avatar']; ?>"
-                                     alt="Ảnh đại diện"/>
+                                <img class="img-avatar-preview"
+                                     src="{{ asset('images/staff').'/'.$nhanvien->avatar }}" alt="Ảnh đại diện"/>
                             </div>
                             <button name="image" type="submit" class="btn btn-primary">Lưu lại</button>
-                            <button type="button" onclick="javascript: location.href='index.php';"
-                                    class="btn btn-default">Quay lại
-                            </button>
+                            <a title="Quay lại" href="{{ route('admin') }}" class="btn btn-default">Quay lại</a>
                         </form>
                     </div>
                 </div>
-            </div><!-- /.panel-->
-        </div>
+            </div>
+        </div><!-- /.panel-->
     </div><!--/.row-->
 @endsection
 
-@section('scripts')
-
-@endsection

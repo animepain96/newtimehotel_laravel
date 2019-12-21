@@ -1,5 +1,7 @@
 @extends('layouts.home.layouts.master')
 
+@section('title', 'NewTime Hotel - Cập nhật tài khoản')
+
 @section('content')
     <div class="block-30 block-30-sm item" style="background-image: url('{{ asset('assets/home/images/bg_2.jpg') }}');"
          data-stellar-background-ratio="0.5">
@@ -192,7 +194,7 @@
             $('select[name=tinh]').change(function () {
                 let citySelect = $('select[name=thanhpho]');
                 citySelect.empty();
-                citySelect.append('<option value="0">-- Chọn --</option>');
+                citySelect.append('<option value="0">-- Chọn thành phố --</option>');
                 $.ajax({
                     url: '/ajax/getcity/' + $('select[name=tinh] option:selected').val(),
                     type: 'get',

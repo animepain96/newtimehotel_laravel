@@ -23,18 +23,18 @@ class CustomerController extends Controller
     public function postRegister(Request $request)
     {
         $request->validate([
-            'tendangnhap' => 'bail|required|min:6|max:20|unique:khachhangs,tendangnhap',
-            'hoten' => 'required|max:150',
-            'matkhau' => 'required|bail|min:8|max:50',
-            'xacnhan' => 'required|bail|min:8|max:50|same:matkhau',
-            'email' => ['bail', 'required', 'email', Rule::unique('khachhangs', 'email')],
-            'ngaysinh' => 'required|date|before_or_equal:2010-01-01',
-            'sdt' => ['regex:/^0(1\d{9}|9\d{8})$/'],
-            'gioitinh' => 'nullable',
-            'tinh' => 'required|integer',
-            'thanhpho' => 'required|integer',
-            'avatar' => 'mimes:jpeg,jpg,png,gif|required|max:10000',
-        ]);
+                'tendangnhap' => 'bail|required|min:6|max:20|unique:khachhangs,tendangnhap',
+                'hoten' => 'required|max:150',
+                'matkhau' => 'required|bail|min:8|max:50',
+                'xacnhan' => 'required|bail|min:8|max:50|same:matkhau',
+                'email' => ['bail', 'required', 'email', Rule::unique('khachhangs', 'email')],
+                'ngaysinh' => 'required|date|before_or_equal:2010-01-01',
+                'sdt' => ['regex:/^0(1\d{9}|9\d{8})$/'],
+                'gioitinh' => 'nullable',
+                'tinh' => 'required|integer',
+                'thanhpho' => 'required|integer',
+                'avatar' => 'mimes:jpeg,jpg,png,gif|required|max:10000',
+            ]);
 
         if ($request->hasFile('avatar')) {
             $avatar = time() . '.' . $request->file('avatar')->getClientOriginalExtension();
@@ -117,14 +117,7 @@ class CustomerController extends Controller
     {
         $request->validate(
             [
-                'noidung' => 'required|string|max:500',
-            ],
-            [
-                'required' => ':attribute không được để trống',
-            ]
-            ,
-            [
-                'noidung' => 'Nội dung',
+                'noidung' => 'required|string|min:50|max:500',
             ]);
 
         $danhgia = new Danhgia([

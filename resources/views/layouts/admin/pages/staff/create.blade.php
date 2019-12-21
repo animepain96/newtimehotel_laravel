@@ -87,7 +87,7 @@
                             <div class="form-group">
                                 <label>Tỉnh</label>
                                 <select name="tinh" class="form-control">
-                                    <option>-- Chọn --</option>
+                                    <option>-- Chọn tỉnh --</option>
                                     @if(!empty($tinhs))
                                         @foreach($tinhs as $tinh)
                                             <option value="{{ $tinh->id }}">{{ $tinh->ten }}</option>
@@ -98,7 +98,7 @@
                             <div class="form-group">
                                 <label>Thành phố</label>
                                 <select name="thanhpho" class="form-control">
-                                    <option>-- Chọn --</option>
+                                    <option>-- Chọn thành phố --</option>
                                 </select>
                             </div>
                             <div class="form-group">
@@ -121,7 +121,7 @@
         $('select[name=tinh]').change(function(){
             let citySelect = $('select[name=thanhpho]');
             citySelect.empty();
-            citySelect.append('<option value="0">-- Chọn --</option>');
+            citySelect.append('<option value="0">-- Chọn thành phố --</option>');
             $.ajax({
                 url: '/ajax/getcity/' + $('select[name=tinh] option:selected').val(),
                 type: 'get',

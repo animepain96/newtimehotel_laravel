@@ -1,5 +1,7 @@
 @extends('layouts.home.layouts.master')
 
+@section('title', 'NewTime Hotel - Tin tức')
+
 @section('content')
     <div class="block-30 block-30-sm item" style="background-image: url('{{ asset('assets/home/images/bg_2.jpg') }}');"
          data-stellar-background-ratio="0.5">
@@ -45,7 +47,7 @@
                     <div class="col-md-12 mb-4">
                         <div class="block-3 d-md-flex">
                             <a class="image" href="{{ url('news/') }}/{{ $tin->id }}"
-                               style="background-image: url('{{ $tin->anhdaidien }}'); "></a>
+                               style="background-image: url('{{ asset('images/news').'/'.$tin->anhdaidien }}'); "></a>
                             <div class="text">
                                 <h2 class="heading"><a
                                         href="{{ url('news/') }}/{{ $tin->id }}">{{ $tin->tieude }}</a>
