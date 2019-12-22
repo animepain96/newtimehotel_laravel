@@ -26,6 +26,7 @@ Route::middleware('customer')->group(function () {
 Route::get('/', 'Home\HomeController@index');
 Route::get('/about', 'Home\HomeController@getAbout');
 Route::get('/contact', 'Home\HomeController@getContact');
+Route::post('/contact', 'TinNhanController@store');
 Route::get('/news', 'Home\HomeController@getNews');
 Route::get('/news/{id}', 'Home\HomeController@getSingleNews');
 Route::get('/login', 'Home\CustomerController@getLogin');
@@ -36,6 +37,7 @@ Route::get('/room', 'Home\HomeController@getRoom');
 Route::get('/room/{id}', 'Home\HomeController@getSingleRoom');
 Route::get('/search', 'Home\HomeController@searchRoom');
 Route::get('/service', 'Home\HomeController@getService');
+Route::get('/active/{activeCode}', 'Home\CustomerController@activeAccount');
 
 //staff
 Route::middleware('staff')->group(function () {

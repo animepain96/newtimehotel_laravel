@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Home;
 
 use App\Danhgia;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\MailController;
 use App\Khachhang;
+use App\Kichhoat;
 use App\Thue;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\File;
@@ -12,6 +14,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 
 class CustomerController extends Controller
 {
@@ -23,18 +26,18 @@ class CustomerController extends Controller
     public function postRegister(Request $request)
     {
         $request->validate([
-                'tendangnhap' => 'bail|required|min:6|max:20|unique:khachhangs,tendangnhap',
-                'hoten' => 'required|max:150',
-                'matkhau' => 'required|bail|min:8|max:50',
-                'xacnhan' => 'required|bail|min:8|max:50|same:matkhau',
-                'email' => ['bail', 'required', 'email', Rule::unique('khachhangs', 'email')],
-                'ngaysinh' => 'required|date|before_or_equal:2010-01-01',
-                'sdt' => ['regex:/^0(1\d{9}|9\d{8})$/'],
-                'gioitinh' => 'nullable',
-                'tinh' => 'required|integer',
-                'thanhpho' => 'required|integer',
-                'avatar' => 'mimes:jpeg,jpg,png,gif|required|max:10000',
-            ]);
+            'tendangnhap' => 'bail|required|min:6|max:20|unique:khachhangs,tendangnhap',
+            'hoten' => 'required|max:150',
+            'matkhau' => 'required|bail|min:8|max:50',
+            'xacnhan' => 'required|bail|min:8|max:50|same:matkhau',
+            'email' => ['bail', 'required', 'email', Rule::unique('khachhangs', 'email')],
+            'ngaysinh' => 'required|date|before_or_equal:2010-01-01',
+            'sdt' => ['regex:/^0(1\d{9}|9\d{8})$/'],
+            'gioitinh' => 'nullable',
+            'tinh' => 'required|integer',
+            'thanhpho' => 'required|integer',
+            'avatar' => 'mimes:jpeg,jpg,png,gif|required|max:10000',
+        ]);
 
         if ($request->hasFile('avatar')) {
             $avatar = time() . '.' . $request->file('avatar')->getClientOriginalExtension();
@@ -60,6 +63,15 @@ class CustomerController extends Controller
 
         $khachhang->save();
 
+        $kichhoat = new Kichhoat([
+            'idkhachhang' => $khachhang->id,
+            'makichhoat' => Str::uuid()->toString(),
+        ]);
+
+        $kichhoat->save();
+
+        MailController::sendActiveMail($khachhang, $kichhoat->makichhoat);
+
         if ($avatar != "") {
             request()->file('avatar')->move(public_path('images/customer'), $avatar);
         }
@@ -84,7 +96,17 @@ class CustomerController extends Controller
         ];
 
         if (Auth::guard('khachhang')->attempt($data)) {
-            return redirect('/');
+            if (Auth::guard('khachhang')->user()->kichhoat == 1) {
+                if (Auth::guard('khachhang')->user()->hoatdong == 1) {
+                    return redirect('/');
+                } else {
+                    Auth::guard('khachhang')->logout();
+                    return redirect('/login')->with('message', array('status' => 'danger', 'content' => 'Tài khoản của bạn bị tạm ngưng. Vui lòng liên hệ hỗ trợ.'));
+                }
+            } else {
+                Auth::guard('khachhang')->logout();
+                return redirect('/login')->with('message', array('status' => 'danger', 'content' => 'Vui lòng kích hoạt tài khoản của bạn.'));
+            }
         } else {
             return redirect('/login')->with('message', array('status' => 'danger', 'content' => 'Thông tin đăng nhập không chính xác.'));
         }
@@ -204,5 +226,24 @@ class CustomerController extends Controller
         }
 
         return view('layouts.home.pages.edit_account', compact('khachhang'));
+    }
+
+    public function activeAccount($activeCode)
+    {
+        $kichhoat = Kichhoat::where('makichhoat', '=', $activeCode)->first();
+        if ($kichhoat != null) {
+            $khachhang = Khachhang::find($kichhoat->idkhachhang);
+            if ($khachhang != null) {
+                $khachhang->kichhoat = 1;
+                $khachhang->hoatdong = 1;
+                $khachhang->save();
+
+                $kichhoat->delete();
+
+                return redirect('/login')->with('message', array('status' => 'success', 'content' => 'Kích hoạt tài khoản thành công. Vui lòng đăng nhập.'));
+            }
+        }
+
+        return redirect('/login')->with('message', array('status' => 'danger', 'content' => 'Không thể lấy thông tin. Vui lòng thử lại sau hoặc gửi tin nhắn cho chúng tôi.'));
     }
 }

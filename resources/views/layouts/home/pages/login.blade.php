@@ -46,7 +46,7 @@
                         @csrf
                         <div class="form-group">
                             <label class="col-form-label">Tên đăng nhập </label>
-                            <input type="text" name="tendangnhap" class="form-control px-3 py-3"
+                            <input type="text" autofocus name="tendangnhap" class="form-control px-3 py-3"
                                    placeholder="Tên đăng nhập" required>
                         </div>
                         <div class="form-group">

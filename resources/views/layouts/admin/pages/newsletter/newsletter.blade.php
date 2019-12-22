@@ -74,7 +74,7 @@
                                         <td>{{ \Carbon\Carbon::parse($nhantins[$i]->created_at)->format('d/m/Y H:i:s') }}</td>
                                         <td>{{ \Carbon\Carbon::parse($nhantins[$i]->updated_at)->format('d/m/Y H:i:s') }}</td>
                                         <td>
-                                            <a class="btn btn-primary" href="#" title="Gửi thư">
+                                            <a class="btn btn-primary" href="{{ url('/admin/mail').'/'.$nhantins[$i]->email }}" title="Gửi thư">
                                                 Gửi thư
                                             </a>
                                             <form action="{{ route('nhantin.destroy', $nhantins[$i]->id) }}" method="post">

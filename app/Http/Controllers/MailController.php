@@ -69,4 +69,18 @@ class MailController extends Controller
         return redirect('admin/mail')->with('message', array('status' => 'success', 'content' => 'Gửi thư thành công.'));
 
     }
+
+    public static function sendActiveMail(Khachhang $khachhang, $activeCode){
+        if($khachhang->kichhoat == 0){
+            $email = $khachhang->email;
+            $subject = 'Kích hoạt tài khoản tại NewTime Hotel';
+            $data = ['name' => $khachhang->hoten, 'url' => url('/active').'/'.$activeCode];
+
+            Mail::send('layouts.admin.layouts.activemail', $data, function($message) use ($email, $subject){
+                $message->to($email)
+                    ->subject($subject);
+                $message->from('newtimehotel.laravel@gmail.com', 'NewTime Hotel');
+            });
+        }
+    }
 }

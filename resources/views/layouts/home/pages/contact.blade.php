@@ -40,7 +40,7 @@
                         </div>
                     @endif
 
-                    <form method="post" action="{{ route('tinnhan.store') }}">
+                    <form method="post" action="{{ url('/contact') }}">
                         @csrf
                         <div class="form-group">
                             <input autofocus type="text" name="hoten" class="form-control px-3 py-3" placeholder="Tên bạn" required>

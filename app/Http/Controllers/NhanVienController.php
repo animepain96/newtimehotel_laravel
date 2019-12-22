@@ -106,7 +106,7 @@ class NhanVienController extends Controller
     public function edit($id)
     {
         $nhanvien = Nhanvien::find($id);
-        if($nhanvien != null){
+        if($nhanvien != null && $nhanvien->isAdmin != 1){
             return view('layouts.admin.pages.staff.edit', compact('nhanvien'));
         }
 
@@ -142,7 +142,7 @@ class NhanVienController extends Controller
         }
 
         $nhanvien = Nhanvien::find($id);
-        if($nhanvien == null){
+        if($nhanvien == null || $nhanvien->isAdmin == 1){
             return redirect('admin/nhanvien')->with('message', array('status' => 'danger', 'content' => 'Không thể tìm thấy thông tin khách hàng.'));
         }
 
@@ -178,7 +178,7 @@ class NhanVienController extends Controller
     public function destroy($id)
     {
         $nhanvien = Nhanvien::find($id);
-        if($nhanvien == null){
+        if($nhanvien == null || $nhanvien->isAdmin == 1){
             return redirect('admin/nhanvien')->with('message', ['status' => 'danger', 'content' => 'Không thể lấy thông tin. Vui lòng thử lại sau.']);
         }
         File::delete(public_path().'images/staff/'.'\\'.$nhanvien->avatar);

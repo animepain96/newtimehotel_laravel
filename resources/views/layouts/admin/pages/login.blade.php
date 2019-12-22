@@ -30,9 +30,9 @@
                         </div>
                     @endif
                     @if(session()->get('message') != null)
-                        <div class="alert alert-{{ session()->get('message')['status'] }} alert-dismissible">
+                        <div class="alert alert-danger alert-dismissible">
                             <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                            {{ session()->get('message')['content'] }}
+                            {{ session()->get('message') }}
                         </div>
                     @endif
                     <form role="form" method="post" action="{{ url('admin/login') }}">

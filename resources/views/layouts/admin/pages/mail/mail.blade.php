@@ -43,7 +43,7 @@
                             @csrf
                             <div class="form-group">
                                 <label>Địa chỉ Email</label>
-                                <input name="email" type="email" class="form-control">
+                                <input name="email" type="email" value="{{ $email }}" class="form-control">
                             </div>
                             <div class="form-group">
                                 <label>Tùy chọn</label>

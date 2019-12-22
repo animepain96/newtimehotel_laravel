@@ -3,40 +3,16 @@
   <component name="ChangeListManager">
     <list default="true" id="f99ed99a-84cd-4f4a-9365-a748c6dcaf47" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/BangGiaController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/BangGiaController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/DanhGiaController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/DanhGiaController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Home/HomeController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Home/HomeController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/LoaiPhongController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/LoaiPhongController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/LoaiTinController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/LoaiTinController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/NhanTinController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/NhanTinController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Home/CustomerController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Home/CustomerController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/MailController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/MailController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/NhanVienController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/NhanVienController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/PhongController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/PhongController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/SendMailController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/MailController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/SlideShowController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/SlideShowController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/ThueController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/ThueController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/TinNhanController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/TinNhanController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/ViTriController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/ViTriController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/layouts/admin/includes/header.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/layouts/admin/includes/header.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/seeds/NhanVienTableSeeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/seeds/NhanVienTableSeeder.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/views/layouts/admin/pages/contact/contact.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/layouts/admin/pages/contact/contact.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/layouts/admin/pages/customer/create.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/layouts/admin/pages/customer/create.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/layouts/admin/pages/customer/customer.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/layouts/admin/pages/customer/customer.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/layouts/admin/pages/customer/edit.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/layouts/admin/pages/customer/edit.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/layouts/admin/pages/location/create.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/layouts/admin/pages/location/create.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/layouts/admin/pages/location/location.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/layouts/admin/pages/location/location.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/views/layouts/admin/pages/login.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/layouts/admin/pages/login.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/layouts/admin/pages/news/news.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/layouts/admin/pages/news/news.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/layouts/admin/pages/newscategory/newscategory.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/layouts/admin/pages/newscategory/newscategory.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/layouts/admin/pages/mail/mail.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/layouts/admin/pages/mail/mail.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/views/layouts/admin/pages/newsletter/newsletter.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/layouts/admin/pages/newsletter/newsletter.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/layouts/admin/pages/price/price.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/layouts/admin/pages/price/price.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/layouts/admin/pages/reservation/reservation.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/layouts/admin/pages/reservation/reservation.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/layouts/admin/pages/review/review.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/layouts/admin/pages/review/review.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/layouts/admin/pages/room/room.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/layouts/admin/pages/room/room.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/layouts/admin/pages/roomtype/roomtype.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/layouts/admin/pages/roomtype/roomtype.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/layouts/admin/pages/sendmail/sendmail.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/layouts/admin/pages/mail/mail.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/layouts/admin/pages/slideshow/slideshow.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/layouts/admin/pages/slideshow/slideshow.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/layouts/admin/pages/statistic.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/layouts/admin/pages/statistic.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/layouts/home/pages/home.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/layouts/home/pages/home.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/layouts/home/pages/service.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/layouts/home/pages/service.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/layouts/home/pages/contact.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/layouts/home/pages/contact.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/layouts/home/pages/login.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/layouts/home/pages/login.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -188,16 +164,17 @@
     <property name="settings.editor.selected.configurable" value="watcher.settings" />
   </component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="F:\xampp\htdocs\NewTimeHotel\app\Http\Controllers\Home" />
-      <recent name="F:\xampp\htdocs\NewTimeHotel\resources\lang\vi" />
-    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="F:\xampp\htdocs\NewTimeHotel\resources\views\layouts\admin\pages" />
       <recent name="F:\xampp\htdocs\NewTimeHotel\resources\views\layouts\admin\pages\reservation" />
       <recent name="F:\xampp\htdocs\NewTimeHotel\resources\views\layouts\admin\pages\mail" />
       <recent name="F:\xampp\htdocs\NewTimeHotel\resources\views\layouts\admin\pages\contact" />
       <recent name="F:\xampp\htdocs\NewTimeHotel\resources\views\layouts\admin\pages\price" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="F:\xampp\htdocs\NewTimeHotel\resources\views\layouts\admin\layouts" />
+      <recent name="F:\xampp\htdocs\NewTimeHotel\app\Http\Controllers\Home" />
+      <recent name="F:\xampp\htdocs\NewTimeHotel\resources\lang\vi" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -282,6 +259,7 @@
       <workItem from="1576842791436" duration="4491000" />
       <workItem from="1576910908770" duration="8781000" />
       <workItem from="1576931820247" duration="8437000" />
+      <workItem from="1576967222838" duration="6629000" />
     </task>
     <servers />
   </component>

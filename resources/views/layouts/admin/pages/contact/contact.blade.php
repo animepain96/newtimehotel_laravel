@@ -78,7 +78,7 @@
                                         <td>{{ \Carbon\Carbon::parse($tinnhans[$i]->created_at)->format('d/m/Y H:i:s') }}</td>
                                         <td>{{ \Carbon\Carbon::parse($tinnhans[$i]->updated_at)->format('d/m/Y H:i:s') }}</td>
                                         <td>
-                                            <a class="btn btn-primary" href="#" title="Gửi thư">
+                                            <a class="btn btn-primary" href="{{ url('/admin/mail').'/'.$tinnhans[$i]->email }}" title="Gửi thư">
                                                 Gửi thư
                                             </a>
                                             <form action="{{ route('tinnhan.destroy', $tinnhans[$i]->id) }}" method="post">
