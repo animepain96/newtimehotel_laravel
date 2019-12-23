@@ -9,11 +9,13 @@
     "license": "MIT",
     "require": {
         "php": "^7.2",
+        "ext-json": "*",
         "fideloper/proxy": "^4.0",
         "laravel/framework": "^6.2",
         "laravel/tinker": "^1.0",
-        "mews/purifier": "^3.1",
-        "ext-json": "*"
+        "maatwebsite/excel": "^3.1",
+        "mews/captcha": "^3.0",
+        "mews/purifier": "^3.1"
     },
     "require-dev": {
         "facade/ignition": "^1.4",

@@ -48,6 +48,7 @@ class AdminController extends Controller
         $request->validate([
             'tendangnhap' => 'required|string|max:50',
             'matkhau' => 'required|string|max:100',
+            'captcha' => 'required|captcha',
         ]);
         $data = [
             'tendangnhap' => $request->get('tendangnhap'),
@@ -55,7 +56,12 @@ class AdminController extends Controller
         ];
 
         if (Auth::guard('nhanvien')->attempt($data)) {
-            return redirect('admin');
+            if (Auth::guard('nhanvien')->user()->hoatdong == 1) {
+                return redirect('admin');
+            } else {
+                Auth::guard('nhanvien')->logout();
+                return redirect('admin/login')->with('message', 'Tài khoản tạm khóa. Vui lòng liên hệ Quản trị viên.');
+            }
         } else {
             return redirect('admin/login')->with('message', 'Thông tin đăng nhập không chính xác.');
         }
@@ -87,16 +93,14 @@ class AdminController extends Controller
 
             $nhanvien = Nhanvien::find(Auth::guard('nhanvien')->user()->id);
 
-            File::delete(public_path('images/staff').'\\'.$nhanvien->avatar);
+            File::delete(public_path('images/staff') . '\\' . $nhanvien->avatar);
             $avatar = time() . '.' . $request->file('avatar')->getClientOriginalExtension();
             $nhanvien->avatar = $avatar;
             $nhanvien->save();
             request()->file('avatar')->move(public_path('images/staff'), $avatar);
 
             return redirect('admin/edit')->with('message', array('status' => 'success', 'content' => 'Cập nhật Ảnh đại diện thành công.'));
-        }
-
-        else if($request->has('password')){
+        } else if ($request->has('password')) {
             $request->validate([
                 'matkhau' => 'required|bail|min:8|max:50',
                 'matkhaumoi' => 'required|bail|min:8|max:50',
@@ -107,15 +111,31 @@ class AdminController extends Controller
                 ->where('matkhau', '=', Hash::make($request->get('matkhau')))
                 ->first();
 
-            if($nhanvien != null){
+            if ($nhanvien != null) {
                 $nhanvien->matkhau = Hash::make($request->get('matkhaumoi'));
                 $nhanvien->save();
 
                 return redirect('admin/edit')->with('message', array('status' => 'success', 'content' => 'Cập nhật Mật khẩu thành công.'));
-            }
-            else{
+            } else {
                 return redirect('admin/edit')->with('message', array('status' => 'danger', 'content' => 'Mật khẩu của bạn không đúng.'));
             }
         }
+        return redirect('/admin')->with('message', array('status' => 'danger', 'message' => 'Không thể lấy thông tin. Vui lòng thử lại sau.'));
+    }
+
+    public function getInvoice($id)
+    {
+        $thue = Thue::selectRaw('khachhangs.*, banggias.gia, thues.*, (datediff(thues.ketthuc, thues.batdau) + 1)*banggias.gia as tongtien')
+            ->join('banggias', 'thues.idphong', 'banggias.idphong')
+            ->join('khachhangs', 'thues.idkhach', 'khachhangs.id')
+            ->where('thues.id', '=', $id)
+            ->whereRaw('? between banggias.batdau and banggias.ketthuc', Carbon::now()->format('Y-m-d'))
+            ->first();
+
+        if ($thue != null) {
+            return view('layouts.admin.pages.invoice', compact('thue'));
+        }
+
+        return redirect()->route('thue.index')->with('message', array('status' => 'danger', 'content' => 'Không lấy được thông tin. Vui lòng thử lại.'));
     }
 }

@@ -65,10 +65,10 @@
                             <div class="form-group">
                                 <label for="">Số trẻ em</label>
                                 <select name="sotreem" class="custom-select form-control">
-                                    <option selected>-- Chọn --</option>
+                                    <option value="-1" {{ request()->get('sotreem') == -1 ? 'selected' :'' }}>-- Chọn --</option>
                                     @foreach(range(0, 4) as $i)
                                         <option
-                                            value="{{ $i }}" @if(is_int(request()->get('sotreem')) && request()->get('sotreem') == $i) selected @endif>
+                                            value="{{ $i }}" @if(request()->get('sotreem') == $i) selected @endif>
                                             {{ $i }}
                                         </option>
                                     @endforeach

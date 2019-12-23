@@ -7,6 +7,7 @@
     <link href="{{ asset('assets/admin/css/bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/admin/css/styles.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('assets/admin/css/custom-style.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/admin/css/font-awesome.min.css') }}">
     <!--[if lt IE 9]>
     <script src="assets/admin/js/respond.min.js"></script>
     <![endif]-->
@@ -47,6 +48,18 @@
                                        required>
                             </div>
                             <div class="form-group">
+                                <div class="captcha">
+                                    <span>{!! captcha_img() !!}</span>
+                                    <button name="refresh" type="button" class="btn btn-success">
+                                        <i class="fa fa-refresh"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <input required type="text" class="form-control" placeholder="Mã bảo vệ"
+                                       name="captcha">
+                            </div>
+                            <div class="form-group">
                                 <button name="login" type="submit" class="btn btn-primary login-btn">Đăng nhập</button>
                             </div>
                         </fieldset>
@@ -59,6 +72,20 @@
 
 <script src="{{ asset('assets/admin/js/jquery-1.11.1.min.js') }}"></script>
 <script src="{{ asset('assets/admin/js/bootstrap.min.js') }}"></script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('button[name=refresh]').click(function () {
+            $.ajax({
+                type: 'GET',
+                url: '{{ url('/').'/refreshcaptcha' }}',
+                success: function (data) {
+                    $(".captcha span").html(data.captcha);
+                }
+            });
+        });
+    });
+</script>
 
 </body>
 </html>

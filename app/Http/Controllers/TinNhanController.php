@@ -44,6 +44,7 @@ class TinNhanController extends Controller
             'email' => 'email|required',
             'tieude' => 'string|required|max:250',
             'noidung' => 'string|required|max:1000',
+            'captcha' => 'required|captcha',
         ]);
 
         if(Tinnhan::where('email', '=', $request->get('email'))->whereDate('created_at', '=', Carbon::now()->format('Y-m-d'))->count() > 0){

@@ -112,6 +112,18 @@
                             <input type="password" required name="xacnhan" class="form-control px-3 py-3"
                                    placeholder="Xác nhận Mật khẩu">
                         </div>
+                        <div class="form-group">
+                            <div class="captcha">
+                                <span>{!! captcha_img() !!}</span>
+                                <button name="refresh" type="button" class="btn btn-success">
+                                    <i class="oi oi-loop-circular"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <input required type="text" class="form-control px-3 py-3" placeholder="Mã bảo vệ"
+                                   name="captcha">
+                        </div>
                         <div class="form-group mt-30px">
                             <input type="submit" value="Đăng kí" class="btn btn-primary py-3 px-5">
                         </div>
@@ -122,28 +134,39 @@
         </div>
     </div>
     <script>
-        $('select[name=tinh]').change(function () {
-            let citySelect = $('select[name=thanhpho]');
-            citySelect.empty();
-            citySelect.append('<option value="0">-- Chọn thành phố --</option>');
-            $.ajax({
-                url: '/ajax/getcity/' + $('select[name=tinh] option:selected').val(),
-                type: 'get',
-                dataType: 'json',
-                success: function (data) {
-                    if (data['status'] === "success") {
-                        let citySelect = $('select[name=thanhpho]');
-                        if (citySelect !== undefined) {
-                            for (let i = 0; i < data['data'].length; i++) {
-                                citySelect.append('<option value="' + data['data'][i]['id'] + '">' + data['data'][i]['ten'] + '</option>');
+        $(document).ready(function () {
+            $('select[name=tinh]').change(function () {
+                let citySelect = $('select[name=thanhpho]');
+                citySelect.empty();
+                citySelect.append('<option value="0">-- Chọn thành phố --</option>');
+                $.ajax({
+                    url: '/ajax/getcity/' + $('select[name=tinh] option:selected').val(),
+                    type: 'get',
+                    dataType: 'json',
+                    success: function (data) {
+                        if (data['status'] === "success") {
+                            let citySelect = $('select[name=thanhpho]');
+                            if (citySelect !== undefined) {
+                                for (let i = 0; i < data['data'].length; i++) {
+                                    citySelect.append('<option value="' + data['data'][i]['id'] + '">' + data['data'][i]['ten'] + '</option>');
+                                }
                             }
                         }
                     }
-                }
+                });
             });
-        });
-        $('input[name=ngaysinh]').datepicker({
-            format: 'dd/mm/yyyy',
+            $('input[name=ngaysinh]').datepicker({
+                format: 'dd/mm/yyyy',
+            });
+            $('button[name=refresh]').click(function () {
+                $.ajax({
+                    type: 'GET',
+                    url: 'refreshcaptcha',
+                    success: function (data) {
+                        $(".captcha span").html(data.captcha);
+                    }
+                });
+            });
         });
     </script>
 @endsection

@@ -16,10 +16,16 @@ class HomeController extends Controller
 {
     public function getRoom()
     {
-        $rooms = \App\Phong::with('vitri', 'loaiphong')
+        /*$rooms = Phong::with('vitri', 'loaiphong')
             ->join('banggias', 'phongs.id', 'banggias.idphong')
-            ->whereIn('phongs.id', \App\Banggia::whereRaw('? between batdau and ketthuc', Carbon::now()->format('Y-m-d'))->get()->pluck('idphong'))
+            ->whereIn('phongs.id', Banggia::whereRaw('? between batdau and ketthuc', Carbon::now()->format('Y-m-d'))->get()->pluck('idphong'))
+            ->paginate(6);*/
+        $rooms = Phong::with('vitri', 'loaiphong')
+            ->join('banggias', 'phongs.id', 'banggias.idphong')
+            ->whereRaw('? between batdau and ketthuc', Carbon::now()->format('Y-m-d'))
+            ->where('hoatdong', '=', 1)
             ->paginate(6);
+
         return view('layouts.home.pages.room', compact('rooms'));
     }
 
@@ -28,15 +34,15 @@ class HomeController extends Controller
         $batdau = request()->get('batdau') ?? Carbon::now()->format('d/m/Y');
         $ketthuc = request()->get('ketthuc') ?? Carbon::now()->format('d/m/Y');
         $loaiphong = request()->get('loaiphong') ?? 0;
-        $vitri = request()->get('vitri') ?? 0;
+        $vitri = is_int(request()->get('vitri')) ?? 0;
         $songuoilon = request()->get('songuoilon') ?? 0;
-        $sotreem = is_int(request()->get('sotreem')) ? request()->get('sotreem') : -1;
+        $sotreem = request()->get('sotreem') ?? -1;
         $sogiuong = request()->get('sogiuong') ?? 0;
 
         $batdau = Carbon::createFromFormat('d/m/Y', $batdau)->format('Y-m-d');
         $ketthuc = Carbon::createFromFormat('d/m/Y', $ketthuc)->format('Y-m-d');
 
-        $rooms = Phong::with('vitri', 'loaiphong')
+        /*$rooms = Phong::with('vitri', 'loaiphong')
             ->join('banggias', 'phongs.id', 'banggias.idphong')
             ->whereNotIn('phongs.id',
                 Thue::where(function ($query) use ($batdau, $ketthuc) {
@@ -49,6 +55,40 @@ class HomeController extends Controller
                     });
                 })->where('idtrangthai', '<', 4)->pluck('idphong'))
             ->whereIn('phongs.id', Banggia::whereRaw('? between batdau and ketthuc', Carbon::now()->format('Y-m-d'))->get()->pluck('idphong'))
+            ->where(function ($query) use ($songuoilon, $sotreem, $sogiuong) {
+                $query->where(function ($query) use ($songuoilon) {
+                    $query->orWhere('songuoilon', '=', $songuoilon)
+                        ->orWhereRaw('? = 0', $songuoilon);
+                })->where(function ($query) use ($sotreem) {
+                    $query->orWhere('sotreem', '=', $sotreem)
+                        ->orWhereRaw('? = -1', $sotreem);
+                })->where(function ($query) use ($sogiuong) {
+                    $query->orWhere('sogiuong', '=', $sogiuong)
+                        ->orWhereRaw('? = 0', $sogiuong);
+                });
+            })
+            ->where(function ($query) use ($loaiphong) {
+                $query->orWhere('idloai', '=', $loaiphong)
+                    ->orWhereRaw('? = 0', $loaiphong);
+            })
+            ->where(function ($query) use ($vitri) {
+                $query->orWhere('idvitri', '=', $vitri)
+                    ->orWhereRaw('? = 0', $vitri);
+            })
+            ->paginate(9);*/
+        $rooms = Phong::with('vitri', 'loaiphong')
+            ->join('banggias', 'phongs.id', 'banggias.idphong')
+            ->whereNotIn('phongs.id',
+                Thue::where(function ($query) use ($batdau, $ketthuc) {
+                    $query->orwhere(function ($query) use ($batdau) {
+                        $query->where('batdau', '<=', $batdau)->where('ketthuc', '>=', $batdau);
+                    })->orwhere(function ($query) use ($ketthuc) {
+                        $query->where('batdau', '<=', $ketthuc)->where('ketthuc', '>=', $ketthuc);
+                    })->orwhere(function ($query) use ($batdau, $ketthuc) {
+                        $query->where('batdau', '>=', $batdau)->where('ketthuc', '<=', $ketthuc);
+                    });
+                })->where('idtrangthai', '<', 4)->pluck('idphong'))
+            ->whereRaw('? between banggias.batdau and banggias.ketthuc', Carbon::now()->format('Y-m-d'))
             ->where(function ($query) use ($songuoilon, $sotreem, $sogiuong) {
                 $query->where(function ($query) use ($songuoilon) {
                     $query->orWhere('songuoilon', '=', $songuoilon)
@@ -116,6 +156,18 @@ class HomeController extends Controller
         $batdau = Carbon::createFromFormat('d/m/Y', $request->get('batdau'))->format('Y-m-d');
         $ketthuc = Carbon::createFromFormat('d/m/Y', $request->get('ketthuc'))->format('Y-m-d');
 
+        if ($batdau < Carbon::now()) {
+            return redirect()->back()->with('message', array('status' => 'danger', 'content' => 'Thời gian không hợp lệ. Vui lòng chọn lại.'));
+        }
+
+        if (
+            Thue::where('idkhach', '=', Auth::guard('khachhang')->user()->id)
+                ->where('idtrangthai', '<', 4)
+                ->count() > 0
+        ) {
+            return redirect()->back()->with('message', array('status' => 'danger', 'content' => 'Bạn đang có phiếu thuê chưa kết thúc. Nếu muốn thay đổi vui lòng liên hệ hỗ trợ.'));
+        }
+
         $is_valid = Phong::where('phongs.id', '=', $request->get('idphong'))
             ->join('banggias', 'phongs.id', 'banggias.idphong')
             ->whereRaw('? between batdau and ketthuc', Carbon::now()->format('Y-m-d'))
@@ -144,7 +196,7 @@ class HomeController extends Controller
 
             return redirect('/account')->with('message', array('status' => 'success', 'content' => 'Bạn đã đặt phòng thành công.'));
         }
-        return redirect()->back()->with('message', array('status' => 'danger', 'content' => 'Thông tin bạn cung cấp không chính xác.'));
+        return redirect()->back()->with('message', array('status' => 'danger', 'content' => 'Thời gian không hợp lệ. Vui lòng chọn lại.'));
     }
 
     public function getContact()
@@ -161,18 +213,18 @@ class HomeController extends Controller
     {
         $rooms = Phong::with('vitri', 'loaiphong')
             ->join('banggias', 'phongs.id', 'banggias.idphong')
-            ->whereIn('phongs.id', Banggia::whereRaw('? between batdau and ketthuc', Carbon::now()->format('Y-m-d'))->get()->pluck('idphong'))
+            ->whereRaw('? between batdau and ketthuc', Carbon::now()->format('Y-m-d'))
             ->inRandomOrder()->limit(5)->get();
         return view('layouts.home.pages.home', compact('rooms'));
     }
 
-    public static function increaseCount(){
-        if(session()->get('counted') == null){
+    public static function increaseCount()
+    {
+        if (session()->get('counted') == null) {
             $bodem = Bodem::whereDate('ngay', '=', Carbon::now()->format('Y-m-d'))->first();
-            if($bodem != null){
-                $bodem->soluong ++;
-            }
-            else{
+            if ($bodem != null) {
+                $bodem->soluong++;
+            } else {
                 $bodem = new Bodem([
                     'ngay' => Carbon::now()->format('Y-m-d'),
                     'soluong' => 1,
@@ -186,7 +238,8 @@ class HomeController extends Controller
         }
     }
 
-    public function getService(){
+    public function getService()
+    {
         return view('layouts.home.pages.service');
     }
 }

@@ -32,17 +32,17 @@
                                 {{ session()->get('message')['content'] }}
                             </div>
                         @endif
-                            @if($errors->any())
-                                <div class="form-group">
-                                    <div class="alert alert-danger" role="alert">
-                                        <ul>
-                                            @foreach ($errors->all() as $error)
-                                                <li>{{ $error }}</li>
-                                            @endforeach
-                                        </ul>
-                                    </div>
+                        @if($errors->any())
+                            <div class="form-group">
+                                <div class="alert alert-danger" role="alert">
+                                    <ul>
+                                        @foreach ($errors->all() as $error)
+                                            <li>{{ $error }}</li>
+                                        @endforeach
+                                    </ul>
                                 </div>
-                            @endif
+                            </div>
+                        @endif
                         @csrf
                         <div class="form-group">
                             <label class="col-form-label">Tên đăng nhập </label>
@@ -54,6 +54,18 @@
                             <input type="password" name="matkhau" class="form-control px-3 py-3"
                                    placeholder="Mật khẩu" required>
                         </div>
+                        <div class="form-group">
+                            <div class="captcha">
+                                <span>{!! captcha_img() !!}</span>
+                                <button name="refresh" type="button" class="btn btn-success">
+                                    <i class="oi oi-loop-circular"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <input required type="text" class="form-control px-3 py-3" placeholder="Mã bảo vệ"
+                                   name="captcha">
+                        </div>
                         <div class="form-group mt-30px">
                             <input type="submit" value="Đăng nhập"
                                    class="btn btn-primary py-3 px-5">
@@ -63,4 +75,17 @@
             </div>
         </div>
     </div>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('button[name=refresh]').click(function () {
+                $.ajax({
+                    type: 'GET',
+                    url: 'refreshcaptcha',
+                    success: function (data) {
+                        $(".captcha span").html(data.captcha);
+                    }
+                });
+            });
+        });
+    </script>
 @endsection

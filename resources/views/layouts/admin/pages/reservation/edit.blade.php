@@ -22,10 +22,10 @@
         </div>
     </div><!--/.row-->
 
-    @if(isset($message) && $message != null)
-        <div class="alert alert-{{ $message['status'] }} alert-dismissible">
+    @if(session()->get('message') != null)
+        <div class="alert alert-{{ session()->get('message')['status'] }} alert-dismissible">
             <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-            {{ $message['content'] }}
+            {{ session()->get('message')['content'] }}
         </div>
     @endif
 

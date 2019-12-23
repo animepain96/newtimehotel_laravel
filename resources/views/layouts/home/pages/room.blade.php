@@ -44,7 +44,7 @@
                             <div class="text">
                                 <h2 class="heading">{{ $room->tenphong }}</h2>
                                 <div class="price"><span
-                                        class="number">{{ $room->gia }}</span><sup>&#8363;</sup><sub>/ngày</sub>
+                                        class="number">{{ number_format($room->gia, 0, ',', '.') }}</span><sup>&#8363;</sup><sub>/ngày</sub>
                                 </div>
                                 <ul class="specs">
                                     <li><strong>Số người lớn:</strong> {{ $room->songuoilon }}</li>

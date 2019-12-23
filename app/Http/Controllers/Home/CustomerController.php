@@ -37,6 +37,7 @@ class CustomerController extends Controller
             'tinh' => 'required|integer',
             'thanhpho' => 'required|integer',
             'avatar' => 'mimes:jpeg,jpg,png,gif|required|max:10000',
+            'captcha' => 'required|captcha',
         ]);
 
         if ($request->hasFile('avatar')) {
@@ -89,6 +90,7 @@ class CustomerController extends Controller
         $request->validate([
             'tendangnhap' => 'required|string|max:50',
             'matkhau' => 'required|string|max:100',
+            'captcha' => 'required|captcha',
         ]);
         $data = [
             'tendangnhap' => $request->get('tendangnhap'),

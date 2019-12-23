@@ -20,7 +20,7 @@
         <div class="row">
             <div class="col-xs-6 col-md-3 col-lg-3 no-padding">
                 <div class="panel panel-teal panel-widget">
-                    <div class="row no-padding"><em class="fa fa-xl fa-group color-blue"></em>
+                    <div class="row no-padding"><em class="fa fa-xl fa-folder color-blue"></em>
                         <div class="large">{{ count($loaiphongs) }}</div>
                         <div class="text-muted">Tổng cộng</div>
                     </div>

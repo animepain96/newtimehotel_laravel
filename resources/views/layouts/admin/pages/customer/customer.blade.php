@@ -89,7 +89,7 @@
                                         <td>{{ $khachhangs[$i]->tendangnhap }}</td>
                                         <td>{{ $khachhangs[$i]->hoten }}</td>
                                         <td>{{ $khachhangs[$i]->email }}</td>
-                                        <td>{{ $khachhangs[$i]->ngaysinh }}</td>
+                                        <td>{{ \Carbon\Carbon::parse($khachhangs[$i]->ngaysinh)->format('d/m/Y') }}</td>
                                         <td>{{ $khachhangs[$i]->gioitinh == true ? "Nam" : "Nữ" }}</td>
                                         <td>{{ $khachhangs[$i]->sdt }}</td>
                                         <td>{{ $khachhangs[$i]->diachi }} - {{ $khachhangs[$i]->thanhpho['ten'] }} - {{ $khachhangs[$i]->tinh['ten'] }}</td>

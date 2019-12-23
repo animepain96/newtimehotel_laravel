@@ -50,7 +50,7 @@ class KhachHangController extends Controller
             'matkhau' => 'bail|required|min:8|max:50',
             'email' => 'bail|required|email|unique:khachhangs,email',
             'sdt' => ['nullable', 'regex:/^0(1\d{9}|9\d{8})$/'],
-            'ngaysinh' => 'required|date|before_or_equal:2010-01-01',
+            'ngaysinh' => 'required|before_or_equal:2010-01-01|date_format:d/m/Y',
             'gioitinh' => 'nullable',
             'tinh' => 'required|integer',
             'thanhpho' => 'required|integer',
@@ -140,7 +140,7 @@ class KhachHangController extends Controller
             'hoten' => 'required|max:150',
             'matkhau' => 'nullable|bail|min:8|max:50',
             'email' => ['bail','required','email', Rule::unique('khachhangs', 'email')->ignore($id)],
-            'ngaysinh' => 'required|before_or_equal:2010-01-01||date_format:d/m/Y',
+            'ngaysinh' => 'required|before_or_equal:2010-01-01|date_format:d/m/Y',
             'sdt' => ['nullable', 'regex:/^0(1\d{9}|9\d{8})$/'],
             'gioitinh' => 'nullable',
             'tinh' => 'required|integer',
@@ -151,7 +151,7 @@ class KhachHangController extends Controller
         $hoten = $request->get('hoten');
         $matkhau = $request->get('matkhau') != '' ? Hash::make($request->get('matkhau')) : '';
         $email = $request->get('email');
-        $ngaysinh = $request->get('ngaysinh');
+        $ngaysinh = Carbon::createFromFormat('d/m/Y', $request->get('ngaysinh'));
         $sdt = $request->get('sdt');
         $gioitinh = $request->get('gioitinh') == "nam" ? 1 : 0;
         $tinh = $request->get('tinh');

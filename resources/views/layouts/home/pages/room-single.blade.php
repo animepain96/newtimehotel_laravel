@@ -53,11 +53,11 @@
         <div class="row justify-content-center">
             <div class="col-md-12">
                 <div class="owl-carousel loop-block-35">
-                @foreach($phong->anhmota as $annhmota)
+                @foreach($phong->anhmota as $anhmota)
                     <!-- single item -->
                         <div class="block-35 item"
                              data-stellar-background-ratio="0.5">
-                            <img alt="{{ $phong->tenphong }}" src="{{ asset('images/room').'/'.$anhmota->urlanh }}"
+                            <img alt="{{ $phong->tenphong }}" src="{{ asset('images/description').'/'.$anhmota->urlanh }}"
                                  class="img-fluid">
                         </div>
                         <!-- end single item -->

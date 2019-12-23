@@ -58,6 +58,7 @@ Route::middleware('staff')->group(function () {
     Route::get('/admin/gia/{idphong}', 'BangGiaController@index');
     Route::get('/admin/edit', 'AdminController@getPersonalInformation');
     Route::post('/admin/edit', 'AdminController@postPersonalInformation');
+    Route::get('/admin/invoice/{id}', 'AdminController@getInvoice');
 });
 
 //admin
@@ -90,3 +91,8 @@ Route::post('/admin/login', 'AdminController@doLogin');
 
 /*Ajax*/
 Route::get('/ajax/getcity/{idtinh}', 'AjaxController@getCity');
+
+/*Captcha*/
+Route::get('/createcaptcha', 'CaptchaController@create');
+Route::post('/captcha', 'CaptchaController@captchaValidate');
+Route::get('/refreshcaptcha', 'CaptchaController@refreshCaptcha');

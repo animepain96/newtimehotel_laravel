@@ -142,6 +142,9 @@
                                                 <button title="Xóa" class="btn btn-danger" onclick="return confirm('Bạn có chắc chắn muốn xóa Phiếu thuê này?');" type="submit">Xóa</button>
                                             </form>
                                             <a title="Sửa" class="btn btn-primary" href="{{ route('thue.edit', $thues[$i]->id) }}">Sửa</a>
+                                            @if($thues[$i]->idtrangthai == 5)
+                                                <a title="Hóa đơn" class="btn btn-warning" href="{{ url('admin/invoice').'/'.$thues[$i]->id }}">Hóa đơn</a>
+                                            @endif
                                         </td>
                                     </tr>
                                 @endfor

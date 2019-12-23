@@ -16,7 +16,7 @@ class Thue extends Model
     ];
 
     public function khachhang(){
-        return $this->belongsTo('App\Khachhang', 'idphong','id');
+        return $this->belongsTo('App\Khachhang', 'idkhach','id');
     }
     public function phong(){
         return $this->belongsTo('App\Phong', 'idphong', 'id');

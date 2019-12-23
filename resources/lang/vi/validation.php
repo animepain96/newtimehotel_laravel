@@ -117,6 +117,7 @@ return [
     'uploaded' => ':attribute không thể tải lên.',
     'url' => ':attribute phải là địa chỉ Web hợp lệ.',
     'uuid' => ':attribute phải là UUID hợp lệ.',
+    'captcha' => 'Mã bảo vệ không đúng.',
 
     /*
     |--------------------------------------------------------------------------
@@ -184,6 +185,8 @@ return [
         'loaitin' => 'Loại tin',
         'anhdaidien' => 'Ảnh hiển thị',
         'ten' => 'Tên',
+        'sdt' => 'Số điện thoại',
+        'captcha' => 'Mã bảo vệ',
     ],
 
 ];
