@@ -24,7 +24,8 @@
                         <div class="card-body">
                             <div class="card-title mb-4">
                                 @if(session()->get('message') != null)
-                                    <div class="alert alert-{{ session()->get('message')['status'] }} alert-dismissible">
+                                    <div
+                                        class="alert alert-{{ session()->get('message')['status'] }} alert-dismissible">
                                         <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
                                         {{ session()->get('message')['content'] }}
                                     </div>
@@ -34,7 +35,8 @@
                                         <img src="{{ asset('images/customer').'/'.$khachhang->avatar }}" id="imgProfile"
                                              style="width: 150px; height: 150px" class="img-thumbnail"/>
                                         <div class="middle">
-                                            <form enctype="multipart/form-data" method="post" action="{{ url('/account/edit') }}">
+                                            <form enctype="multipart/form-data" method="post"
+                                                  action="{{ url('/account/edit') }}">
                                                 @csrf
                                                 <input name="avatar" type="button" class="btn btn-secondary"
                                                        id="btnChangePicture"
@@ -49,7 +51,8 @@
                                                 href="javascript:void(0);">{{ $khachhang->hoten }}</a></h2>
                                         <h6 class="d-block">Email: <a
                                                 href="javascript:void(0)">{{ $khachhang->email }}</a></h6>
-                                        <h6 class="d-block mt-4"><a href="{{ url('/account/edit') }}" class="btn btn-primary" id="btnUpdate">Cập nhật</a>
+                                        <h6 class="d-block mt-4"><a href="{{ url('/account/edit') }}"
+                                                                    class="btn btn-primary" id="btnUpdate">Cập nhật</a>
                                         </h6>
                                     </div>
                                     <div class="ml-auto">
@@ -128,38 +131,48 @@
                                         </div>
                                         <div class="tab-pane fade" id="booking-history" role="tabpanel"
                                              aria-labelledby="booking-history-tab">
-                                            <div class="col-md-12">
-                                                <table class="table table-striped">
-                                                    <thead>
-                                                    <tr>
-                                                        <th>STT</th>
-                                                        <th>Khách hàng</th>
-                                                        <th>Tên phòng</th>
-                                                        <th>Ngày đặt</th>
-                                                        <th>Bắt đầu</th>
-                                                        <th>Kết thúc</th>
-                                                        <th>Trạng thái</th>
-                                                    </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                    @for($i = 0; $i < count($thues); $i++)
+                                            <div class="col-sm-12">
+                                                <div class="table-responsive">
+                                                    <table id="booking-history-table" class="table table-striped">
+                                                        <thead>
                                                         <tr>
-                                                            <td>{{ $i + 1 }}</td>
-                                                            <td>{{ $thues[$i]->khachhang['hoten'] }}</td>
-                                                            <td>
-                                                                <a href="{{ url('/room').'/'. $thues[$i]->idphong }}"
-                                                                   target="_blank">{{ $thues[$i]->phong['tenphong'] }}</a>
-                                                            </td>
-                                                            <td>{{ \Carbon\Carbon::parse($thues[$i]->created_at)->format('d/m/Y H:i:s') }}</td>
-                                                            <td>{{ \Carbon\Carbon::parse($thues[$i]->batdau) }}</td>
-                                                            <td>{{ \Carbon\Carbon::parse($thues[$i]->ketthuc) }}</td>
-                                                            <td>{{ $thues[$i]->trangthaithue['mota'] }}</td>
+                                                            <th>STT</th>
+                                                            <th>Khách hàng</th>
+                                                            <th>Tên phòng</th>
+                                                            <th>Ngày đặt</th>
+                                                            <th>Bắt đầu</th>
+                                                            <th>Kết thúc</th>
+                                                            <th>Trạng thái</th>
                                                         </tr>
-                                                    @endfor
-                                                    </tbody>
-                                                </table>
+                                                        </thead>
+                                                        <tbody>
+                                                        @php
+                                                            /*
+                                                            @for($i = 0; $i < count($thues); $i++)
+                                                                <tr>
+                                                                    <td>{{ $i + 1 }}</td>
+                                                                    <td>{{ $thues[$i]->khachhang['hoten'] }}</td>
+                                                                    <td>
+                                                                        <a href="{{ url('/room').'/'. $thues[$i]->idphong }}"
+                                                                           target="_blank">{{ $thues[$i]->phong['tenphong'] }}</a>
+                                                                    </td>
+                                                                    <td>{{ \Carbon\Carbon::parse($thues[$i]->created_at)->format('d/m/Y H:i:s') }}</td>
+                                                                    <td>{{ \Carbon\Carbon::parse($thues[$i]->batdau) }}</td>
+                                                                    <td>{{ \Carbon\Carbon::parse($thues[$i]->ketthuc) }}</td>
+                                                                    <td>{{ $thues[$i]->trangthaithue['mota'] }}</td>
+                                                                </tr>
+                                                            @endfor
+                                                                */
+                                                        @endphp
+                                                        </tbody>
+                                                    </table>
+                                                </div>
                                             </div>
-                                            {{ $thues->links() }}
+                                            @php
+                                                /*
+                                             {{ $thues->links() }}
+                                             */
+                                            @endphp
                                         </div>
                                     </div>
                                 </div>
@@ -170,8 +183,48 @@
             </div>
         </div>
     </div>
+    <script>
+        $(document).ready(function () {
+            let bookingHistory = $('#booking-history-table').DataTable({
+                processing: true,
+                serverSide: true,
+                autoWidth: false,
+                responsive: true,
+                order: [[3, 'desc']],
+                ajax: {
+                    url: '{{route('customer.reservation.ajaxGetReservation')}}',
+                    method: 'post',
+                    headers: {
+                        'X-CSRF-TOKEN': '{{csrf_token()}}',
+                    },
+                },
+                columns: [
+                    {data: null, name: '#'},
+                    {data: 'khachhang.hoten', name: 'khachhang.hoten'},
+                    {data: 'phong.tenphong', name: 'phong.tenphong'},
+                    {data: 'created_at', name: 'created_at'},
+                    {data: 'batdau', name: 'batdau'},
+                    {data: 'ketthuc', name: 'ketthuc'},
+                    {data: 'trangthai', name: 'trangthaithue.mota'},
+                ],
+                columnDefs: [
+                    {targets: 0, searchable: false, orderable: false},
+                ],
+            });
+
+            bookingHistory.on('draw.dt', function () {
+                let info = bookingHistory.page.info();
+                bookingHistory.column(0, {search: 'applied', order: 'applied'}).nodes().each(function (cell, index) {
+                    cell.innerHTML = index + 1 + (info.page * info.length);
+                });
+            });
+
+        });
+    </script>
 @endsection
 
 @section('scripts')
+    <script src="{{ asset('assets/admin/js/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('assets/admin/js/dataTables.bootstrap4.min.js') }}"></script>
     <script src="{{ asset('assets/home/js/account.js') }}"></script>
 @endsection

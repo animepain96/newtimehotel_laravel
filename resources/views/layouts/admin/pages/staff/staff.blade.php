@@ -21,7 +21,7 @@
             <div class="col-xs-6 col-md-3 col-lg-3 no-padding">
                 <div class="panel panel-teal panel-widget">
                     <div class="row no-padding"><em class="fa fa-xl fa-group color-blue"></em>
-                        <div class="large">{{ count($nhanviens) }}</div>
+                        <div class="large">{{ /*count($nhanviens)*/ $count_NhanVien }}</div>
                         <div class="text-muted">Tổng cộng</div>
                     </div>
                 </div>
@@ -69,42 +69,46 @@
                             </tr>
                             </thead>
                             <tbody>
-                            @if(count($nhanviens) > 0)
-                                @for($i = 0; $i < count($nhanviens); $i++)
-                                    <tr>
-                                        <td scope="col">{{ $i+1 }}</td>
-                                        <td>{{ $nhanviens[$i]->id }}</td>
-                                        <td><img class="img-thumbnail"
-                                                 src="{{ asset('/images/staff') }}/{{ $nhanviens[$i]->avatar }}"
-                                                 alt="{{ $nhanviens[$i]->hoten }}"></td>
-                                        <td>{{ $nhanviens[$i]->tendangnhap }}</td>
-                                        <td>{{ $nhanviens[$i]->hoten }}</td>
-                                        <td>{{ $nhanviens[$i]->email }}</td>
-                                        <td>{{ \Carbon\Carbon::parse($nhanviens[$i]->ngaysinh)->format('d/m/Y') }}</td>
-                                        <td>{{ $nhanviens[$i]->gioitinh == true ? "Nam" : "Nữ" }}</td>
-                                        <td>{{ $nhanviens[$i]->sdt }}</td>
-                                        <td>{{ $nhanviens[$i]->diachi }} - {{ $nhanviens[$i]->thanhpho['ten'] }}
-                                            - {{ $nhanviens[$i]->tinh['ten'] }}</td>
-                                        <td><input type="checkbox"
-                                                   {{ $nhanviens[$i]->hoatdong == 1 ? "checked" : "" }} disabled></td>
-                                        <td>
-                                            @if(!($nhanviens[$i]->tendangnhap == 'admin'))
-                                                <form action="{{ route('nhanvien.destroy', $nhanviens[$i]->id) }}"
-                                                      method="post">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button class="btn btn-danger"
-                                                            onclick="return confirm('Bạn có chắc chắn muốn xóa Nhân viên này?');"
-                                                            type="submit">Xóa
-                                                    </button>
-                                                </form>
-                                                <a class="btn btn-primary"
-                                                   href="{{ route('nhanvien.edit', $nhanviens[$i]->id) }}">Sửa</a>
-                                            @endif
-                                        </td>
-                                    </tr>
-                                @endfor
-                            @endif
+                            @php
+                                /*
+                                @if(count($nhanviens) > 0)
+                                    @for($i = 0; $i < count($nhanviens); $i++)
+                                        <tr>
+                                            <td scope="col">{{ $i+1 }}</td>
+                                            <td>{{ $nhanviens[$i]->id }}</td>
+                                            <td><img class="img-thumbnail"
+                                                     src="{{ asset('/images/staff') }}/{{ $nhanviens[$i]->avatar }}"
+                                                     alt="{{ $nhanviens[$i]->hoten }}"></td>
+                                            <td>{{ $nhanviens[$i]->tendangnhap }}</td>
+                                            <td>{{ $nhanviens[$i]->hoten }}</td>
+                                            <td>{{ $nhanviens[$i]->email }}</td>
+                                            <td>{{ \Carbon\Carbon::parse($nhanviens[$i]->ngaysinh)->format('d/m/Y') }}</td>
+                                            <td>{{ $nhanviens[$i]->gioitinh == true ? "Nam" : "Nữ" }}</td>
+                                            <td>{{ $nhanviens[$i]->sdt }}</td>
+                                            <td>{{ $nhanviens[$i]->diachi }} - {{ $nhanviens[$i]->thanhpho['ten'] }}
+                                                - {{ $nhanviens[$i]->tinh['ten'] }}</td>
+                                            <td><input type="checkbox"
+                                                       {{ $nhanviens[$i]->hoatdong == 1 ? "checked" : "" }} disabled></td>
+                                            <td>
+                                                @if(!($nhanviens[$i]->tendangnhap == 'admin'))
+                                                    <form action="{{ route('nhanvien.destroy', $nhanviens[$i]->id) }}"
+                                                          method="post">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button class="btn btn-danger"
+                                                                onclick="return confirm('Bạn có chắc chắn muốn xóa Nhân viên này?');"
+                                                                type="submit">Xóa
+                                                        </button>
+                                                    </form>
+                                                    <a class="btn btn-primary"
+                                                       href="{{ route('nhanvien.edit', $nhanviens[$i]->id) }}">Sửa</a>
+                                                @endif
+                                            </td>
+                                        </tr>
+                                    @endfor
+                                @endif
+                                */
+                            @endphp
                             </tbody>
                         </table>
                     </div>
@@ -113,7 +117,43 @@
         </div>
     </div><!--/.row-->
     <script>
-        $('.table').DataTable();
+        let dataTable = $('.table').DataTable({
+            processing: true,
+            serverSide: true,
+            order: [[1, 'desc']],
+            ajax: {
+                url: '{{route('admin.staff.ajaxGetStaff')}}',
+                method: 'post',
+                headers: {
+                    'X-CSRF-TOKEN': '{{csrf_token()}}',
+                },
+            },
+            columns: [
+                {data: null, name: '#'},
+                {data: 'id', name: 'nhanviens.id'},
+                {data: 'avatar', name: 'avatar'},
+                {data: 'tendangnhap', name: 'tendangnhap'},
+                {data: 'hoten', name: 'hoten'},
+                {data: 'email', name: 'email'},
+                {data: 'ngaysinh', name: 'ngaysinh'},
+                {data: 'gioitinh', name: 'gioitinh'},
+                {data: 'sdt', name: 'sdt'},
+                {data: 'diachi', name: 'diachi'},
+                {data: 'hoatdong', name: 'hoatdong'},
+                {data: 'action', name: 'action'},
+            ],
+            columnDefs: [
+                {targets: 0, searchable: false, orderable: false},
+                {targets: 2, searchable: false, orderable: false},
+                {targets: 11, searchable: false, orderable: false},
+            ],
+        });
+        dataTable.on('draw.dt', function () {
+            dataTable.column(0, {search: 'applied', order: 'applied'}).nodes().each(function (cell, index) {
+                let info = dataTable.page.info();
+                cell.innerHTML = index + 1 + (info.page * info.length);
+            });
+        });
     </script>
 @endsection
 

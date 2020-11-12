@@ -21,7 +21,7 @@
             <div class="col-xs-6 col-md-3 col-lg-3 no-padding">
                 <div class="panel panel-teal panel-widget">
                     <div class="row no-padding"><em class="fa fa-xl fa-comment color-blue"></em>
-                        <div class="large">{{ count($danhgias) }}</div>
+                        <div class="large">{{ /*count($danhgias)*/ $count_DanhGia }}</div>
                         <div class="text-muted">Tổng cộng</div>
                     </div>
                 </div>
@@ -55,7 +55,6 @@
                                 <th scope="col">Mã</th>
                                 <th scope="col">Khách hàng</th>
                                 <th scope="col">Nội dung</th>
-                                <th scope="col">Ngày gửi</th>
                                 <th scope="col">Hiển thị</th>
                                 <th scope="col">Ngày thêm</th>
                                 <th scope="col">Ngày cập nhật</th>
@@ -63,37 +62,41 @@
                             </tr>
                             </thead>
                             <tbody>
-                            @if(count($danhgias) > 0)
-                                @for($i = 0; $i < count($danhgias); $i++)
-                                    <tr>
-                                        <td scope="col">{{ $i+1 }}</td>
-                                        <td>{{ $danhgias[$i]->id }}</td>
-                                        <td title="{{ $danhgias[$i]->khachhang['tendangnhap'] }}">{{ $danhgias[$i]->khachhang['hoten'] }}</td>
-                                        <td>{{ $danhgias[$i]->noidung }}</td>
-                                        <td>{{ $danhgias[$i]->ngaygui }}</td>
-                                        <td>
-                                            <form action="{{ route('danhgia.update', $danhgias[$i]->id) }}" method="post">
-                                                @csrf
-                                                @method('PATCH')
-                                                @if($danhgias[$i]->hienthi == 1)
-                                                    <button type="submit" class="btn btn-success">Hiển thị</button>
-                                                @else
-                                                    <button type="submit" class="btn btn-secondary">Ẩn</button>
-                                                @endif
-                                            </form>
-                                        </td>
-                                        <td>{{ $danhgias[$i]->created_at }}</td>
-                                        <td>{{ $danhgias[$i]->updated_at }}</td>
-                                        <td>
-                                            <form action="{{ route('danhgia.destroy', $danhgias[$i]->id) }}" method="post">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button class="btn btn-danger" onclick="return confirm('Bạn có chắc chắn muốn xóa Đánh giá này?');" type="submit">Xóa</button>
-                                            </form>
-                                        </td>
-                                    </tr>
-                                @endfor
-                            @endif
+                            @php
+                                /*
+                                @if(count($danhgias) > 0)
+                                    @for($i = 0; $i < count($danhgias); $i++)
+                                        <tr>
+                                            <td scope="col">{{ $i+1 }}</td>
+                                            <td>{{ $danhgias[$i]->id }}</td>
+                                            <td title="{{ $danhgias[$i]->khachhang['tendangnhap'] }}">{{ $danhgias[$i]->khachhang['hoten'] }}</td>
+                                            <td>{{ $danhgias[$i]->noidung }}</td>
+                                            <td>{{ $danhgias[$i]->ngaygui }}</td>
+                                            <td>
+                                                <form action="{{ route('danhgia.update', $danhgias[$i]->id) }}" method="post">
+                                                    @csrf
+                                                    @method('PATCH')
+                                                    @if($danhgias[$i]->hienthi == 1)
+                                                        <button type="submit" class="btn btn-success">Hiển thị</button>
+                                                    @else
+                                                        <button type="submit" class="btn btn-secondary">Ẩn</button>
+                                                    @endif
+                                                </form>
+                                            </td>
+                                            <td>{{ $danhgias[$i]->created_at }}</td>
+                                            <td>{{ $danhgias[$i]->updated_at }}</td>
+                                            <td>
+                                                <form action="{{ route('danhgia.destroy', $danhgias[$i]->id) }}" method="post">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button class="btn btn-danger" onclick="return confirm('Bạn có chắc chắn muốn xóa Đánh giá này?');" type="submit">Xóa</button>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                    @endfor
+                                @endif
+                                */
+                            @endphp
                             </tbody>
                         </table>
                     </div>
@@ -102,7 +105,38 @@
         </div>
     </div><!--/.row-->
     <script>
-        $('.table').DataTable();
+        let dataTable = $('.table').DataTable({
+            processing: true,
+            serverSide: true,
+            order: [[1, 'desc']],
+            ajax: {
+                url: '{{route('admin.comment.ajaxGetReview')}}',
+                method: 'post',
+                headers: {
+                    'X-CSRF-TOKEN': '{{csrf_token()}}',
+                },
+            },
+            columns: [
+                {data: null, name: '#'},
+                {data: 'id', name: 'id'},
+                {data: 'khachhang.hoten', name: 'khachhang.hoten'},
+                {data: 'noidung', name: 'noidung'},
+                {data: 'hienthi', name: 'hienthi'},
+                {data: 'created_at', name: 'created_at'},
+                {data: 'updated_at', name: 'updated_at'},
+                {data: 'action', name: 'action'},
+            ],
+            columnDefs: [
+                {targets: 0, searchable: false},
+                {targets: 7, searchable: false, orderable: false},
+            ],
+        });
+        dataTable.on('draw.dt', function () {
+            let info = dataTable.page.info();
+            dataTable.column(0, {search: 'applied', order: 'applied'}).nodes().each(function (cell, index) {
+                cell.innerHTML = index + 1 + (info.page * info.length);
+            });
+        });
     </script>
     @if(isset($message))
         <div class="alert alert-{{$message['status']}} alert-dismissible fade show" role="alert">

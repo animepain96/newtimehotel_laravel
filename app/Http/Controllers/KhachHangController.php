@@ -8,7 +8,10 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
+use Yajra\DataTables\Facades\DataTables;
 
 class KhachHangController extends Controller
 {
@@ -19,9 +22,11 @@ class KhachHangController extends Controller
      */
     public function index()
     {
-        $khachhangs = Khachhang::with(['thanhpho', 'tinh'])->orderBy('created_at', 'desc')->get();
+        //$khachhangs = Khachhang::with(['thanhpho', 'tinh'])->orderBy('created_at', 'desc')->get();
         //print_r($khachhangs);
-        return view('layouts.admin.pages.customer.customer', compact('khachhangs'));
+        $count_KhachHang = Khachhang::count();
+        $count_KhachMoi = Khachhang::whereMonth('created_at', Carbon::now()->format('m'))->count();
+        return view('layouts.admin.pages.customer.customer'/*, compact('khachhangs')*/)->with(['count_KhachHang' => $count_KhachHang, 'count_KhachMoi' => $count_KhachMoi]);
     }
 
     /**
@@ -71,8 +76,7 @@ class KhachHangController extends Controller
         $kichhoat = $request->has('kichhoat');
         if ($request->hasFile('avatar')) {
             $avatar = time() . '.' . $request->file('avatar')->getClientOriginalExtension();
-        }
-        else{
+        } else {
             $avatar = "";
         }
 
@@ -121,7 +125,7 @@ class KhachHangController extends Controller
     public function edit($id)
     {
         $khachhang = Khachhang::find($id);
-        if($khachhang == null){
+        if ($khachhang == null) {
             return redirect('admin/khachhang')->with('message', ['status' => 'danger', 'content' => 'Không thể tìm thấy người dùng.']);
         }
         return view('layouts.admin.pages.customer.edit', compact('khachhang'));
@@ -139,7 +143,7 @@ class KhachHangController extends Controller
         $request->validate([
             'hoten' => 'required|max:150',
             'matkhau' => 'nullable|bail|min:8|max:50',
-            'email' => ['bail','required','email', Rule::unique('khachhangs', 'email')->ignore($id)],
+            'email' => ['bail', 'required', 'email', Rule::unique('khachhangs', 'email')->ignore($id)],
             'ngaysinh' => 'required|before_or_equal:2010-01-01|date_format:d/m/Y',
             'sdt' => ['nullable', 'regex:/^0(1\d{9}|9\d{8})$/'],
             'gioitinh' => 'nullable',
@@ -161,18 +165,17 @@ class KhachHangController extends Controller
         $kichhoat = $request->has('kichhoat');
         if ($request->hasFile('avatar')) {
             $avatar = time() . '.' . $request->file('avatar')->getClientOriginalExtension();
-        }
-        else{
+        } else {
             $avatar = '';
         }
 
         $khachhang = Khachhang::find($id);
-        if($khachhang == null){
+        if ($khachhang == null) {
             return redirect('admin/khachhang')->with('message', array('status' => 'danger', 'content' => 'Không thể tìm thấy thông tin khách hàng.'));
         }
 
         $khachhang->hoten = $hoten;
-        if($matkhau != ''){
+        if ($matkhau != '') {
             $khachhang->matkhau = $matkhau;
         }
         $khachhang->email = $email;
@@ -184,8 +187,8 @@ class KhachHangController extends Controller
         $khachhang->diachi = $diachi;
         $khachhang->hoatdong = $hoatdong;
         $khachhang->kichhoat = $kichhoat;
-        if($avatar != ''){
-            File::delete(public_path('images/customer').'\\'.$khachhang->avatar);
+        if ($avatar != '') {
+            File::delete(public_path('images/customer') . '\\' . $khachhang->avatar);
             request()->file('avatar')->move(public_path('images/customer'), $avatar);
             $khachhang->avatar = $avatar;
         }
@@ -204,11 +207,75 @@ class KhachHangController extends Controller
     public function destroy($id)
     {
         $khachhang = Khachhang::find($id);
-        if($khachhang == null){
+        if ($khachhang == null) {
             return redirect('admin/khachhang')->with('message', ['status' => 'danger', 'content' => 'Không thể tìm thấy người dùng.']);
         }
-        File::delete(public_path().'images/customer/'.'\\'.$khachhang->avatar);
+        File::delete(public_path() . 'images/customer/' . '\\' . $khachhang->avatar);
         $khachhang->delete();
         return redirect('admin/khachhang')->with('message', ['status' => 'success', 'content' => 'Xóa người dùng thành công.']);
+    }
+
+    public function ajaxGetCustomer(Request $request)
+    {
+        if ($request->ajax()) {
+            $khachhangs = Khachhang::leftJoin('diachis as thanhpho', 'khachhangs.idthanhpho', '=', 'thanhpho.id')
+                ->leftJoin('diachis as tinh', 'khachhangs.idtinh', '=', 'tinh.id')
+                ->selectRaw('khachhangs.*');
+
+            return DataTables::eloquent($khachhangs)
+                ->addIndexColumn()
+                ->filterColumn('ngaysinh', function ($query, $keyword) {
+                    $sql = 'DATE_FORMAT(ngaysinh, "%d/%m/%Y") LIKE ?';
+                    $query->whereRaw($sql, ["{$keyword}%"]);
+                })
+                ->filterColumn('gioitinh', function ($query, $keyword) {
+                    $q = Str::lower($keyword);
+                    if (in_array($q, ['nam', 'nữ'])) {
+                        $gt = $q == 'nam' ? 1 : 0;
+                        $query->whereRaw('gioitinh = ?', ["{$gt}"]);
+                    }
+                })
+                ->filterColumn('diachi', function ($query, $keyword) {
+                    $q = Str::lower($keyword);
+                    $query->whereRaw('CONCAT(khachhangs.diachi,"-",thanhpho.ten,"-",tinh.ten) LIKE ?', ["%{$q}%"]);
+                })
+                ->editColumn('avatar', function ($khachhang) {
+                    return '<img class="img-thumbnail" src="' . asset('/images/customer/' . $khachhang->avatar) . '" alt="' . $khachhang->hoten . '">';
+                })
+                ->editColumn('ngaysinh', function ($khachhang) {
+                    if ($khachhang->ngaysinh) {
+                        return Carbon::make($khachhang->ngaysinh)->format('d/m/Y');
+                    }
+                    return null;
+                })
+                ->editColumn('gioitinh', function ($khachhang) {
+                    return ($khachhang->gioitinh ? 'Nam' : 'Nữ');
+                })
+                ->editColumn('diachi', function ($khachhang) {
+                    $diachi = $khachhang->diachi;
+                    if ($khachhang->thanhpho) {
+                        $diachi .= '-' . $khachhang->thanhpho->ten;
+                    }
+                    if ($khachhang->tinh) {
+                        $diachi .= '-' . $khachhang->tinh->ten;
+                    }
+                    return $diachi;
+                })
+                ->editColumn('kichhoat', function ($khachhang) {
+                    return '<input type="checkbox" ' . ($khachhang->kichhoat ? 'checked ' : '') . 'disabled>';
+                })
+                ->editColumn('hoatdong', function ($khachhang) {
+                    return '<input type="checkbox" ' . ($khachhang->hoatdong ? 'checked ' : '') . 'disabled>';
+                })
+                ->addColumn('action', function ($khachhang) {
+                    $btn = '<form action="' . route('khachhang.destroy', $khachhang->id) . '" method="post">' . csrf_field() . method_field('delete') . '<button class="btn btn-danger" onclick="return confirm(\'Bạn có chắc chắn muốn xóa Người dùng này?\');" type="submit">Xóa</button></form>';
+                    $btn .= '<a class="btn btn-primary" href="' . route('khachhang.edit', $khachhang->id) . '">Sửa</a>';
+                    return $btn;
+                })
+                ->rawColumns(['avatar', 'action', 'kichhoat', 'hoatdong'])
+                ->toJson();
+        }
+        echo 'Bad request';
+        die;
     }
 }

@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
+use Yajra\DataTables\Facades\DataTables;
 
 class CustomerController extends Controller
 {
@@ -124,11 +125,11 @@ class CustomerController extends Controller
     {
         $khachhang = Khachhang::find(Auth::guard('khachhang')->user()->id);
         if ($khachhang != null) {
-            $thues = Thue::with('phong', 'khachhang')
+            /*$thues = Thue::with('phong', 'khachhang')
                 ->where('idkhach', '=', $khachhang->id)
                 ->orderBy('created_at', 'desc')
-                ->paginate(10);
-            return view('layouts.home.pages.account', compact('khachhang', 'thues'));
+                ->paginate(10);*/
+            return view('layouts.home.pages.account', compact('khachhang'/*, 'thues'*/));
         }
     }
 
@@ -247,5 +248,67 @@ class CustomerController extends Controller
         }
 
         return redirect('/login')->with('message', array('status' => 'danger', 'content' => 'Không thể lấy thông tin. Vui lòng thử lại sau hoặc gửi tin nhắn cho chúng tôi.'));
+    }
+
+    public function ajaxGetReservation(Request $request)
+    {
+        if ($request->ajax()) {
+            $thues = Thue::with('khachhang', 'phong', 'trangthaithue')->where('idkhach', Auth::guard('khachhang')->user()->id);
+            return DataTables::eloquent($thues)
+                ->filterColumn('created_at', function ($query, $keyword) {
+                    $sql = 'DATE_FORMAT(created_at, "%d/%m/%Y") LIKE ?';
+                    $query->whereRaw($sql, ["{$keyword}%"]);
+                })
+                ->filterColumn('batdau', function ($query, $keyword) {
+                    $sql = 'DATE_FORMAT(batdau, "%d/%m/%Y") LIKE ?';
+                    $query->whereRaw($sql, ["{$keyword}%"]);
+                })
+                ->filterColumn('ketthuc', function ($query, $keyword) {
+                    $sql = 'DATE_FORMAT(ketthuc, "%d/%m/%Y") LIKE ?';
+                    $query->whereRaw($sql, ["{$keyword}%"]);
+                })
+                ->editColumn('phong.tenphong', function ($thue) {
+                    return '<a href="' . url('/room') . '/' . $thue->idphong . '" target="_blank">' . $thue->phong['tenphong'] . '</a>';
+                })
+                ->editColumn('created_at', function ($thue) {
+                    return Carbon::make($thue->created_at)->format('d/m/Y');
+                })
+                ->editColumn('batdau', function ($thue) {
+                    return Carbon::make($thue->batdau)->format('d/m/Y');
+                })
+                ->editColumn('ketthuc', function ($thue) {
+                    return Carbon::make($thue->ketthuc)->format('d/m/Y');
+                })
+                ->editColumn('trangthai', function ($thue) {
+                    $trangthai = $thue->trangthaithue->id;
+                    $text = '<label class="%s">' . $thue->trangthaithue->mota . '</label>';
+                    switch ($trangthai) {
+                        case 0:
+                            $text = sprintf($text, 'bg-info');
+                            break;
+                        case 1:
+                            $text = sprintf($text, 'bg-warning');
+                            break;
+                        case 2:
+                            $text = sprintf($text, 'bg-blue');
+                            break;
+                        case 3:
+                            $text = sprintf($text, 'bg-danger');
+                            break;
+                        case 4:
+                            $text = sprintf($text, 'bg-primary');
+                            break;
+                        default:
+                            $text = sprintf($text, 'bg-success');
+                    }
+
+                    return $text;
+                })
+                ->rawColumns(['phong.tenphong', 'trangthai'])
+                ->toJson();
+        }
+
+        echo 'Bad request';
+        die;
     }
 }

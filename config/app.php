@@ -179,6 +179,10 @@ return [
         Mews\Captcha\CaptchaServiceProvider::class,
         /*excel export*/
         Maatwebsite\Excel\ExcelServiceProvider::class,
+        /*yajra datatable*/
+        Yajra\DataTables\DataTablesServiceProvider::class,
+        /*debug bar*/
+        Barryvdh\Debugbar\ServiceProvider::class,
 
     ],
 
@@ -236,6 +240,12 @@ return [
 
         //excel export
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
+
+        //yajra datatables
+        'DataTables' => Yajra\DataTables\Facades\DataTables::class,
+
+        //debug bar
+        'Debugbar' => Barryvdh\Debugbar\Facade::class,
 
     ],
 

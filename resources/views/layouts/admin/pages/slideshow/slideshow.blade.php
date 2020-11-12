@@ -21,7 +21,7 @@
             <div class="col-xs-6 col-md-3 col-lg-3 no-padding">
                 <div class="panel panel-teal panel-widget">
                     <div class="row no-padding"><em class="fa fa-xl fa-group color-blue"></em>
-                        <div class="large">{{ count($slideshows) }}</div>
+                        <div class="large">{{ /*count($slideshows)*/ $count_SlideShow }}</div>
                         <div class="text-muted">Tổng cộng</div>
                     </div>
                 </div>
@@ -67,29 +67,33 @@
                             </tr>
                             </thead>
                             <tbody>
-                            @if(count($slideshows) > 0)
-                                @for($i = 0; $i < count($slideshows); $i++)
-                                    <tr>
-                                        <td scope="col">{{ $i+1 }}</td>
-                                        <td>{{ $slideshows[$i]->id }}</td>
-                                        <td><img class="img-thumbnail" alt="{{ $slideshows[$i]->tieude }}" src="{{ asset('images/slideshow') }}/{{ $slideshows[$i]->urlanh }}" /></td>
-                                        <td>{{ $slideshows[$i]->tieude }}</td>
-                                        <td>{{ $slideshows[$i]->mota }}</td>
-                                        <td>{{ $slideshows[$i]->lienket }}</td>
-                                        <td><input type="checkbox" disabled {{ $slideshows[$i]->hoatdong == 1 ? 'checked' : '' }}></td>
-                                        <td>{{ $slideshows[$i]->created_at }}</td>
-                                        <td>{{ $slideshows[$i]->updated_at }}</td>
-                                        <td>
-                                            <form action="{{ route('slideshow.destroy', $slideshows[$i]->id) }}" method="post">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button class="btn btn-danger" onclick="return confirm('Bạn có chắc chắn muốn xóa Slideshow này?');" type="submit">Xóa</button>
-                                            </form>
-                                            <a class="btn btn-primary" href="{{ route('slideshow.edit', $slideshows[$i]->id) }}">Sửa</a>
-                                        </td>
-                                    </tr>
-                                @endfor
-                            @endif
+                            @php
+                                /*
+                                @if(count($slideshows) > 0)
+                                    @for($i = 0; $i < count($slideshows); $i++)
+                                        <tr>
+                                            <td scope="col">{{ $i+1 }}</td>
+                                            <td>{{ $slideshows[$i]->id }}</td>
+                                            <td><img class="img-thumbnail" alt="{{ $slideshows[$i]->tieude }}" src="{{ asset('images/slideshow') }}/{{ $slideshows[$i]->urlanh }}" /></td>
+                                            <td>{{ $slideshows[$i]->tieude }}</td>
+                                            <td>{{ $slideshows[$i]->mota }}</td>
+                                            <td>{{ $slideshows[$i]->lienket }}</td>
+                                            <td><input type="checkbox" disabled {{ $slideshows[$i]->hoatdong == 1 ? 'checked' : '' }}></td>
+                                            <td>{{ $slideshows[$i]->created_at }}</td>
+                                            <td>{{ $slideshows[$i]->updated_at }}</td>
+                                            <td>
+                                                <form action="{{ route('slideshow.destroy', $slideshows[$i]->id) }}" method="post">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button class="btn btn-danger" onclick="return confirm('Bạn có chắc chắn muốn xóa Slideshow này?');" type="submit">Xóa</button>
+                                                </form>
+                                                <a class="btn btn-primary" href="{{ route('slideshow.edit', $slideshows[$i]->id) }}">Sửa</a>
+                                            </td>
+                                        </tr>
+                                    @endfor
+                                @endif
+                            */
+                            @endphp
                             </tbody>
                         </table>
                     </div>
@@ -98,7 +102,41 @@
         </div>
     </div><!--/.row-->
     <script>
-        $('.table').DataTable();
+        let dataTable = $('.table').DataTable({
+            processing: true,
+            serverSide: true,
+            order: [[1, 'desc']],
+            ajax: {
+                url: '{{route('admin.slideshow.ajaxGetSlideShow')}}',
+                method: 'post',
+                headers: {
+                    'X-CSRF-TOKEN': '{{csrf_token()}}',
+                },
+            },
+            columns: [
+                {data: null, name: '#'},
+                {data: 'id', name: 'id'},
+                {data: 'urlanh', name: 'urlanh'},
+                {data: 'tieude', name: 'tieude'},
+                {data: 'mota', name: 'mota'},
+                {data: 'lienket', name: 'lienket'},
+                {data: 'hoatdong', name: 'hoatdong'},
+                {data: 'created_at', name: 'created_at'},
+                {data: 'updated_at', name: 'updated_at'},
+                {data: 'action', name: 'action'},
+            ],
+            columnDefs: [
+                { targets: 0, searchable: false, orderable: false, visible: true },
+                { targets: 2, searchable: false, orderable: false, visible: true },
+                { targets: 9, searchable: false, orderable: false, visible: true },
+            ],
+        });
+        dataTable.on('draw.dt', function () {
+            dataTable.column(0, {search: 'applied', order: 'applied'}).nodes().each(function (cell, index) {
+                let info = dataTable.page.info();
+                cell.innerHTML = index + 1 + (info.page * info.length);
+            });
+        });
     </script>
 @endsection
 

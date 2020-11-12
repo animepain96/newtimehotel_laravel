@@ -28,7 +28,7 @@
             <div class="col-xs-6 col-md-3 col-lg-3 no-padding">
                 <div class="panel panel-teal panel-widget">
                     <div class="row no-padding"><em class="fa fa-xl fa-group color-blue"></em>
-                        <div class="large">{{ count($tinnhans) }}</div>
+                        <div class="large">{{ /*count($tinnhans)*/$count_TinNhan }}</div>
                         <div class="text-muted">Tổng cộng</div>
                     </div>
                 </div>
@@ -66,32 +66,36 @@
                             </tr>
                             </thead>
                             <tbody>
-                            @if(count($tinnhans) > 0)
-                                @for($i = 0; $i < count($tinnhans); $i++)
-                                    <tr>
-                                        <td scope="col">{{ $i+1 }}</td>
-                                        <td>{{ $tinnhans[$i]->id }}</td>
-                                        <td>{{ $tinnhans[$i]->hoten }}</td>
-                                        <td>{{ $tinnhans[$i]->email }}</td>
-                                        <td>{{ $tinnhans[$i]->tieude }}</td>
-                                        <td>{{ $tinnhans[$i]->noidung }}</td>
-                                        <td>{{ \Carbon\Carbon::parse($tinnhans[$i]->created_at)->format('d/m/Y H:i:s') }}</td>
-                                        <td>{{ \Carbon\Carbon::parse($tinnhans[$i]->updated_at)->format('d/m/Y H:i:s') }}</td>
-                                        <td>
-                                            <a class="btn btn-primary" href="{{ url('/admin/mail').'/'.$tinnhans[$i]->email }}" title="Gửi thư">
-                                                Gửi thư
-                                            </a>
-                                            <form action="{{ route('tinnhan.destroy', $tinnhans[$i]->id) }}" method="post">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button onclick="return confirm('Bạn có muốn xóa Tin nhắn này?');" class="btn btn-danger" title="Xóa">
-                                                    Xóa
-                                                </button>
-                                            </form>
-                                        </td>
-                                    </tr>
-                                @endfor
-                            @endif
+                            @php
+                                /*
+                                @if(count($tinnhans) > 0)
+                                    @for($i = 0; $i < count($tinnhans); $i++)
+                                        <tr>
+                                            <td scope="col">{{ $i+1 }}</td>
+                                            <td>{{ $tinnhans[$i]->id }}</td>
+                                            <td>{{ $tinnhans[$i]->hoten }}</td>
+                                            <td>{{ $tinnhans[$i]->email }}</td>
+                                            <td>{{ $tinnhans[$i]->tieude }}</td>
+                                            <td>{{ $tinnhans[$i]->noidung }}</td>
+                                            <td>{{ \Carbon\Carbon::parse($tinnhans[$i]->created_at)->format('d/m/Y H:i:s') }}</td>
+                                            <td>{{ \Carbon\Carbon::parse($tinnhans[$i]->updated_at)->format('d/m/Y H:i:s') }}</td>
+                                            <td>
+                                                <a class="btn btn-primary" href="{{ url('/admin/mail').'/'.$tinnhans[$i]->email }}" title="Gửi thư">
+                                                    Gửi thư
+                                                </a>
+                                                <form action="{{ route('tinnhan.destroy', $tinnhans[$i]->id) }}" method="post">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button onclick="return confirm('Bạn có muốn xóa Tin nhắn này?');" class="btn btn-danger" title="Xóa">
+                                                        Xóa
+                                                    </button>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                    @endfor
+                                @endif
+                                */
+                            @endphp
                             </tbody>
                         </table>
                     </div>
@@ -100,7 +104,40 @@
         </div>
     </div><!--/.row-->
     <script>
-        $('.table').DataTable();
+        let dataTable = $('.table').DataTable({
+            processing: true,
+            serverSide: true,
+            order: [[1, 'desc']],
+            ajax: {
+                url: '{{route('admin.contact.ajaxGetContact')}}',
+                method: 'post',
+                headers: {
+                    'X-CSRF-TOKEN': '{{csrf_token()}}',
+                },
+            },
+            columns: [
+                {data: null, name: '#'},
+                {data: 'id', name: 'id'},
+                {data: 'hoten', name: 'hoten'},
+                {data: 'email', name: 'email'},
+                {data: 'tieude', name: 'tieude'},
+                {data: 'noidung', name: 'noidung'},
+                {data: 'created_at', name: 'created_at'},
+                {data: 'updated_at', name: 'updated_at'},
+                {data: 'action', name: 'action'},
+            ],
+            columnDefs: [
+                {targets: 0, searchable: false},
+                {targets: 8, searchable: false, orderable: false},
+            ],
+        });
+
+        dataTable.on('draw.dt', function () {
+            let info = dataTable.page.info();
+            dataTable.column(0, {search: 'applied', order: 'applied'}).nodes().each(function (cell, index) {
+                cell.innerHTML = index + 1 + (info.page * info.length);
+            });
+        });
     </script>
 @endsection
 

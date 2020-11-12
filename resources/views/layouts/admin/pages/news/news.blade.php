@@ -21,7 +21,7 @@
             <div class="col-xs-6 col-md-3 col-lg-3 no-padding">
                 <div class="panel panel-teal panel-widget">
                     <div class="row no-padding"><em class="fa fa-xl fa-newspaper-o color-red"></em>
-                        <div class="large">{{ count($tins) }}</div>
+                        <div class="large">{{ /*count($tins)*/ $count_Tin }}</div>
                         <div class="text-muted">Tổng cộng</div>
                     </div>
                 </div>
@@ -68,30 +68,34 @@
                             </tr>
                             </thead>
                             <tbody>
-                            @if(count($tins) > 0)
-                                @for($i = 0; $i < count($tins); $i++)
-                                    <tr>
-                                        <td scope="col">{{ $i+1 }}</td>
-                                        <td>{{ $tins[$i]->id }}</td>
-                                        <td><img alt="{{ $tins[$i]->tieude }}" class="img-thumbnail" src="{{ asset('images/news') }}/{{ $tins[$i]->anhdaidien }}"></td>
-                                        <td>{{ $tins[$i]->tieude }}</td>
-                                        <td>{{ $tins[$i]->mota }}</td>
-                                        <td title="{{ $tins[$i]->nhanvien['tendangnhap'] }}">{{ $tins[$i]->nhanvien['hoten'] }}</td>
-                                        <td>{{ $tins[$i]->loaitin['ten'] }}</td>
-                                        <td><input type="checkbox" disabled {{ $tins[$i]->hoatdong == 1 ? 'checked' : '' }}></td>
-                                        <td>{{ \Carbon\Carbon::parse($tins[$i]->created_at)->format('d/m/Y H:i:s') }}</td>
-                                        <td>{{ \Carbon\Carbon::parse($tins[$i]->updated_at)->format('d/m/Y H:i:s') }}</td>
-                                        <td>
-                                            <form action="{{ route('tin.destroy', $tins[$i]->id) }}" method="post">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button class="btn btn-danger" onclick="return confirm('Bạn có chắc chắn muốn xóa Tin tức này?');" type="submit">Xóa</button>
-                                            </form>
-                                            <a class="btn btn-primary" href="{{ route('tin.edit', $tins[$i]->id) }}">Sửa</a>
-                                        </td>
-                                    </tr>
-                                @endfor
-                            @endif
+                            @php
+                                /*
+                                @if(count($tins) > 0)
+                                    @for($i = 0; $i < count($tins); $i++)
+                                        <tr>
+                                            <td scope="col">{{ $i+1 }}</td>
+                                            <td>{{ $tins[$i]->id }}</td>
+                                            <td><img alt="{{ $tins[$i]->tieude }}" class="img-thumbnail" src="{{ asset('images/news') }}/{{ $tins[$i]->anhdaidien }}"></td>
+                                            <td>{{ $tins[$i]->tieude }}</td>
+                                            <td>{{ $tins[$i]->mota }}</td>
+                                            <td title="{{ $tins[$i]->nhanvien['tendangnhap'] }}">{{ $tins[$i]->nhanvien['hoten'] }}</td>
+                                            <td>{{ $tins[$i]->loaitin['ten'] }}</td>
+                                            <td><input type="checkbox" disabled {{ $tins[$i]->hoatdong == 1 ? 'checked' : '' }}></td>
+                                            <td>{{ \Carbon\Carbon::parse($tins[$i]->created_at)->format('d/m/Y H:i:s') }}</td>
+                                            <td>{{ \Carbon\Carbon::parse($tins[$i]->updated_at)->format('d/m/Y H:i:s') }}</td>
+                                            <td>
+                                                <form action="{{ route('tin.destroy', $tins[$i]->id) }}" method="post">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button class="btn btn-danger" onclick="return confirm('Bạn có chắc chắn muốn xóa Tin tức này?');" type="submit">Xóa</button>
+                                                </form>
+                                                <a class="btn btn-primary" href="{{ route('tin.edit', $tins[$i]->id) }}">Sửa</a>
+                                            </td>
+                                        </tr>
+                                    @endfor
+                                @endif
+                            */
+                            @endphp
                             </tbody>
                         </table>
                     </div>
@@ -100,7 +104,42 @@
         </div>
     </div><!--/.row-->
     <script>
-        $('.table').DataTable();
+        let dataTable = $('.table').DataTable({
+            processing: true,
+            serverSide: true,
+            order: [[1, 'desc']],
+            ajax: {
+                url: '{{route('admin.news.ajaxGetNews')}}',
+                method: 'post',
+                headers: {
+                    'X-CSRF-TOKEN': '{{csrf_token()}}',
+                },
+            },
+            columns: [
+                {data: null, name: '#'},
+                {data: 'id', name: 'id'},
+                {data: 'anhdaidien', name: 'anhdaidien'},
+                {data: 'tieude', name: 'tieude'},
+                {data: 'mota', name: 'mota'},
+                {data: 'nhanvien.hoten', name: 'nhanvien.hoten'},
+                {data: 'loaitin.ten', name: 'loaitin.ten'},
+                {data: 'hoatdong', name: 'hoatdong'},
+                {data: 'created_at', name: 'created_at'},
+                {data: 'updated_at', name: 'updated_at'},
+                {data: 'action', name: 'action'},
+            ],
+            columnDefs: [
+                {targets: 0, searchable: false, orderable: false},
+                {targets: 2, searchable: false, orderable: false},
+                {targets: 10, searchable: false, orderable: false},
+            ],
+        });
+        dataTable.on('draw.dt', function () {
+            dataTable.column(0, {search: 'applied', order: 'applied'}).nodes().each(function (cell, index) {
+                let info = dataTable.page.info();
+                cell.innerHTML = index + 1 + (info.page * info.length);
+            });
+        });
     </script>
 @endsection
 
