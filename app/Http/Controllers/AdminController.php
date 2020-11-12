@@ -144,7 +144,7 @@ class AdminController extends Controller
     {
         if ($request->ajax()) {
             $phongsThemGia = Phong::with('loaiphong', 'vitri')
-                ->whereNotIn('id', Banggia::select('banggias.idphong')
+                ->whereNotIn('phongs.id', Banggia::select('banggias.idphong')
                     ->whereRaw('? between batdau and ketthuc', Carbon::now()->format('Y-m-d')));
             return DataTables::eloquent($phongsThemGia)
                 ->filterColumn('created_at', function ($query, $keyword) {

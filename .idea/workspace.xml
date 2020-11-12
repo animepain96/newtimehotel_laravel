@@ -4,8 +4,6 @@
     <list default="true" id="f99ed99a-84cd-4f4a-9365-a748c6dcaf47" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/AdminController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/AdminController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/layouts/admin/pages/admin.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/layouts/admin/pages/admin.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -246,7 +244,7 @@
       <workItem from="1604912878786" duration="859000" />
       <workItem from="1604972589271" duration="9879000" />
       <workItem from="1605056528803" duration="32178000" />
-      <workItem from="1605143335252" duration="21266000" />
+      <workItem from="1605143335252" duration="21615000" />
     </task>
     <servers />
   </component>
