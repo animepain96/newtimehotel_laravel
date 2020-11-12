@@ -21,7 +21,7 @@
             <div class="col-xs-6 col-md-3 col-lg-3 no-padding">
                 <div class="panel panel-teal panel-widget border-right">
                     <div class="row no-padding"><em class="fa fa-xl fa-group color-blue"></em>
-                        <div class="large">{{ count($khachhangs) }}</div>
+                        <div class="large">{{ /*count($khachhangs)*/ $count_KhachHang }}</div>
                         <div class="text-muted">Tổng cộng</div>
                     </div>
                 </div>
@@ -29,7 +29,7 @@
             <div class="col-xs-6 col-md-3 col-lg-3 no-padding">
                 <div class="panel panel-teal panel-widget">
                     <div class="row no-padding"><em class="fa fa-xl fa-user-plus color-orange"></em>
-                        <div class="large">{{ count($khachhangs) }}</div>
+                        <div class="large">{{ /*count($khachhangs)*/ $count_KhachMoi }}</div>
                         <div class="text-muted">Mới trong tháng</div>
                     </div>
                 </div>
@@ -78,34 +78,46 @@
                             </tr>
                             </thead>
                             <tbody>
-                            @if(count($khachhangs) > 0)
-                                @for($i = 0; $i < count($khachhangs); $i++)
-                                    <tr>
-                                        <td scope="col">{{ $i+1 }}</td>
-                                        <td>{{ $khachhangs[$i]->id }}</td>
-                                        <td><img class="img-thumbnail"
-                                                 src="{{ asset('/images/customer') }}/{{ $khachhangs[$i]->avatar }}"
-                                                 alt="{{ $khachhangs[$i]->hoten }}"></td>
-                                        <td>{{ $khachhangs[$i]->tendangnhap }}</td>
-                                        <td>{{ $khachhangs[$i]->hoten }}</td>
-                                        <td>{{ $khachhangs[$i]->email }}</td>
-                                        <td>{{ \Carbon\Carbon::parse($khachhangs[$i]->ngaysinh)->format('d/m/Y') }}</td>
-                                        <td>{{ $khachhangs[$i]->gioitinh == true ? "Nam" : "Nữ" }}</td>
-                                        <td>{{ $khachhangs[$i]->sdt }}</td>
-                                        <td>{{ $khachhangs[$i]->diachi }} - {{ $khachhangs[$i]->thanhpho['ten'] }} - {{ $khachhangs[$i]->tinh['ten'] }}</td>
-                                        <td><input type="checkbox" {{ $khachhangs[$i]->kichhoat == 1 ? "checked" : "" }} disabled></td>
-                                        <td><input type="checkbox" {{ $khachhangs[$i]->hoatdong == 1 ? "checked" : "" }} disabled></td>
-                                        <td>
-                                            <form action="{{ route('khachhang.destroy', $khachhangs[$i]->id) }}" method="post">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button class="btn btn-danger" onclick="return confirm('Bạn có chắc chắn muốn xóa Người dùng này?');" type="submit">Xóa</button>
-                                            </form>
-                                            <a class="btn btn-primary" href="{{ route('khachhang.edit', $khachhangs[$i]->id) }}">Sửa</a>
-                                        </td>
-                                    </tr>
-                                @endfor
-                            @endif
+                            @php
+                                /*
+                                @if(count($khachhangs) > 0)
+                                    @for($i = 0; $i < count($khachhangs); $i++)
+                                        <tr>
+                                            <td scope="col">{{ $i+1 }}</td>
+                                            <td>{{ $khachhangs[$i]->id }}</td>
+                                            <td><img class="img-thumbnail"
+                                                     src="{{ asset('/images/customer') }}/{{ $khachhangs[$i]->avatar }}"
+                                                     alt="{{ $khachhangs[$i]->hoten }}"></td>
+                                            <td>{{ $khachhangs[$i]->tendangnhap }}</td>
+                                            <td>{{ $khachhangs[$i]->hoten }}</td>
+                                            <td>{{ $khachhangs[$i]->email }}</td>
+                                            <td>{{ \Carbon\Carbon::parse($khachhangs[$i]->ngaysinh)->format('d/m/Y') }}</td>
+                                            <td>{{ $khachhangs[$i]->gioitinh == true ? "Nam" : "Nữ" }}</td>
+                                            <td>{{ $khachhangs[$i]->sdt }}</td>
+                                            <td>{{ $khachhangs[$i]->diachi }} - {{ $khachhangs[$i]->thanhpho['ten'] }}
+                                                - {{ $khachhangs[$i]->tinh['ten'] }}</td>
+                                            <td><input type="checkbox"
+                                                       {{ $khachhangs[$i]->kichhoat == 1 ? "checked" : "" }} disabled></td>
+                                            <td><input type="checkbox"
+                                                       {{ $khachhangs[$i]->hoatdong == 1 ? "checked" : "" }} disabled></td>
+                                            <td>
+                                                <form action="{{ route('khachhang.destroy', $khachhangs[$i]->id) }}"
+                                                      method="post">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button class="btn btn-danger"
+                                                            onclick="return confirm('Bạn có chắc chắn muốn xóa Người dùng này?');"
+                                                            type="submit">Xóa
+                                                    </button>
+                                                </form>
+                                                <a class="btn btn-primary"
+                                                   href="{{ route('khachhang.edit', $khachhangs[$i]->id) }}">Sửa</a>
+                                            </td>
+                                        </tr>
+                                    @endfor
+                                @endif
+                            */
+                            @endphp
                             </tbody>
                         </table>
                     </div>
@@ -114,7 +126,45 @@
         </div>
     </div><!--/.row-->
     <script>
-        $('.table').DataTable();
+        let dataTable = $('.table').DataTable({
+            processing: true,
+            serverSide: true,
+            order: [[1, 'desc']],
+            ajax: {
+                url: '{{route('admin.khachhang.ajaxGetCustomer')}}',
+                method: 'post',
+                headers: {
+                    'X-CSRF-TOKEN': '{{csrf_token()}}',
+                },
+            },
+            columns: [
+                {data: null, name: '#'},
+                {data: 'id', name: 'id'},
+                {data: 'avatar', name: 'avatar'},
+                {data: 'tendangnhap', name: 'tendangnhap'},
+                {data: 'hoten', name: 'hoten'},
+                {data: 'email', name: 'email'},
+                {data: 'ngaysinh', name: 'ngaysinh'},
+                {data: 'gioitinh', name: 'gioitinh'},
+                {data: 'sdt', name: 'sdt'},
+                {data: 'diachi', name: 'diachi'},
+                {data: 'kichhoat', name: 'kichhoat'},
+                {data: 'hoatdong', name: 'hoatdong'},
+                {data: 'action', name: 'action'},
+            ],
+            columnDefs: [
+                { targets: 0, searchable: false, orderable: true, visible: true },
+                { targets: 2, searchable: false, orderable: false, visible: true },
+                { targets: 12, searchable: false, orderable: false, visible: true },
+            ],
+        });
+
+        dataTable.on('draw.dt', function () {
+            dataTable.column(0, {search: 'applied', order: 'applied'}).nodes().each(function (cell, index) {
+                let info = dataTable.page.info();
+                cell.innerHTML = index + 1 + (info.page * info.length);
+            });
+        });
     </script>
     @if(isset($message))
         <div class="alert alert-{{$message['status']}} alert-dismissible fade show" role="alert">

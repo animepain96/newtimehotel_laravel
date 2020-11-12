@@ -21,7 +21,7 @@
             <div class="col-xs-6 col-md-3 col-lg-3 no-padding">
                 <div class="panel panel-teal panel-widget">
                     <div class="row no-padding"><em class="fa fa-xl fa-folder color-blue"></em>
-                        <div class="large">{{ count($loaiphongs) }}</div>
+                        <div class="large">{{ /*count($loaiphongs)*/ $count_LoaiPhong }}</div>
                         <div class="text-muted">Tổng cộng</div>
                     </div>
                 </div>
@@ -64,26 +64,30 @@
                             </tr>
                             </thead>
                             <tbody>
-                            @if(count($loaiphongs) > 0)
-                                @for($i = 0; $i < count($loaiphongs); $i++)
-                                    <tr>
-                                        <td scope="col">{{ $i+1 }}</td>
-                                        <td>{{ $loaiphongs[$i]->id }}</td>
-                                        <td>{{ $loaiphongs[$i]->ten }}</td>
-                                        <td>{{ $loaiphongs[$i]->mota }}</td>
-                                        <td>{{ $loaiphongs[$i]->created_at }}</td>
-                                        <td>{{ $loaiphongs[$i]->updated_at }}</td>
-                                        <td>
-                                            <form action="{{ route('loaiphong.destroy', $loaiphongs[$i]->id) }}" method="post">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button class="btn btn-danger" onclick="return confirm('Bạn có chắc chắn muốn xóa Loại phòng này?');" type="submit">Xóa</button>
-                                            </form>
-                                            <a class="btn btn-primary" href="{{ route('loaiphong.edit', $loaiphongs[$i]->id) }}">Sửa</a>
-                                        </td>
-                                    </tr>
-                                @endfor
-                            @endif
+                            @php
+                                /*
+                                @if(count($loaiphongs) > 0)
+                                    @for($i = 0; $i < count($loaiphongs); $i++)
+                                        <tr>
+                                            <td scope="col">{{ $i+1 }}</td>
+                                            <td>{{ $loaiphongs[$i]->id }}</td>
+                                            <td>{{ $loaiphongs[$i]->ten }}</td>
+                                            <td>{{ $loaiphongs[$i]->mota }}</td>
+                                            <td>{{ $loaiphongs[$i]->created_at }}</td>
+                                            <td>{{ $loaiphongs[$i]->updated_at }}</td>
+                                            <td>
+                                                <form action="{{ route('loaiphong.destroy', $loaiphongs[$i]->id) }}" method="post">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button class="btn btn-danger" onclick="return confirm('Bạn có chắc chắn muốn xóa Loại phòng này?');" type="submit">Xóa</button>
+                                                </form>
+                                                <a class="btn btn-primary" href="{{ route('loaiphong.edit', $loaiphongs[$i]->id) }}">Sửa</a>
+                                            </td>
+                                        </tr>
+                                    @endfor
+                                @endif
+                                */
+                            @endphp
                             </tbody>
                         </table>
                     </div>
@@ -92,7 +96,38 @@
         </div>
     </div><!--/.row-->
     <script>
-        $('.table').DataTable();
+        let dataTable = $('.table').DataTable({
+            processing: true,
+            serverSide: true,
+            order: [[1, 'desc']],
+            ajax: {
+                url: '{{route('admin.roomtype.ajaxGetRoomType')}}',
+                method: 'post',
+                headers: {
+                    'X-CSRF-TOKEN': '{{csrf_token()}}',
+                },
+            },
+            columns: [
+                {data: null, name: '#'},
+                {data: 'id', name: 'id'},
+                {data: 'ten', name: 'ten'},
+                {data: 'mota', name: 'mota'},
+                {data: 'created_at', name: 'created_at'},
+                {data: 'updated_at', name: 'updated_at'},
+                {data: 'action', name: 'action'},
+            ],
+            columnDefs: [
+                {targets: 0, searchable: false, orderable: false},
+                {targets: 6, searchable: false, orderable: false},
+            ],
+        });
+
+        dataTable.on('draw.dt', function () {
+            let info = dataTable.page.info();
+            dataTable.column(0, {search: 'applied', order: 'applied'}).nodes().each(function (cell, index) {
+                cell.innerHTML = index + 1 + (info.page * info.length);
+            });
+        });
     </script>
     @if(isset($message))
         <div class="alert alert-{{$message['status']}} alert-dismissible fade show" role="alert">

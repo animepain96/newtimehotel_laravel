@@ -6,6 +6,8 @@ use App\Tin;
 use App\Tinnhan;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Yajra\DataTables\Facades\DataTables;
 
 class TinNhanController extends Controller
 {
@@ -16,9 +18,10 @@ class TinNhanController extends Controller
      */
     public function index()
     {
-        $tinnhans = Tinnhan::orderBy('created_at', 'asc')->get();
+        //$tinnhans = Tinnhan::orderBy('created_at', 'asc')->get();
+        $count_TinNhan = Tinnhan::count();
 
-        return view('layouts.admin.pages.contact.contact', compact('tinnhans'));
+        return view('layouts.admin.pages.contact.contact', compact(/*'tinnhans'*/ 'count_TinNhan'));
     }
 
     /**
@@ -34,7 +37,7 @@ class TinNhanController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -47,10 +50,9 @@ class TinNhanController extends Controller
             'captcha' => 'required|captcha',
         ]);
 
-        if(Tinnhan::where('email', '=', $request->get('email'))->whereDate('created_at', '=', Carbon::now()->format('Y-m-d'))->count() > 0){
+        if (Tinnhan::where('email', '=', $request->get('email'))->whereDate('created_at', '=', Carbon::now()->format('Y-m-d'))->count() > 0) {
             return redirect('/contact')->with('message', array('status' => 'danger', 'content' => 'Bạn đã gửi tin nhắn trong hôm nay. Vui lòng thử lại sau.'));
-        }
-        else {
+        } else {
 
             $tinnhan = new Tinnhan([
                 'hoten' => $request->get('hoten'),
@@ -68,7 +70,7 @@ class TinNhanController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Tinnhan  $tinnhan
+     * @param \App\Tinnhan $tinnhan
      * @return \Illuminate\Http\Response
      */
     public function show(Tinnhan $tinnhan)
@@ -79,7 +81,7 @@ class TinNhanController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Tinnhan  $tinnhan
+     * @param \App\Tinnhan $tinnhan
      * @return \Illuminate\Http\Response
      */
     public function edit(Tinnhan $tinnhan)
@@ -90,8 +92,8 @@ class TinNhanController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Tinnhan  $tinnhan
+     * @param \Illuminate\Http\Request $request
+     * @param \App\Tinnhan $tinnhan
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Tinnhan $tinnhan)
@@ -102,14 +104,14 @@ class TinNhanController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Tinnhan  $tinnhan
+     * @param \App\Tinnhan $tinnhan
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
-        if(is_numeric($id) && $id > 0){
+        if (is_numeric($id) && $id > 0) {
             $tinnhan = Tinnhan::find($id);
-            if($tinnhan != null){
+            if ($tinnhan != null) {
                 $tinnhan->delete();
 
                 return redirect()->route('tinnhan.index')->with('message', array('status' => 'success', 'content' => 'Xóa Tin nhắn thành công.'));
@@ -117,5 +119,39 @@ class TinNhanController extends Controller
         }
 
         return redirect()->route('tinnhan.index')->with('message', array('status' => 'danger', 'content' => 'Không thể lấy thông tin. Vui lòng thử lại sau.'));
+    }
+
+    public function ajaxGetContact(Request $request)
+    {
+        if ($request->ajax()) {
+            $tinnhans = Tinnhan::query();
+            return DataTables::eloquent($tinnhans)
+                ->filterColumn('created_at', function($query, $keyword){
+                    $sql = 'DATE_FORMAT(created_at, "%d/%m/%Y") LIKE ?';
+                    $query->whereRaw($sql, ["{$keyword}%"]);
+                })
+                ->filterColumn('updated_at', function($query, $keyword){
+                    $sql = 'DATE_FORMAT(updated_at, "%d/%m/%Y") LIKE ?';
+                    $query->whereRaw($sql, ["{$keyword}%"]);
+                })
+                ->addColumn('action', function ($tinnhan) {
+                    $btn = '<a class="btn btn-primary" href="' . url('/admin/mail') . '/' . $tinnhan->email . '" title="Gửi thư">Gửi thư</a>';
+                    $btn .= '<form action="' . route('tinnhan.destroy', $tinnhan->id) . '" method="post">' . csrf_field() . method_field('delete') . '<button onclick="return confirm(\'Bạn có muốn xóa Tin nhắn này?\');" class="btn btn-danger" title="Xóa">Xóa</button></form>';
+                    return $btn;
+                })
+                ->editColumn('email', function ($nhantin) {
+                    return '<a title="Gửi thư đến: ' . $nhantin->email . '" href="mailto:' . $nhantin->email . '">' . $nhantin->email . '</a>';
+                })
+                ->editColumn('created_at', function ($nhantin) {
+                    return Carbon::make($nhantin->created_at)->format('d/m/Y');
+                })
+                ->editColumn('updated_at', function ($nhantin) {
+                    return Carbon::make($nhantin->updated_at)->format('d/m/Y');
+                })
+                ->rawColumns(['action', 'email'])
+                ->toJson();
+        }
+        echo 'Bad request';
+        die;
     }
 }

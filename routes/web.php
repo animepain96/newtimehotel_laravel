@@ -80,9 +80,7 @@ Route::middleware('admin')->group(function () {
     Route::get('/admin/gia/{idphong}/delete/{id}', 'BangGiaController@destroy');
     Route::post('/admin/gia', 'BangGiaController@store');
     Route::get('/admin/thongke', 'AdminController@getStatistics');
-    Route::post('/admin/ajax/viewChart', 'AjaxController@getView');
-    Route::post('/admin/ajax/revenueChart', 'AjaxController@getRevenue');
-    Route::post('/admin/ajax/reservationChart', 'AjaxController@getreservation');
+
 });
 
 //Admin login
@@ -91,6 +89,27 @@ Route::post('/admin/login', 'AdminController@doLogin');
 
 /*Ajax*/
 Route::get('/ajax/getcity/{idtinh}', 'AjaxController@getCity');
+Route::group(['middleware' => 'staff'], function(){
+    Route::post('/admin/ajax/viewChart', 'AjaxController@getView');
+    Route::post('/admin/ajax/revenueChart', 'AjaxController@getRevenue');
+    Route::post('/admin/ajax/reservationChart', 'AjaxController@getreservation');
+    Route::post('/admin/room/ajaxGetRoom', 'PhongController@ajaxGetRoom')->name('admin.room.ajaxGetRoom');
+    Route::post('/admin/reservation/ajaxGetReservation', 'ThueController@ajaxGetReservation')->name('admin.reservation.ajaxGetReservation');
+    Route::post('/admin/staff/ajaxGetStaff', 'NhanVienController@ajaxGetStaff')->name('admin.staff.ajaxGetStaff');
+    Route::post('/admin/customer/ajaxGetCustomer', 'KhachHangController@ajaxGetCustomer')->name('admin.khachhang.ajaxGetCustomer');
+    Route::post('/admin/slideshow/ajaxGetSlideShow', 'SlideShowController@ajaxGetSlideShow')->name('admin.slideshow.ajaxGetSlideShow');
+    Route::post('/admin/slideshow/ajaxGetNews', 'TinController@ajaxGetNews')->name('admin.news.ajaxGetNews');
+    Route::post('/admin/newsletter/ajaxGetNewsletter', 'NhanTinController@ajaxGetNewsletter')->name('admin.newsletter.ajaxGetNewsletter');
+    Route::post('/admin/contact/ajaxGetContact', 'TinNhanController@ajaxGetContact')->name('admin.contact.ajaxGetContact');
+    Route::post('/admin/review/ajaxGetReview', 'DanhGiaController@ajaxGetReview')->name('admin.comment.ajaxGetReview');
+    Route::post('/admin/roomtype/ajaxGetRoomType', 'LoaiPhongController@ajaxGetRoomType')->name('admin.roomtype.ajaxGetRoomType');
+    Route::post('/admin/location/ajaxGetLocation', 'ViTriController@ajaxGetLocation')->name('admin.location.ajaxGetLocation');
+    Route::post('/admin/newscategory/ajaxGetNewsCategory', 'LoaiTinController@ajaxGetNewsCategory')->name('admin.newscategory.ajaxGetNewsCategory');
+});
+
+Route::group(['middleware' => 'customer'], function(){
+    Route::post('account/ajaxGetReservation', 'Home\CustomerController@ajaxGetReservation')->name('customer.reservation.ajaxGetReservation');
+});
 
 /*Captcha*/
 Route::get('/createcaptcha', 'CaptchaController@create');

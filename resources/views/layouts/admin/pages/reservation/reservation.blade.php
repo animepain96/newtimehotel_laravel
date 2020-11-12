@@ -21,7 +21,7 @@
             <div class="col-xs-6 col-md-3 col-lg-3 no-padding">
                 <div class="panel panel-teal panel-widget border-right">
                     <div class="row no-padding"><em class="fa fa-xl fa-bar-chart-o color-blue"></em>
-                        <div class="large">{{ count($thues) }}</div>
+                        <div class="large">{{ $summary['tongcong'] }}</div>
                         <div class="text-muted">Tổng cộng</div>
                     </div>
                 </div>
@@ -110,45 +110,49 @@
                             </tr>
                             </thead>
                             <tbody>
-                            @if(count($thues) > 0)
-                                @for($i = 0; $i < count($thues); $i++)
-                                    <tr>
-                                        <td scope="col">{{ $i+1 }}</td>
-                                        <td>{{ $thues[$i]->id }}</td>
-                                        <td>
-                                            <b>
-                                                <a title="{{ $thues[$i]->khachhang['tendangnhap'] }}" href="{{ route('khachhang.edit', $thues[$i]->khachhang['id']) }}">
-                                                    {{ $thues[$i]->khachhang['hoten'] }}
-                                                </a>
-                                            </b>
-                                        </td>
-                                        <td>
-                                            <b>
-                                                <a title="{{ $thues[$i]->phong['tenphong'] }}" href="{{ route('phong.edit', $thues[$i]->phong['id']) }}">
-                                                    {{ $thues[$i]->phong['tenphong'] }}
-                                                </a>
-                                            </b>
-                                        </td>
-                                        <td>{{ \Carbon\Carbon::parse($thues[$i]->ngaydat)->format('d/m/Y H:i:s') }}</td>
-                                        <td>{{ \Carbon\Carbon::parse($thues[$i]->batdau)->format('d/m/Y') }}</td>
-                                        <td>{{ \Carbon\Carbon::parse($thues[$i]->ketthuc)->format('d/m/Y') }}</td>
-                                        <td>{{ $thues[$i]->trangthaithue['mota'] }}</td>
-                                        <td>{{ $thues[$i]->ghichu }}</td>
-                                        <td>{{ \Carbon\Carbon::parse($thues[$i]->updated_at)->format('d/m/Y H:i:s') }}</td>
-                                        <td>
-                                            <form action="{{ route('thue.destroy', $thues[$i]->id) }}" method="post">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button title="Xóa" class="btn btn-danger" onclick="return confirm('Bạn có chắc chắn muốn xóa Phiếu thuê này?');" type="submit">Xóa</button>
-                                            </form>
-                                            <a title="Sửa" class="btn btn-primary" href="{{ route('thue.edit', $thues[$i]->id) }}">Sửa</a>
-                                            @if($thues[$i]->idtrangthai == 5)
-                                                <a title="Hóa đơn" class="btn btn-warning" href="{{ url('admin/invoice').'/'.$thues[$i]->id }}">Hóa đơn</a>
-                                            @endif
-                                        </td>
-                                    </tr>
-                                @endfor
-                            @endif
+                            @php
+                                /*
+                                @if(count($thues) > 0)
+                                    @for($i = 0; $i < count($thues); $i++)
+                                        <tr>
+                                            <td scope="col">{{ $i+1 }}</td>
+                                            <td>{{ $thues[$i]->id }}</td>
+                                            <td>
+                                                <b>
+                                                    <a title="{{ $thues[$i]->khachhang['tendangnhap'] }}" href="{{ route('khachhang.edit', $thues[$i]->khachhang['id']) }}">
+                                                        {{ $thues[$i]->khachhang['hoten'] }}
+                                                    </a>
+                                                </b>
+                                            </td>
+                                            <td>
+                                                <b>
+                                                    <a title="{{ $thues[$i]->phong['tenphong'] }}" href="{{ route('phong.edit', $thues[$i]->phong['id']) }}">
+                                                        {{ $thues[$i]->phong['tenphong'] }}
+                                                    </a>
+                                                </b>
+                                            </td>
+                                            <td>{{ \Carbon\Carbon::parse($thues[$i]->ngaydat)->format('d/m/Y H:i:s') }}</td>
+                                            <td>{{ \Carbon\Carbon::parse($thues[$i]->batdau)->format('d/m/Y') }}</td>
+                                            <td>{{ \Carbon\Carbon::parse($thues[$i]->ketthuc)->format('d/m/Y') }}</td>
+                                            <td>{{ $thues[$i]->trangthaithue['mota'] }}</td>
+                                            <td>{{ $thues[$i]->ghichu }}</td>
+                                            <td>{{ \Carbon\Carbon::parse($thues[$i]->updated_at)->format('d/m/Y H:i:s') }}</td>
+                                            <td>
+                                                <form action="{{ route('thue.destroy', $thues[$i]->id) }}" method="post">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button title="Xóa" class="btn btn-danger" onclick="return confirm('Bạn có chắc chắn muốn xóa Phiếu thuê này?');" type="submit">Xóa</button>
+                                                </form>
+                                                <a title="Sửa" class="btn btn-primary" href="{{ route('thue.edit', $thues[$i]->id) }}">Sửa</a>
+                                                @if($thues[$i]->idtrangthai == 5)
+                                                    <a title="Hóa đơn" class="btn btn-warning" href="{{ url('admin/invoice').'/'.$thues[$i]->id }}">Hóa đơn</a>
+                                                @endif
+                                            </td>
+                                        </tr>
+                                    @endfor
+                                @endif
+                                */
+                            @endphp
                             </tbody>
                         </table>
                     </div>
@@ -157,7 +161,41 @@
         </div>
     </div><!--/.row-->
     <script>
-        $('.table').DataTable();
+        let dataTable = $('.table').DataTable({
+            processing: true,
+            serverSide: true,
+            order: [[1, 'desc']],
+            ajax: {
+                url: '{{ route('admin.reservation.ajaxGetReservation') }}',
+                method: 'post',
+                headers: {
+                    'X-CSRF-TOKEN': '{{csrf_token()}}',
+                },
+            },
+            columns: [
+                {data: null, name: '#'},
+                {data: 'id', name: 'id'},
+                {data: 'khachhang', name: 'khachhang.hoten'},
+                {data: 'phong', name: 'phong.tenphong'},
+                {data: 'created_at', name: 'created_at'},
+                {data: 'batdau', name: 'batdau'},
+                {data: 'ketthuc', name: 'ketthuc'},
+                {data: 'trangthai', name: 'trangthaithue.mota'},
+                {data: 'ghichu', name: 'ghichu'},
+                {data: 'updated_at', name: 'updated_at'},
+                {data: 'action', name: 'action'},
+            ],
+            columnDefs: [
+                {targets: 0, searchable: false, orderable: false},
+                {targets: 10, searchable: false, orderable: false},
+            ],
+        });
+        dataTable.on('draw.dt', function () {
+            let info = dataTable.page.info();
+            dataTable.column(0, {search: 'applied', order: 'applied'}).nodes().each(function (cell, index) {
+                cell.innerHTML = index + 1 + (info.page * info.length);
+            });
+        });
     </script>
 @endsection
 

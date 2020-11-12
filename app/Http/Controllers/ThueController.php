@@ -7,7 +7,9 @@ use App\Thue;
 use App\Trangthaithue;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
+use Yajra\DataTables\Facades\DataTables;
 
 class ThueController extends Controller
 {
@@ -18,8 +20,8 @@ class ThueController extends Controller
      */
     public function index()
     {
-        $thues = Thue::with('phong', 'khachhang', 'trangthaithue')->orderBy('thues.created_at', 'desc')->get();
         $summary = array();
+        $summary['tongcong'] = Thue::all()->count();
         $summary['moi'] = Thue::whereMonth('created_at', '=', Carbon::now()->month)->count();
         $summary['huy'] = Thue::where('idtrangthai', '=', 4)->count();
         $summary['datphong'] = Thue::where('idtrangthai', '=', 1)->count();
@@ -27,7 +29,7 @@ class ThueController extends Controller
         $summary['nhanphong'] = Thue::where('idtrangthai', '=', 3)->count();
         $summary['dathanhtoan'] = Thue::where('idtrangthai', '=', 5)->count();
 
-        return view('layouts.admin.pages.reservation.reservation', compact('thues', 'summary'));
+        return view('layouts.admin.pages.reservation.reservation', compact('summary'));
     }
 
     /**
@@ -43,7 +45,7 @@ class ThueController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -54,7 +56,7 @@ class ThueController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Thue  $thue
+     * @param \App\Thue $thue
      * @return \Illuminate\Http\Response
      */
     public function show(Thue $thue)
@@ -65,7 +67,7 @@ class ThueController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Thue  $thue
+     * @param \App\Thue $thue
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -78,8 +80,8 @@ class ThueController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Thue  $thue
+     * @param \Illuminate\Http\Request $request
+     * @param \App\Thue $thue
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -93,7 +95,7 @@ class ThueController extends Controller
         ]);
 
         $thue = Thue::find($id);
-        if($thue != null){
+        if ($thue != null) {
 
             $idphong = $request->get('idphong');
             $batdau = Carbon::createFromFormat('d/m/Y', $request->get('batdau'));
@@ -101,18 +103,18 @@ class ThueController extends Controller
 
             $is_valid = Thue::where('id', '!=', $id)
                 ->where('idphong', '=', $idphong)
-                ->where(function($query) use ($batdau, $ketthuc){
-                    $query->orwhere(function($query) use ($batdau){
+                ->where(function ($query) use ($batdau, $ketthuc) {
+                    $query->orwhere(function ($query) use ($batdau) {
                         $query->where('batdau', '<=', $batdau)->where('ketthuc', '>=', $batdau);
-                    })->orwhere(function($query) use ($ketthuc){
+                    })->orwhere(function ($query) use ($ketthuc) {
                         $query->where('batdau', '<=', $ketthuc)->where('ketthuc', '>=', $ketthuc);
-                    })->orwhere(function($query) use ($batdau, $ketthuc){
+                    })->orwhere(function ($query) use ($batdau, $ketthuc) {
                         $query->where('batdau', '>=', $batdau)->where('ketthuc', '<=', $ketthuc);
                     });
                 })
                 ->get();
 
-            if(count($is_valid) <= 0){
+            if (count($is_valid) <= 0) {
                 $thue->batdau = $batdau;
                 $thue->ketthuc = $ketthuc;
                 $thue->idtrangthai = $request->get('trangthaithue');
@@ -132,17 +134,98 @@ class ThueController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Thue  $thue
+     * @param \App\Thue $thue
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
         $thue = Thue::find($id);
-        if($thue != null){
+        if ($thue != null) {
             $thue->delete();
             return redirect()->route('thue.index')->with('message', array('status' => 'success', 'content' => 'Xóa Phiếu thuế thành công.'));
         }
 
         return redirect()->route('thue.index')->with('message', array('status' => 'danger', 'content' => 'Không thể tìm thấy thông tin. Vui lòng thử lại sau.'));
+    }
+
+    public function ajaxGetReservation(Request $request)
+    {
+        if ($request->ajax()) {
+            $thues = Thue::with('phong', 'khachhang', 'trangthaithue');
+            return DataTables::eloquent($thues)
+                ->addIndexColumn()
+                ->filterColumn('created_at', function ($query, $keyword) {
+                    $sql = 'DATE_FORMAT(created_at, "%d/%m/%Y") LIKE ?';
+                    $query->whereRaw($sql, ["{$keyword}%"]);
+                })
+                ->filterColumn('batdau', function ($query, $keyword) {
+                    $sql = 'DATE_FORMAT(batdau, "%d/%m/%Y") LIKE ?';
+                    $query->whereRaw($sql, ["{$keyword}%"]);
+                })
+                ->filterColumn('ketthuc', function ($query, $keyword) {
+                    $sql = 'DATE_FORMAT(ketthuc, "%d/%m/%Y") LIKE ?';
+                    $query->whereRaw($sql, ["{$keyword}%"]);
+                })
+                ->filterColumn('updated_at', function ($query, $keyword) {
+                    $sql = 'DATE_FORMAT(updated_at, "%d/%m/%Y") LIKE ?';
+                    $query->whereRaw($sql, ["{$keyword}%"]);
+                })
+                ->editColumn('khachhang', function ($thue) {
+                    return '<a title="' . $thue->khachhang->tendangnhap . '" href="' . route('khachhang.edit', $thue->khachhang->id) . '">' . $thue->khachhang->hoten . '</a>';
+                })
+                ->editColumn('phong', function ($thue) {
+                    return '<a title="' . $thue->phong->tenphong . '" href="' . route('phong.edit', $thue->phong->id) . '">' . $thue->phong->tenphong . '</a>';
+                })
+                ->editColumn('trangthai', function ($thue) {
+                    $trangthai = $thue->trangthaithue->id;
+                    $text = '<label class="%s">' . $thue->trangthaithue->mota . '</label>';
+                    switch ($trangthai) {
+                        case 0:
+                            $text = sprintf($text, 'bg-info');
+                            break;
+                        case 1:
+                            $text = sprintf($text, 'bg-warning');
+                            break;
+                        case 2:
+                            $text = sprintf($text, 'bg-blue');
+                            break;
+                        case 3:
+                            $text = sprintf($text, 'bg-danger');
+                            break;
+                        case 4:
+                            $text = sprintf($text, 'bg-primary');
+                            break;
+                        default:
+                            $text = sprintf($text, 'bg-success');
+                    }
+
+                    return $text;
+                })
+                ->editColumn('created_at', function ($thue) {
+                    return $thue->created_at->format('d/m/Y');
+                })
+                ->editColumn('batdau', function ($thue) {
+                    return Carbon::make($thue->batdau)->format('d/m/Y');
+                })
+                ->editColumn('ketthuc', function ($thue) {
+                    return Carbon::make($thue->ketthuc)->format('d/m/Y');
+                })
+                ->editColumn('updated_at', function ($thue) {
+                    return $thue->updated_at->format('d/m/Y');
+                })
+                ->addColumn('action', function ($thue) {
+                    $btn = '<form action="' . route('thue.destroy', $thue->id) . '" method="post">' . csrf_field() . method_field('delete') . ' <button title="Xóa" class="btn btn-danger" onclick="return confirm("Bạn có chắc chắn muốn xóa Phiếu thuê này?");" type="submit">Xóa</button></form>';
+                    $btn .= '<a title="Sửa" class="btn btn-primary" href="' . route('thue.edit', $thue->id) . '">Sửa</a>';
+                    if ($thue->trangthaithue->id === 5) {
+                        $btn .= '<a title="Hóa đơn" class="btn btn-warning" href="' . url('admin/invoice/' . $thue->id) . '">Hóa đơn</a>';
+                    }
+                    return $btn;
+                })
+                ->rawColumns(['action', 'khachhang', 'phong', 'trangthai'])
+                ->toJson();
+        }
+
+        echo 'Bad request';
+        die();
     }
 }

@@ -25,6 +25,8 @@ class Nhanvien extends Authenticatable
         'hoatdong',
     ];
 
+    protected $hidden = ['matkhau', 'remember_token'];
+
     public function getAuthPassword()
     {
         return $this->matkhau;

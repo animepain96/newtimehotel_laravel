@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Loaitin;
 use Illuminate\Http\Request;
+use Yajra\DataTables\Facades\DataTables;
 
 class LoaiTinController extends Controller
 {
@@ -14,8 +15,9 @@ class LoaiTinController extends Controller
      */
     public function index()
     {
-        $loaitins = Loaitin::all();
-        return view('layouts.admin.pages.newscategory.newscategory', compact('loaitins'));
+        //$loaitins = Loaitin::all();
+        $count_LoaiTin = Loaitin::count();
+        return view('layouts.admin.pages.newscategory.newscategory', compact(/*'loaitins'*/ 'count_LoaiTin'));
     }
 
     /**
@@ -31,7 +33,7 @@ class LoaiTinController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -54,7 +56,7 @@ class LoaiTinController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Loaitin  $loaitin
+     * @param \App\Loaitin $loaitin
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -65,13 +67,13 @@ class LoaiTinController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Loaitin  $loaitin
+     * @param \App\Loaitin $loaitin
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
     {
         $loaitin = Loaitin::find($id);
-        if($loaitin != null){
+        if ($loaitin != null) {
             return view('layouts.admin.pages.newscategory.edit', compact('loaitin'));
         }
         return redirect('admin/loaitin')->with('message', array('status' => 'danger', 'content' => 'Không thể lấy thông tin. Vui lòng thử lại sau.'));
@@ -80,8 +82,8 @@ class LoaiTinController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Loaitin  $loaitin
+     * @param \Illuminate\Http\Request $request
+     * @param \App\Loaitin $loaitin
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -92,7 +94,7 @@ class LoaiTinController extends Controller
         ]);
 
         $loaitin = Loaitin::find($id);
-        if($loaitin != null){
+        if ($loaitin != null) {
             $loaitin->ten = $request->get('ten');
             $loaitin->mota = $request->get('mota');
 
@@ -106,18 +108,50 @@ class LoaiTinController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Loaitin  $loaitin
+     * @param \App\Loaitin $loaitin
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
         $loaitin = Loaitin::find($id);
-        if($loaitin != null) {
+        if ($loaitin != null) {
             $loaitin->delete();
 
             return redirect('admin/loaitin')->with('message', array('status' => 'success', 'content' => 'Xóa Loại tin thành công.'));
         }
 
         return redirect('admin/loaitin')->with('message', array('status' => 'danger', 'content' => 'Không thể lấy thông tin. Vui lòng thử lại sau.'));
+    }
+
+    public function ajaxGetNewsCategory(Request $request)
+    {
+        if ($request->ajax()) {
+            $loaitins = Loaitin::query();
+            return DataTables::eloquent($loaitins)
+                ->filterColumn('created_at', function ($query, $keyword) {
+                    $sql = 'DATE_FORMAT(created_at, "%d/%m/%Y") LIKE ?';
+                    $query->whereRaw($sql, ["{$keyword}%"]);
+                })
+                ->filterColumn('updated_at', function ($query, $keyword) {
+                    $sql = 'DATE_FORMAT(updated_at, "%d/%m/%Y") LIKE ?';
+                    $query->whereRaw($sql, ["{$keyword}%"]);
+                })
+                ->editColumn('created_at', function($loaitin){
+                    return $loaitin->created_at->format('d/m/Y');
+                })
+                ->editColumn('updated_at', function($loaitin){
+                    return $loaitin->updated_at->format('d/m/Y');
+                })
+                ->editColumn('action', function ($loaitin) {
+                    $btn = '<form action="' . route('loaitin.destroy', $loaitin->id) . '" method="post">' . csrf_field() . method_field('delete') . '<button class="btn btn-danger" onclick="return confirm(\'Bạn có chắc chắn muốn xóa Loại tin này?\');" type="submit">Xóa</button></form>';
+                    $btn .= '<a class="btn btn-primary" href="' . route('loaitin.edit', $loaitin->id) . '">Sửa</a>';
+                    return $btn;
+                })
+                ->rawColumns(['action'])
+                ->toJson();
+        }
+
+        echo 'Bad request';
+        die;
     }
 }

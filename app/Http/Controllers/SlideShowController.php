@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Slideshow;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
+use Yajra\DataTables\Facades\DataTables;
 
 class SlideShowController extends Controller
 {
@@ -15,8 +17,9 @@ class SlideShowController extends Controller
      */
     public function index()
     {
-        $slideshows = Slideshow::all();
-        return view('layouts.admin.pages.slideshow.slideshow', compact('slideshows'));
+        //$slideshows = Slideshow::all();
+        $count_SlideShow = Slideshow::count();
+        return view('layouts.admin.pages.slideshow.slideshow', compact('count_SlideShow'));
     }
 
     /**
@@ -47,8 +50,7 @@ class SlideShowController extends Controller
 
         if ($request->hasFile('urlanh')) {
             $urlanh = time() . '.' . $request->file('urlanh')->getClientOriginalExtension();
-        }
-        else{
+        } else {
             $urlanh = '';
         }
 
@@ -62,7 +64,7 @@ class SlideShowController extends Controller
 
         $slideshow->save();
 
-        if($urlanh != ''){
+        if ($urlanh != '') {
             request()->file('urlanh')->move(public_path('images/slideshow'), $urlanh);
         }
 
@@ -89,7 +91,7 @@ class SlideShowController extends Controller
     public function edit($id)
     {
         $slideshow = Slideshow::find($id);
-        if($slideshow != null){
+        if ($slideshow != null) {
             return view('layouts.admin.pages.slideshow.edit', compact('slideshow'));
         }
 
@@ -114,7 +116,7 @@ class SlideShowController extends Controller
         ]);
 
         $slideshow = Slideshow::find($id);
-        if($slideshow != null){
+        if ($slideshow != null) {
 
             $slideshow->tieude = $request->get('tieude');
             $slideshow->mota = $request->get('mota');
@@ -122,12 +124,11 @@ class SlideShowController extends Controller
             $slideshow->hoatdong = $request->has('hoatdong');
 
             if ($request->hasFile('urlanh')) {
-                File::delete(public_path('images/slideshow').'\\'.$slideshow->urlanh);
+                File::delete(public_path('images/slideshow') . '\\' . $slideshow->urlanh);
                 $urlanh = time() . '.' . $request->file('urlanh')->getClientOriginalExtension();
                 request()->file('urlanh')->move(public_path('images/slideshow'), $urlanh);
                 $slideshow->urlanh = $urlanh;
-            }
-            else{
+            } else {
                 $urlanh = '';
             }
 
@@ -147,11 +148,48 @@ class SlideShowController extends Controller
     public function destroy($id)
     {
         $slideshow = Slideshow::find($id);
-        if($slideshow != null){
+        if ($slideshow != null) {
             $slideshow->delete();
             return redirect('admin/slideshow')->with('message', array('status' => 'success', 'content' => 'Xóa Slideshow thành công.'));
         }
 
         return redirect('admin/slideshow')->with('message', array('status' => 'danger', 'content' => 'Không tìm thấy thông tin. Vui lòng thử lại sau.'));;
+    }
+
+    public function ajaxGetSlideShow(Request $request)
+    {
+        if ($request->ajax()) {
+            $slideShows = Slideshow::query();
+            return DataTables::eloquent($slideShows)
+                ->filterColumn('created_at', function($query, $keyword){
+                    $sql = 'DATE_FORMAT(created_at, "%d/%m/%Y") LIKE ?';
+                    $query->whereRaw($sql, ["{$keyword}%"]);
+                })
+                ->filterColumn('updated_at', function($query, $keyword){
+                    $sql = 'DATE_FORMAT(updated_at, "%d/%m/%Y") LIKE ?';
+                    $query->whereRaw($sql, ["{$keyword}%"]);
+                })
+                ->editColumn('urlanh', function ($slideShow) {
+                    return '<img class="img-thumbnail" alt="' . $slideShow->tieude . '" src="' . asset('images/slideshow/' . $slideShow->urlanh) . '" />';
+                })
+                ->editColumn('hoatdong', function ($slideShow) {
+                    return '<input type="checkbox" disabled ' . ($slideShow->hoatdong ? 'checked' : '') . '>';
+                })
+                ->editColumn('created_at', function ($slideShow) {
+                    return Carbon::make($slideShow->created_at)->format('d/m/Y');
+                })
+                ->editColumn('updated_at', function ($slideShow) {
+                    return Carbon::make($slideShow->updated_at)->format('d/m/Y');
+                })
+                ->addColumn('action', function ($slideShow) {
+                    $btn = '<form action="' . route('slideshow.destroy', $slideShow->id) . '" method="post">' . csrf_field() . method_field('delete') . '<button class="btn btn-danger" onclick="return confirm(\'Bạn có chắc chắn muốn xóa Slideshow này?\');" type="submit">Xóa</button></form>';
+                    $btn .= '<a class="btn btn-primary" href="' . route('slideshow.edit', $slideShow->id) . '">Sửa</a>';
+                    return $btn;
+                })
+                ->rawColumns(['urlanh', 'action', 'hoatdong'])
+                ->toJson();
+        }
+        echo 'Bad request';
+        die;
     }
 }
