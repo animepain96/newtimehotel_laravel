@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\File;
+use Yajra\DataTables\Facades\DataTables;
 
 class AdminController extends Controller
 {
@@ -29,12 +30,12 @@ class AdminController extends Controller
             ->whereRaw('thues.created_at between banggias.batdau and banggias.ketthuc')
             ->first();
 
-        $phongthemgias = Phong::with('loaiphong', 'vitri')
+        /*$phongthemgias = Phong::with('loaiphong', 'vitri')
             ->whereNotIn('id', Banggia::select('banggias.idphong')
                 ->whereRaw('? between batdau and ketthuc', Carbon::now()->format('Y-m-d')))
-            ->get();
-        $phieuthuemois = Thue::with('khachhang', 'phong')->where('idtrangthai', '=', 1)->get();
-        return view('layouts.admin.pages.admin', compact('summary', 'phongthemgias', 'phieuthuemois'));
+            ->get();*/
+        //$phieuthuemois = Thue::with('khachhang', 'phong')->where('idtrangthai', '=', 1)->get();
+        return view('layouts.admin.pages.admin', compact('summary'/*, 'phongthemgias','phieuthuemois'*/));
     }
 
     public function login()
@@ -137,5 +138,78 @@ class AdminController extends Controller
         }
 
         return redirect()->route('thue.index')->with('message', array('status' => 'danger', 'content' => 'Không lấy được thông tin. Vui lòng thử lại.'));
+    }
+
+    public function ajaxGetNeedPriceRoom(Request $request)
+    {
+        if ($request->ajax()) {
+            $phongsThemGia = Phong::with('loaiphong', 'vitri')
+                ->whereNotIn('id', Banggia::select('banggias.idphong')
+                    ->whereRaw('? between batdau and ketthuc', Carbon::now()->format('Y-m-d')));
+            return DataTables::eloquent($phongsThemGia)
+                ->filterColumn('created_at', function ($query, $keyword) {
+                    $sql = 'DATE_FORMAT(created_at, "%d/%m/%Y") LIKE ?';
+                    $query->whereRaw($sql, ["{$keyword}%"]);
+                })
+                ->filterColumn('updated_at', function ($query, $keyword) {
+                    $sql = 'DATE_FORMAT(updated_at, "%d/%m/%Y") LIKE ?';
+                    $query->whereRaw($sql, ["{$keyword}%"]);
+                })
+                ->editColumn('hinhdaidien', function ($phong) {
+                    return '<img class="img-thumbnail" alt="' . $phong->tenphong . '" src="' . asset('images/room/' . $phong->hinhdaidien) . '">';
+                })
+                ->editColumn('created_at', function ($thue) {
+                    return $thue->created_at->format('d/m/Y');
+                })
+                ->editColumn('updated_at', function ($thue) {
+                    return $thue->updated_at->format('d/m/Y');
+                })
+                ->addColumn('action', function ($phong) {
+                    return '<a href="' . url('admin/gia/' . $phong->id) . '" title="Đến trang cập nhật Giá" class="btn btn-primary">Cập nhật</a>';
+                })
+                ->rawColumns(['action', 'hinhdaidien'])
+                ->toJson();
+        }
+
+        echo 'Bad request';
+        die;
+    }
+
+    public function ajaxGetNewReservation(Request $request)
+    {
+        if ($request->ajax()) {
+            $phieuThueMoi = Thue::with('khachhang', 'phong')->where('idtrangthai', '=', 1);
+            return DataTables::eloquent($phieuThueMoi)
+                ->addIndexColumn()
+                ->filterColumn('created_at', function ($query, $keyword) {
+                    $sql = 'DATE_FORMAT(created_at, "%d/%m/%Y") LIKE ?';
+                    $query->whereRaw($sql, ["{$keyword}%"]);
+                })
+                ->filterColumn('batdau', function ($query, $keyword) {
+                    $sql = 'DATE_FORMAT(batdau, "%d/%m/%Y") LIKE ?';
+                    $query->whereRaw($sql, ["{$keyword}%"]);
+                })
+                ->filterColumn('ketthuc', function ($query, $keyword) {
+                    $sql = 'DATE_FORMAT(ketthuc, "%d/%m/%Y") LIKE ?';
+                    $query->whereRaw($sql, ["{$keyword}%"]);
+                })
+                ->editColumn('created_at', function ($thue) {
+                    return $thue->created_at->format('d/m/Y');
+                })
+                ->editColumn('batdau', function ($thue) {
+                    return Carbon::make($thue->batdau)->format('d/m/Y');
+                })
+                ->editColumn('ketthuc', function ($thue) {
+                    return Carbon::make($thue->ketthuc)->format('d/m/Y');
+                })
+                ->addColumn('action', function ($thue) {
+                    return '<a class="btn btn-primary" title="Cập nhật" href="' . route('thue.edit', $thue->id) . '">Cập nhật</a>';
+                })
+                ->rawColumns(['action'])
+                ->toJson();
+        }
+
+        echo 'Bad request';
+        die;
     }
 }

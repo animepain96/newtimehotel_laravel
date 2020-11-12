@@ -66,7 +66,7 @@
                     </span>
                 </div>
                 <div class="panel-body">
-                    <table class="table table-responsive table-hover table-striped">
+                    <table id="phieu-thue-moi" class="table table-responsive table-hover table-striped">
                         <thead>
                         <tr>
                             <th scope="col">#</th>
@@ -80,23 +80,27 @@
                         </tr>
                         </thead>
                         <tbody>
-                        @for($i = 0; $i < count($phieuthuemois); $i++)
-                            <tr>
-                                <td>{{ $i + 1 }}</td>
-                                <td>{{ $phieuthuemois[$i]->id }}</td>
-                                <td><b><a title="{{ $phieuthuemois[$i]->khachhang['tendangnhap'] }}"
-                                          href="{{ route('khachhang.edit', $phieuthuemois[$i]->khachhang['id']) }}">{{ $phieuthuemois[$i]->khachhang['hoten'] }}</a></b>
-                                </td>
-                                <td><b><a title="{{ $phieuthuemois[$i]->phong['tenphong'] }}"
-                                          href="{{ route('phong.edit', $phieuthuemois[$i]->phong['id']) }}">{{ $phieuthuemois[$i]->phong['tenphong'] }}</a></b>
-                                </td>
-                                <td>{{ \Carbon\Carbon::parse($phieuthuemois[$i]->created_at)->format('d/m/Y H:i:s') }}</td>
-                                <td>{{ \Carbon\Carbon::parse($phieuthuemois[$i]->batdau)->format('d/m/Y') }}</td>
-                                <td>{{ \Carbon\Carbon::parse($phieuthuemois[$i]->ketthuc)->format('d/m/Y') }}</td>
-                                <td><a class="btn btn-primary" title="Cập nhật"
-                                       href="{{ route('thue.edit', $phieuthuemois[$i]->id) }}">Cập nhật</a></td>
-                            </tr>
-                        @endfor
+                        @php
+                            /*
+                            @for($i = 0; $i < count($phieuthuemois); $i++)
+                                <tr>
+                                    <td>{{ $i + 1 }}</td>
+                                    <td>{{ $phieuthuemois[$i]->id }}</td>
+                                    <td><b><a title="{{ $phieuthuemois[$i]->khachhang['tendangnhap'] }}"
+                                              href="{{ route('khachhang.edit', $phieuthuemois[$i]->khachhang['id']) }}">{{ $phieuthuemois[$i]->khachhang['hoten'] }}</a></b>
+                                    </td>
+                                    <td><b><a title="{{ $phieuthuemois[$i]->phong['tenphong'] }}"
+                                              href="{{ route('phong.edit', $phieuthuemois[$i]->phong['id']) }}">{{ $phieuthuemois[$i]->phong['tenphong'] }}</a></b>
+                                    </td>
+                                    <td>{{ \Carbon\Carbon::parse($phieuthuemois[$i]->created_at)->format('d/m/Y H:i:s') }}</td>
+                                    <td>{{ \Carbon\Carbon::parse($phieuthuemois[$i]->batdau)->format('d/m/Y') }}</td>
+                                    <td>{{ \Carbon\Carbon::parse($phieuthuemois[$i]->ketthuc)->format('d/m/Y') }}</td>
+                                    <td><a class="btn btn-primary" title="Cập nhật"
+                                           href="{{ route('thue.edit', $phieuthuemois[$i]->id) }}">Cập nhật</a></td>
+                                </tr>
+                            @endfor
+                            */
+                        @endphp
                         </tbody>
                     </table>
                 </div>
@@ -120,7 +124,7 @@
                     </span>
                 </div>
                 <div class="panel-body">
-                    <table class="table table-responsive table-hover table-striped">
+                    <table id="phong-them-gia" class="table table-responsive table-hover table-striped">
                         <thead>
                         <tr>
                             <th scope="col">#</th>
@@ -136,22 +140,26 @@
                         </tr>
                         </thead>
                         <tbody>
-                        @for($i = 0; $i < count($phongthemgias); $i++)
-                            <tr>
-                                <td>{{ $i + 1 }}</td>
-                                <td>{{ $phongthemgias[$i]->id }}</td>
-                                <td><img class="img-thumbnail" alt="{{ $phongthemgias[$i]->tenphong }}"
-                                         src="{{ asset('images/room') }}/{{ $phongthemgias[$i]->hinhdaidien }}"></td>
-                                <td>{{ $phongthemgias[$i]->tenphong }}</td>
-                                <td>{{ $phongthemgias[$i]->loaiphong['ten'] }}</td>
-                                <td>{{ $phongthemgias[$i]->vitri['ten'] }}</td>
-                                <td>{{ $phongthemgias[$i]->ghichu }}</td>
-                                <td>{{ \Carbon\Carbon::parse($phongthemgias[$i]->created_at)->format('d/m/Y H:i:s') }}</td>
-                                <td>{{ \Carbon\Carbon::parse($phongthemgias[$i]->updated_at)->format('d/m/Y H:i:s') }}</td>
-                                <td><a href="{{ url('admin/gia') }}/{{ $phongthemgias[$i]->id }}"
-                                       title="Đến trang cập nhật Giá" class="btn btn-primary">Cập nhật</a></td>
-                            </tr>
-                        @endfor
+                        @php
+                            /*
+                            @for($i = 0; $i < count($phongthemgias); $i++)
+                                <tr>
+                                    <td>{{ $i + 1 }}</td>
+                                    <td>{{ $phongthemgias[$i]->id }}</td>
+                                    <td><img class="img-thumbnail" alt="{{ $phongthemgias[$i]->tenphong }}"
+                                             src="{{ asset('images/room') }}/{{ $phongthemgias[$i]->hinhdaidien }}"></td>
+                                    <td>{{ $phongthemgias[$i]->tenphong }}</td>
+                                    <td>{{ $phongthemgias[$i]->loaiphong['ten'] }}</td>
+                                    <td>{{ $phongthemgias[$i]->vitri['ten'] }}</td>
+                                    <td>{{ $phongthemgias[$i]->ghichu }}</td>
+                                    <td>{{ \Carbon\Carbon::parse($phongthemgias[$i]->created_at)->format('d/m/Y H:i:s') }}</td>
+                                    <td>{{ \Carbon\Carbon::parse($phongthemgias[$i]->updated_at)->format('d/m/Y H:i:s') }}</td>
+                                    <td><a href="{{ url('admin/gia') }}/{{ $phongthemgias[$i]->id }}"
+                                           title="Đến trang cập nhật Giá" class="btn btn-primary">Cập nhật</a></td>
+                                </tr>
+                            @endfor
+                            */
+                        @endphp
                         </tbody>
                     </table>
                 </div>
@@ -166,7 +174,78 @@
     </div><!--/.row-->
 
     <script>
-        $('.table').dataTable();
+        $(document).ready(function () {
+            let phongThemGia = $('#phong-them-gia').DataTable({
+                processing: true,
+                serverSide: true,
+                order: [[1, 'desc']],
+                ajax: {
+                    url: '{{route('admin.dashboard.ajaxGetNeedPriceRoom')}}',
+                    method: 'post',
+                    headers: {
+                        'X-CSRF-TOKEN': '{{csrf_token()}}',
+                    },
+                },
+                columns: [
+                    {data: null, name: '#'},
+                    {data: 'id', name: 'id'},
+                    {data: 'hinhdaidien', name: 'hinhdaidien'},
+                    {data: 'tenphong', name: 'tenphong'},
+                    {data: 'loaiphong.ten', name: 'loaiphong.ten'},
+                    {data: 'vitri.ten', name: 'vitri.ten'},
+                    {data: 'ghichu', name: 'ghichu'},
+                    {data: 'created_at', name: 'created_at'},
+                    {data: 'updated_at', name: 'updated_at'},
+                    {data: 'action', name: 'action'},
+                ],
+                columnDefs: [
+                    {targets: 0, searchable: false, orderable: false},
+                    {targets: 2, searchable: false, orderable: false},
+                    {targets: 9, searchable: false, orderable: false},
+                ],
+            });
+
+            phongThemGia.on('draw.dt', function () {
+                let info = phongThemGia.page.info();
+                phongThemGia.column(0, {search: 'applied', order: 'applied'}).nodes().each(function (cell, index) {
+                    cell.innerHTML = index + 1 + (info.page * info.length);
+                });
+            });
+
+            let phieuThueMoi = $('#phieu-thue-moi').DataTable({
+                processing: true,
+                serverSide: true,
+                order: [[1, 'desc']],
+                ajax: {
+                    url: '{{route('admin.dashboard.ajaxGetNewReservation')}}',
+                    method: 'post',
+                    headers: {
+                        'X-CSRF-TOKEN': '{{csrf_token()}}',
+                    },
+                },
+                columns: [
+                    {data: null, name: '#'},
+                    {data: 'id', name: 'id'},
+                    {data: 'khachhang.hoten', name: 'khachhang.hoten'},
+                    {data: 'phong.tenphong', name: 'phong.tenphong'},
+                    {data: 'created_at', name: 'created_at'},
+                    {data: 'batdau', name: 'batdau'},
+                    {data: 'ketthuc', name: 'ketthuc'},
+                    {data: 'action', name: 'action'},
+                ],
+                columnDefs: [
+                    {targets: 0, searchable: false, orderable: false},
+                    {targets: 7, searchable: false, orderable: false},
+                ],
+            });
+
+            phieuThueMoi.on('draw.dt', function () {
+                let info = phieuThueMoi.page.info();
+                phieuThueMoi.column(0, {search: 'applied', order: 'applied'}).nodes().each(function (cell, index) {
+                    cell.innerHTML = index + 1 + (info.page * info.length);
+                });
+            });
+        });
     </script>
 @endsection
 

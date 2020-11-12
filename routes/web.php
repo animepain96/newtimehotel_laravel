@@ -105,6 +105,8 @@ Route::group(['middleware' => 'staff'], function(){
     Route::post('/admin/roomtype/ajaxGetRoomType', 'LoaiPhongController@ajaxGetRoomType')->name('admin.roomtype.ajaxGetRoomType');
     Route::post('/admin/location/ajaxGetLocation', 'ViTriController@ajaxGetLocation')->name('admin.location.ajaxGetLocation');
     Route::post('/admin/newscategory/ajaxGetNewsCategory', 'LoaiTinController@ajaxGetNewsCategory')->name('admin.newscategory.ajaxGetNewsCategory');
+    Route::post('/admin/dashboard/ajaxGetNeedPriceRoom', 'AdminController@ajaxGetNeedPriceRoom')->name('admin.dashboard.ajaxGetNeedPriceRoom');
+    Route::post('/admin/dashboard/ajaxGetNewReservation', 'AdminController@ajaxGetNewReservation')->name('admin.dashboard.ajaxGetNewReservation');
 });
 
 Route::group(['middleware' => 'customer'], function(){
